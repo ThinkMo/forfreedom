@@ -2,7 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://thinkmo.github.io/forfreedom/</loc>
+    <loc>/www.itech.red/post/2017/03/sk_buff/</loc>
+    <lastmod>2017-03-17T18:59:45+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/www.itech.red/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/www.itech.red/tags/kernel/</loc>
+    <lastmod>2017-03-17T18:59:45+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/www.itech.red/categories/kernel/</loc>
+    <lastmod>2017-03-17T18:59:45+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/www.itech.red/tags/network/</loc>
+    <lastmod>2017-03-17T18:59:45+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/www.itech.red/post/</loc>
+    <lastmod>2017-03-17T18:59:45+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/www.itech.red/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/www.itech.red/</loc>
+    <lastmod>2017-03-17T18:59:45+09:00</lastmod>
     <priority>0</priority>
   </url>
   
