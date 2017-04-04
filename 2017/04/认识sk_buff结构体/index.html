@@ -20,23 +20,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.19">
-    <title>Linux磁盘使用率100%异常排查</title>
+    <title>认识sk_buff结构体</title>
     <meta name="author" content="游">
-    <meta name="keywords" content="disk 100%, linux">
+    <meta name="keywords" content="linux, network">
 
     <link rel="icon" href="www.itech.red/favicon.png">
     
 
     
-    <meta name="description" content="">
-    <meta property="og:description" content="">
+    <meta name="description" content="sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff *next; struct sk_buff *prev; /* sk_buff双向链表 */ ktime_t tstamp; /* 报文接收时间戳，是个偏移量 */ struct sock *sk; /* 拥有此skb的socket */ struct net_device *dev; /* SKB收发的网络设备 */ /* * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.">
+    <meta property="og:description" content="sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff *next; struct sk_buff *prev; /* sk_buff双向链表 */ ktime_t tstamp; /* 报文接收时间戳，是个偏移量 */ struct sock *sk; /* 拥有此skb的socket */ struct net_device *dev; /* SKB收发的网络设备 */ /* * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Linux磁盘使用率100%异常排查">
-    <meta property="og:url" content="/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/">
+    <meta property="og:title" content="认识sk_buff结构体">
+    <meta property="og:url" content="/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/">
     <meta property="og:site_name" content="平凡世界">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="平凡世界">
-    <meta name="twitter:description" content="">
+    <meta name="twitter:description" content="sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff *next; struct sk_buff *prev; /* sk_buff双向链表 */ ktime_t tstamp; /* 报文接收时间戳，是个偏移量 */ struct sock *sk; /* 拥有此skb的socket */ struct net_device *dev; /* SKB收发的网络设备 */ /* * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.">
     
     
 
@@ -181,25 +181,27 @@ ga('send', 'pageview');
       <div id="main" data-behavior="5"
         class="
                hasCoverMetaIn
-               ">
+               hasCoverCaption">
         <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+            <span class="post-header-cover-caption caption">A beautiful sunrise</span>
           
           
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      Linux磁盘使用率100%异常排查
+      认识sk_buff结构体
     </h1>
   
   <div class="postShorten-meta post-meta">
   
-    <time itemprop="datePublished" datetime="2017-04-01T18:00:54&#43;08:00">
+    <time itemprop="datePublished" datetime="2017-04-04T19:07:48&#43;08:00">
       
   
   
   
   
-    2017-04-01 18:00:54
+    2017-04-04 19:07:48
   
 
     </time>
@@ -209,7 +211,7 @@ ga('send', 'pageview');
   
     <span>发布在</span>
     
-      <a class="category-link" href="www.itech.red/categories/linux">linux</a>
+      <a class="category-link" href="www.itech.red/categories/network">network</a>
     
   
 
@@ -220,45 +222,141 @@ ga('send', 'pageview');
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p></p>
+              
 
-<h2 id="缘起">缘起</h2>
+<h2 id="sk-buff结构体">sk_buff结构体</h2>
 
-<p>线上堡垒机系统磁盘根目录/空间使用率100%导致无法添加账号，奇怪的是du查看实际只使用了8G多空间还有40多G，而df查看使用率却是100%，同事找过来让帮忙定位问题。</p>
+<pre><code>struct sk_buff {
+/* These two members must be first. */
+struct sk_buff      *next;
+struct sk_buff      *prev;
+/* sk_buff双向链表 */
+ktime_t         tstamp;
+/* 报文接收时间戳，是个偏移量 */
+struct sock     *sk;
+/* 拥有此skb的socket */
+struct net_device   *dev;
+/* SKB收发的网络设备 */
 
-<h2 id="du-h-max-depth-1-x-查看-目录磁盘占用情况-x排除挂载的其他磁盘">du -h &ndash;max-depth=1 -x 查看/目录磁盘占用情况(-x排除挂载的其他磁盘)</h2>
+/*
+ * This is the control buffer. It is free to use for every
+ * layer. Please put your private variables there. If you
+ * want to keep them across layers you have to do a skb_clone()
+ * first. This is owned by whoever has the skb queued ATM.
+ */
+char            cb[48] __aligned(8);
+/* 控制缓存区，TCP、buletooth协议都有用到 */
 
-<p><img src="http://occ9e8dkg.bkt.clouddn.com/du.png" alt="du" /></p>
+unsigned long       _skb_refdst;
+/* 指向dst_entry地址 */
+unsigned int        len,
+            data_len;
+/* len:报文总长度，data_len:数据长度，仅当非线性存储报文时使用 */
+__u16           mac_len,
+            hdr_len;
+/* mac_len:2层头长度，hdr_len:3层头长度*/
+union {
+    __wsum      csum;
+    struct {
+        __u16   csum_start;
+        __u16   csum_offset;
+    };
+};
+/* 校验和 */
+__u32           priority;
+/* 报文队列优先级 */
+kmemcheck_bitfield_begin(flags1);
+/* 位域开始指针 */
+__u8            local_df:1,   //分片标志
+            cloned:1,         //克隆标志，仅克隆SKB数据共享
+            ip_summed:2,      //IP层校验和标志位 CHECKSUM_NONE需软件计算校验和 
+            nohdr:1,          //报文头标志位，不需要头时置位
+            nfctinfo:3;       //连接追踪，NAT中使用
+__u8            pkt_type:3,   //报文类型：多播、广播、单播、非本地
+            fclone:2,         //克隆状态
+            ipvs_property:1,  //ip virtual server标志，4层负载均衡
+            peeked:1,         //是否被查看标志
+            nf_trace:1;       //netfilter trace标志
+kmemcheck_bitfield_end(flags1);
+__be16          protocol;     //协议
 
-<h2 id="df查看-磁盘使用率在94">df查看/磁盘使用率在94%</h2>
+void            (*destructor)(struct sk_buff *skb);   //释放skb的回调函数
 
-<p><img src="http://occ9e8dkg.bkt.clouddn.com/df.png" alt="df" /></p>
+int         skb_iif;
+//接收skb的接口索引
+__u32           rxhash;
+//源目的IP地址＋port计算hash值，保证SMP下相同flow被同一CPU处理，提高Cache命中率
+__be16          vlan_proto;
+//vlan协议 802.1q 、802.1ad
+__u16           vlan_tci;
+//vlan tag:包括低12位id，1位标志位，高3位优先级
+__u16           queue_mapping;
+//多队列网卡队列映射
+kmemcheck_bitfield_begin(flags2);
+__u8            pfmemalloc:1;    //标志位，pfmemalloc分配的skb
+__u8            ooo_okay:1;      //out of order
+__u8            l4_rxhash:1;     //4元组hash
+__u8            wifi_acked_valid:1;  
+__u8            wifi_acked:1;
+__u8            no_fcs:1;        //使网卡SKB最后4字节为帧间序
+__u8            head_frag:1;
+/* Encapsulation protocol and NIC drivers should use
+ * this flag to indicate to each other if the skb contains
+ * encapsulated packet or not and maybe use the inner packet
+ * headers if needed
+ */
+__u8            encapsulation:1;   //是否为封装报文，如vxlan
+/* 7/9 bit hole (depending on ndisc_nodetype presence) */
+kmemcheck_bitfield_end(flags2);
+union {
+    __u32       mark;            //标记skb，用于netfilter
+    __u32       dropcount;          
+    __u32       reserved_tailroom;
+};
 
-<h2 id="du与df机制对比">du与df机制对比</h2>
+sk_buff_data_t      inner_transport_header;
+sk_buff_data_t      inner_network_header;
+sk_buff_data_t      inner_mac_header;
+sk_buff_data_t      transport_header;
+sk_buff_data_t      network_header;
+sk_buff_data_t      mac_header;
+/* These elements must be at the end, see alloc_skb() for details.  */
+sk_buff_data_t      tail;       //指向数据尾  skb_put
+sk_buff_data_t      end;        //指向缓存区尾
+unsigned char       *head,      //指向缓存区头  
+            *data;              //指向数据开头  skb_push skb_pull
+unsigned int        truesize;   //总大小 包括skb结构体与block
+atomic_t        users;  //引用计数
+};
+</code></pre>
 
-<ul>
-<li>df读取的是超级块的内容</li>
-<li>du是将所有文件对象大小加起来</li>
-</ul>
+<h2 id="skb-shared-info结构体-位于block后-skb-end">skb_shared_info结构体(位于block后，skb-&gt;end)</h2>
 
-<p>两种机制的不同会造成两者结果不一致的地方，例如你在命令行下删除了一个文件，而这个文件正在被某个程序打开占用，实际上这个文件依然占用磁盘空间，只有在使用该文件的进程关闭时才真正清楚磁盘空间，这时du显示的数据会比df显示的值小。</p>
+<pre><code>260 struct skb_shared_info {
+261     unsigned char   nr_frags;   //数组frags大小
+262     __u8        tx_flags;       //tx标志位
+263     unsigned short  gso_size;           
+264     /* Warning: this field is not always filled in (UFO)! */
+265     unsigned short  gso_segs;
+266     unsigned short  gso_type;
+267     struct sk_buff  *frag_list;      //分片
+268     struct skb_shared_hwtstamps hwtstamps;
+269     __be32          ip6_frag_id;
+270
+271     /*
+272      * Warning : all fields before dataref are cleared in __alloc_skb()
+273      */
+274     atomic_t    dataref;    //引用计数
+275
+276     /* Intermediate layers must ensure that destructor_arg
+277      * remains valid until skb destructor */
+278     void *      destructor_arg;
+279
+280     /* must be last field, see pskb_expand_head() */
+281     skb_frag_t  frags[MAX_SKB_FRAGS];
+282 };
+</code></pre>
 
-<h2 id="解决思路一">解决思路一</h2>
-
-<p>通过lsof查看是否有已删除的文件仍被进程所使用：</p>
-
-<p><code>lsof | grep '(deleted)'</code></p>
-
-<p>找到某个大文件对应的进程，关闭该进程可以正确释放磁盘空间
-但该方法在本例中并未解决问题！！！</p>
-
-<h2 id="解决思路二">解决思路二</h2>
-
-<p>在df的图中可以看到，根目录/下还挂载着/home与/home/admin是否有可能是<strong>原根目录下/home目录被挂载的/home覆盖</strong>，而原/home目录的数据并未清楚，导致磁盘占用</p>
-
-<p><code>mount -o bind / /mnt</code></p>
-
-<p>在mnt下果然看到了原来/home目录，该目录下的废弃的用户账户占用磁盘40G空间！ 之前同事增加磁盘做文件系统粗心导致旧的数据未删除，给自己挖了一个坑！</p>
               
             </div>
           </div>
@@ -272,7 +370,7 @@ ga('send', 'pageview');
       
         <li class="post-action">
           
-            <a class="post-action-btn btn btn--default tooltip--top" href="www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/" data-tooltip="认识sk_buff结构体">
+            <a class="post-action-btn btn btn--disabled">
           
             <i class="fa fa-angle-left"></i>
             <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -280,7 +378,7 @@ ga('send', 'pageview');
         </li>
         <li class="post-action">
           
-            <a class="post-action-btn btn btn--disabled">
+            <a class="post-action-btn btn btn--default tooltip--top" href="www.itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/" data-tooltip="Linux磁盘使用率100%异常排查">
           
             <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
             <i class="fa fa-angle-right"></i>
@@ -332,7 +430,7 @@ ga('send', 'pageview');
       
         <li class="post-action">
           
-            <a class="post-action-btn btn btn--default tooltip--top" href="www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/" data-tooltip="认识sk_buff结构体">
+            <a class="post-action-btn btn btn--disabled">
           
             <i class="fa fa-angle-left"></i>
             <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -340,7 +438,7 @@ ga('send', 'pageview');
         </li>
         <li class="post-action">
           
-            <a class="post-action-btn btn btn--disabled">
+            <a class="post-action-btn btn btn--default tooltip--top" href="www.itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/" data-tooltip="Linux磁盘使用率100%异常排查">
           
             <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
             <i class="fa fa-angle-right"></i>
@@ -373,17 +471,17 @@ ga('send', 'pageview');
       <div id="share-options-bar" class="share-options-bar" data-behavior="5">
   <ul class="share-options">
     <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2fwww.itech.red%2f2017%2f04%2flinux%25E7%25A3%2581%25E7%259B%2598%25E4%25BD%25BF%25E7%2594%25A8%25E7%258E%2587100%25E5%25BC%2582%25E5%25B8%25B8%25E6%258E%2592%25E6%259F%25A5%2f">
+      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2fwww.itech.red%2f2017%2f04%2f%25E8%25AE%25A4%25E8%25AF%2586sk_buff%25E7%25BB%2593%25E6%259E%2584%25E4%25BD%2593%2f">
         <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
       </a>
     </li>
     <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2fwww.itech.red%2f2017%2f04%2flinux%25E7%25A3%2581%25E7%259B%2598%25E4%25BD%25BF%25E7%2594%25A8%25E7%258E%2587100%25E5%25BC%2582%25E5%25B8%25B8%25E6%258E%2592%25E6%259F%25A5%2f">
+      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2fwww.itech.red%2f2017%2f04%2f%25E8%25AE%25A4%25E8%25AF%2586sk_buff%25E7%25BB%2593%25E6%259E%2584%25E4%25BD%2593%2f">
         <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
       </a>
     </li>
     <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2fwww.itech.red%2f2017%2f04%2flinux%25E7%25A3%2581%25E7%259B%2598%25E4%25BD%25BF%25E7%2594%25A8%25E7%258E%2587100%25E5%25BC%2582%25E5%25B8%25B8%25E6%258E%2592%25E6%259F%25A5%2f">
+      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2fwww.itech.red%2f2017%2f04%2f%25E8%25AE%25A4%25E8%25AF%2586sk_buff%25E7%25BB%2593%25E6%259E%2584%25E4%25BD%2593%2f">
         <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
       </a>
     </li>
@@ -542,9 +640,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = '\/www.itech.red\/2017\/04\/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5\/';
+          this.page.url = '\/www.itech.red\/2017\/04\/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93\/';
           
-            this.page.identifier = '20170401diskfull';
+            this.page.identifier = 'fdsF342234';
           
         };
         (function() {

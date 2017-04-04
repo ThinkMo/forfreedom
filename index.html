@@ -1,3 +1,14 @@
+
+
+
+  
+
+
+
+
+
+  
+
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
@@ -125,26 +136,6 @@ ga('send', 'pageview');
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="www.itech.red/tags">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-      
-      <span class="sidebar-button-desc">标签</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="www.itech.red/archives">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-      
-      <span class="sidebar-button-desc">归档</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
       <a class="sidebar-button-link " href="www.itech.red/#about">
     
       <i class="sidebar-button-icon fa fa-lg fa-question"></i>
@@ -209,6 +200,66 @@ ga('send', 'pageview');
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="www.itech.red/www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/">
+          认识sk_buff结构体
+        </a>
+      </h1>
+      <div class="postShorten-meta post-meta">
+  
+    <time itemprop="datePublished" datetime="2017-04-04T19:07:48&#43;08:00">
+      
+  
+  
+  
+  
+    2017-04-04 19:07:48
+  
+
+    </time>
+  
+  
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="www.itech.red/categories/network">network</a>
+    
+  
+
+
+</div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      <p>
+        sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff *next; struct sk_buff <em>prev; /</em> sk_buff双向链表 <em>/ ktime_t tstamp; /</em> 报文接收时间戳，是个偏移量 */ struct sock <em>sk; /</em> 拥有此skb的socket */ struct net_device <em>dev; /</em> SKB收发的网络设备 <em>/ /</em> * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.
+        <br>
+        <a href="www.itech.red/www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="www.itech.red/www.itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/">
           Linux磁盘使用率100%异常排查
         </a>
@@ -227,6 +278,14 @@ ga('send', 'pageview');
     </time>
   
   
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="www.itech.red/categories/linux">linux</a>
+    
+  
+
 
 </div>
 
@@ -307,6 +366,23 @@ ga('send', 'pageview');
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="www.itech.red/www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/">
+                <h3 class="media-heading">认识sk_buff结构体</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff *next; struct sk_buff *prev; /* sk_buff双向链表 */ ktime_t tstamp; /* 报文接收时间戳，是个偏移量 */ struct sock *sk; /* 拥有此skb的socket */ struct net_device *dev; /* SKB收发的网络设备 */ /* * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="www.itech.red/www.itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/">
                 <h3 class="media-heading">Linux磁盘使用率100%异常排查</h3>
               </a>
@@ -345,7 +421,7 @@ ga('send', 'pageview');
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         2 posts found
+         3 posts found
       </p>
     </div>
   </div>
