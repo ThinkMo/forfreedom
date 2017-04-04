@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Network on 平凡世界</title>
-    <link>/www.itech.red/categories/network/index.xml</link>
+    <link>http://www.itech.red/categories/network/index.xml</link>
     <description>Recent content in Network on 平凡世界</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="/www.itech.red/categories/network/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.itech.red/categories/network/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>认识sk_buff结构体</title>
-      <link>/www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/</link>
+      <link>http://www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/</link>
       <pubDate>Tue, 04 Apr 2017 19:07:48 +0800</pubDate>
       
-      <guid>/www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/</guid>
+      <guid>http://www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/</guid>
       <description>
 
 &lt;h2 id=&#34;sk-buff结构体&#34;&gt;sk_buff结构体&lt;/h2&gt;
