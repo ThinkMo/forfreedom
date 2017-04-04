@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>平凡世界</title>
+    <link>/www.itech.red/index.xml</link>
+    <description>Recent content on 平凡世界</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 01 Apr 2017 18:00:54 +0800</lastBuildDate>
+    <atom:link href="/www.itech.red/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Linux磁盘使用率100%异常排查</title>
+      <link>/www.itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</link>
+      <pubDate>Sat, 01 Apr 2017 18:00:54 +0800</pubDate>
+      
+      <guid>/www.itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
