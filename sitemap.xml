@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/</loc>
+    <lastmod>2017-04-06T19:10:59+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/</loc>
     <lastmod>2017-04-04T19:07:48+08:00</lastmod>
   </url>
@@ -18,7 +23,7 @@
   
   <url>
     <loc>http://www.itech.red/categories/linux/</loc>
-    <lastmod>2017-04-01T18:00:54+08:00</lastmod>
+    <lastmod>2017-04-06T19:10:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -30,13 +35,13 @@
   
   <url>
     <loc>http://www.itech.red/post/</loc>
-    <lastmod>2017-04-04T19:07:48+08:00</lastmod>
+    <lastmod>2017-04-06T19:10:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://www.itech.red/</loc>
-    <lastmod>2017-04-04T19:07:48+08:00</lastmod>
+    <lastmod>2017-04-06T19:10:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   
