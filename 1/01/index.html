@@ -1,5 +1,9 @@
 
 
+  
+    
+  
+
 
   
 
@@ -22,19 +26,20 @@
 
     <link rel="icon" href="http://www.itech.red/favicon.png">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.itech.red/index.xml">
-    
 
     
-    <meta name="description" content="游记">
-    <meta property="og:description" content="游记">
+    <meta name="description" content="Kernel Testing
+ skilled developers carefully developing high quality code, static code analysis, regular and rigorous code review, functional tests for new features, regression testing, performance testing, and stress testing.  ">
+    <meta property="og:description" content="Kernel Testing
+ skilled developers carefully developing high quality code, static code analysis, regular and rigorous code review, functional tests for new features, regression testing, performance testing, and stress testing.  ">
     <meta property="og:type" content="blog">
     <meta property="og:title" content="平凡世界">
-    <meta property="og:url" content="/">
+    <meta property="og:url" content="/1/01/">
     <meta property="og:site_name" content="平凡世界">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="平凡世界">
-    <meta name="twitter:description" content="游记">
+    <meta name="twitter:description" content="Kernel Testing
+ skilled developers carefully developing high quality code, static code analysis, regular and rigorous code review, functional tests for new features, regression testing, performance testing, and stress testing.  ">
     
     
 
@@ -79,7 +84,7 @@ ga('send', 'pageview');
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="2">
+      <header id="header" data-behavior="5">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="http://www.itech.red/">平凡世界</a>
@@ -99,7 +104,7 @@ ga('send', 'pageview');
   
 </header>
 
-      <nav id="sidebar" data-behavior="2">
+      <nav id="sidebar" data-behavior="5">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -176,232 +181,20 @@ ga('send', 'pageview');
 
       
 
-      <div id="main" data-behavior="2"
+      <div id="main" data-behavior="5"
         class="
                hasCoverMetaIn
                ">
-        <section class="postShorten-group main-content-wrap">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
           
           
-            
+            <div class="post-header main-content-wrap text-left">
   
-    
+    <h1 class="post-title" itemprop="headline">
       
-        
-      
-    
+    </h1>
   
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="http://www.itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/">
-          Ext2设计与实现(译)
-        </a>
-      </h1>
-      <div class="postShorten-meta post-meta">
-  
-    <time itemprop="datePublished" datetime="2017-04-06T19:10:59&#43;08:00">
-      
-  
-  
-  
-  
-    2017-04-06 19:10:59
-  
-
-    </time>
-  
-  
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="http://www.itech.red/categories/linux">linux</a>
-    
-  
-
-
-</div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      <p>
-        Ext2设计与实现 1、介绍 Linux第一版只支持Minix文件系统，Minix文件系统有两大亟待解决的限制：块地址存储在16位整型，最大文件大小为64MB；另外目录和文件名长度最大支持14个字符。
-我们设计与实现了两种新的文件系统:EXT 、 EXT2
-在这篇论文中，我们将简述Linux文件系统的历史，简单介绍Unix文件系统的基础概念；介绍Linux VFS层的实现并详细介绍EXT2内核代码与用户工具；最后，是Linux、BSD下EXT2性能测试对比。
-2、Linux文件系统历史（略） 3、文件系统概念 Linux文件系统的实现基于Unix操作系统通用概念：文件通过inodes来表示，目录是一种简单的文件包含许多列表项，设备是可以发起I/O请求的特殊文件。
-3.1 Inode 每个文件都使用inode结构体来表示，每个inode包含了描述文件元数据：文件类型、访问权限、所有者、时间戳、大小、数据块指针。分配给文件的数据块地址存储在文件的inode节点中，当用户对文件发起I/O请求时，内核代码将当前文件偏移量转为块号，使用该数字作为块地址表的索引来读写物理块，如下图所示：
-3.2 目录 目录按层次树结构组织，每一个目录可以包含文件和子目录。
-目录实现为一种特殊的文件。事实上，目录是一种包含列表项的文件，每一项包含一个inode号和一个文件名，当一个进程使用一个路径名时，内核代码会搜索目录查找对应的inode号，在路径文件名被转换为inode号后，inode结构会被存储到内存中用以后序请求。目录如下图：
-3.3 链接 Unix文件系统提出了链接的概念，若干个文件名可以关联到一个inode节点，inode节点包含一个存储链接数的域。增加一个链接会创建一个目录项并增加inode链接计数。当删除链接时，内核会递减链接计数，为0时删除inode。
-这种类型的链接称为硬链接，只能在一个文件系统中使用，且不能链接到一个目录，避免引起环路。
-另一种链接存在于大多数Unix系操作系统，符号链接：只包含文件名的简单文件，当内核inode转换时遇到符号链接，会将软链接文件内容替换链接名。因为软链接不包含inode，它可以跨文件系统，可以指向任何类型的文件，甚至不存在的文件。但软链接会占用磁盘空间、inode、在路径名到inode转换时引起额外消耗。
-3.4 设备文件 在Unix系操作系统，设备被当作特殊文件访问。一个设备文件并不占用文件系统空间，只作为设备驱动访问接口。
-有两类特殊文件：字符设备、块设备。主设备号决定类型，次设备号决定哪一个设备。
-4 VFS VFS是一个文件系统抽象层，定义了一个文件系统应该实现的操作，对上层屏蔽了底层不同文件系统的实现，一图概之： 5 EXT2 5.1 起因 修复EXT文件系统问题，提供一个强大的文件系统，实现unix文件语义并提供高级特性
-5.2 标准 ext2fs特性  支持标准Unix文件类型：普通文件、目录、设备文件、符号链接 支持最大4TB文件系统 长文件名：255字节，可扩展至1012 为root保留空间以便修复  5.3 高级 ext2fs特性  属性继承 软链接：目标名存储在inode中 创建文件系统时可选择逻辑块大小 fsck mount options Append-only files  5.4 物理结构 受BSD文件系统的影响，文件系统由块组构成，但块组并没有与磁盘的物理结构块绑定，因为现代驱动趋势是优化顺序访问和对操作系统隐藏物理结构。
-文件系统物理结构：  Boot
-Sector Block
-Group 1 Block
-Group 2 &hellip;
-        <br>
-        <a href="http://www.itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="http://www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/">
-          认识sk_buff结构体
-        </a>
-      </h1>
-      <div class="postShorten-meta post-meta">
-  
-    <time itemprop="datePublished" datetime="2017-04-04T19:07:48&#43;08:00">
-      
-  
-  
-  
-  
-    2017-04-04 19:07:48
-  
-
-    </time>
-  
-  
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="http://www.itech.red/categories/network">network</a>
-    
-  
-
-
-</div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      <p>
-        sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff *next; struct sk_buff <em>prev; /</em> sk_buff双向链表 <em>/ ktime_t tstamp; /</em> 报文接收时间戳，是个偏移量 */ struct sock <em>sk; /</em> 拥有此skb的socket */ struct net_device <em>dev; /</em> SKB收发的网络设备 <em>/ /</em> * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.
-        <br>
-        <a href="http://www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="http://www.itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/">
-          Linux磁盘使用率100%异常排查
-        </a>
-      </h1>
-      <div class="postShorten-meta post-meta">
-  
-    <time itemprop="datePublished" datetime="2017-04-01T18:00:54&#43;08:00">
-      
-  
-  
-  
-  
-    2017-04-01 18:00:54
-  
-
-    </time>
-  
-  
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="http://www.itech.red/categories/linux">linux</a>
-    
-  
-
-
-</div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      <p>
-        
-        <br>
-        <a href="http://www.itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="http://www.itech.red/1/01/">
-          
-        </a>
-      </h1>
-      <div class="postShorten-meta post-meta">
+  <div class="postShorten-meta post-meta">
   
     <time itemprop="datePublished" datetime="0001-01-01T00:00:00Z">
       
@@ -418,76 +211,102 @@ Group 2 &hellip;
 
 </div>
 
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      <p>
-        指针与引用区别  指针本身就是一个对象，允许对指针赋值与拷贝，而且指针的生命周期内可以先后指向不同的对象 指针无须在定义时赋初值  const 如果在多个文件之间共享const对象，必须在变量的定义之前添加extern关键字
-        <br>
-        <a href="http://www.itech.red/1/01/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
+</div>
           
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>Kernel Testing</p>
+
+<ul>
+<li>skilled developers carefully developing high quality code,</li>
+<li>static code analysis,</li>
+<li>regular and rigorous code review,</li>
+<li>functional tests for new features,</li>
+<li>regression testing,</li>
+<li>performance testing, and</li>
+<li>stress testing.</li>
+</ul>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
             
-  
-    
+              
+            
+            <div class="post-actions-wrap">
+  <nav>
+    <ul class="post-actions post-action-nav">
       
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="http://www.itech.red/1/01/">
+        <li class="post-action">
           
-        </a>
-      </h1>
-      <div class="postShorten-meta post-meta">
-  
-    <time itemprop="datePublished" datetime="0001-01-01T00:00:00Z">
+            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/1/01/" data-tooltip="">
+          
+            <i class="fa fa-angle-left"></i>
+            <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+          </a>
+        </li>
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--disabled">
+          
+            <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </li>
       
-  
-  
-  
-  
-    0001-01-01 00:00:00
-  
-
-    </time>
-  
-  
-
+    </ul>
+  </nav>
+  <ul class="post-actions post-action-share">
+    
+      <li class="post-action hide-lg hide-md hide-sm">
+        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+          <i class="fa fa-share-alt"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http%3a%2f%2fwww.itech.red%2f1%2f01%2f">
+          <i class="fa fa-google-plus"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fwww.itech.red%2f1%2f01%2f">
+          <i class="fa fa-facebook-official"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http%3a%2f%2fwww.itech.red%2f1%2f01%2f">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+    
+    
+      <li class="post-action">
+        <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <i class="fa fa-comment-o"></i>
+        </a>
+      </li>
+    
+    <li class="post-action">
+      
+        <a class="post-action-btn btn btn--default" href="#">
+      
+        <i class="fa fa-list"></i>
+      </a>
+    </li>
+  </ul>
 </div>
 
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      <p>
-        Kernel Testing
- skilled developers carefully developing high quality code, static code analysis, regular and rigorous code review, functional tests for new features, regression testing, performance testing, and stress testing.
-        <br>
-        <a href="http://www.itech.red/1/01/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
 
-          
-          
-
-        </section>
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
     &copy; 2017 <a href="https://github.com/ThinkMo">ThinkMo</a>. All Rights Reserved
@@ -495,6 +314,92 @@ Group 2 &hellip;
 </footer>
 
       </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  <nav>
+    <ul class="post-actions post-action-nav">
+      
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/1/01/" data-tooltip="">
+          
+            <i class="fa fa-angle-left"></i>
+            <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+          </a>
+        </li>
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--disabled">
+          
+            <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+  <ul class="post-actions post-action-share">
+    
+      <li class="post-action hide-lg hide-md hide-sm">
+        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+          <i class="fa fa-share-alt"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http%3a%2f%2fwww.itech.red%2f1%2f01%2f">
+          <i class="fa fa-google-plus"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fwww.itech.red%2f1%2f01%2f">
+          <i class="fa fa-facebook-official"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http%3a%2f%2fwww.itech.red%2f1%2f01%2f">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+    
+    
+      <li class="post-action">
+        <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <i class="fa fa-comment-o"></i>
+        </a>
+      </li>
+    
+    <li class="post-action">
+      
+        <a class="post-action-btn btn btn--default" href="#">
+      
+        <i class="fa fa-list"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <ul class="share-options">
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3a%2f%2fwww.itech.red%2f1%2f01%2f">
+        <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+      </a>
+    </li>
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fwww.itech.red%2f1%2f01%2f">
+        <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+      </a>
+    </li>
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3a%2f%2fwww.itech.red%2f1%2f01%2f">
+        <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
     </div>
     
     <div id="about">
@@ -712,6 +617,32 @@ $(document).ready(function() {
 });
 </script>
 
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/www.itech.red\/1\/01\/';
+          
+            this.page.identifier = '\/1\/01\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'itech-1';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
 
 
 
@@ -719,3 +650,4 @@ $(document).ready(function() {
     
   </body>
 </html>
+

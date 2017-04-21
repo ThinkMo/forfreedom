@@ -331,5 +331,46 @@ atomic_t        users;  //引用计数
 &lt;p&gt;在mnt下果然看到了原来/home目录，该目录下的废弃的用户账户占用磁盘40G空间！ 之前同事增加磁盘做文件系统粗心导致旧的数据未删除，给自己挖了一个坑！&lt;/p&gt;</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>http://www.itech.red/1/01/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.itech.red/1/01/</guid>
+      <description>
+
+&lt;h3 id=&#34;指针与引用区别&#34;&gt;指针与引用区别&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;指针本身就是一个对象，允许对指针赋值与拷贝，而且指针的生命周期内可以先后指向不同的对象&lt;/li&gt;
+&lt;li&gt;指针无须在定义时赋初值&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;const&#34;&gt;const&lt;/h3&gt;
+
+&lt;p&gt;如果在多个文件之间共享const对象，必须在变量的定义之前添加extern关键字&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://www.itech.red/1/01/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.itech.red/1/01/</guid>
+      <description>&lt;p&gt;Kernel Testing&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;skilled developers carefully developing high quality code,&lt;/li&gt;
+&lt;li&gt;static code analysis,&lt;/li&gt;
+&lt;li&gt;regular and rigorous code review,&lt;/li&gt;
+&lt;li&gt;functional tests for new features,&lt;/li&gt;
+&lt;li&gt;regression testing,&lt;/li&gt;
+&lt;li&gt;performance testing, and&lt;/li&gt;
+&lt;li&gt;stress testing.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
   </channel>
 </rss>
