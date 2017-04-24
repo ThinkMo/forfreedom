@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on 平凡世界</title>
+    <link>http://www.itech.red/categories/java/index.xml</link>
+    <description>Recent content in Java on 平凡世界</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.itech.red/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>springmvc实现导出数据excel</title>
+      <link>http://www.itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/</link>
+      <pubDate>Wed, 23 Nov 2016 18:47:34 +0800</pubDate>
+      
+      <guid>http://www.itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/</guid>
+      <description>&lt;p&gt;springmvc实现导出数据excel&lt;/p&gt;
+
+&lt;p&gt;最近在项目中要实现将数据导出为excel的功能，研究了下目前springmvc框架下excel导出的方式，在spring 4.3中使用AbstractXlsView来实现，AbstractExcelView已被弃用；但这里介绍的是直接用apache poi实现的一种方式。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;model如下&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;package red.itech.blog.dao.model;
+
+import java.util.Date;
+
+/**
+ * Created by you on 16/10/28.
+ */
+
+	public class Blog {
+    private String author;
+    private Date createdAt;
+    private String title;
+    private long count;
+
+    public Blog(){}
+
+    public Blog(String author, Date createdAt, String title, long count){
+        this.author = author;
+        this.count = count;
+        this.createdAt = createdAt;
+        this.title =title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public long getCount() {
+        return count;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;controller实现&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;package red.itech.blog.controller;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import red.itech.blog.dao.model.Blog;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Created by you on 16/10/28.
+ */
+@Controller
+public class ExportExcel {
+    @RequestMapping(value = &amp;quot;/exportExcel&amp;quot;, method = RequestMethod.GET)
+    public void exportExcel(HttpServletRequest request, HttpServletResponse response){
+        //根据业务需求获得数据
+        List&amp;lt;Blog&amp;gt; blogs = getBlog();
+
+        Workbook workbook = new HSSFWorkbook();
+        Sheet sheet = workbook.createSheet(&amp;quot;博客列表&amp;quot;);
+        Row row = sheet.createRow(0);
+        Cell cell = null;
+        String[] metaData = new String[]{&amp;quot;作者&amp;quot;, &amp;quot;创建日前&amp;quot;, &amp;quot;文章题目&amp;quot;, &amp;quot;字数&amp;quot;};
+        for(int i = 0; i &amp;lt; metaData.length; i++) {
+            cell = row.createCell(i);
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+            cell.setCellValue(metaData[i]);
+        }
+
+        int rowNumber = 1;
+        DateFormat df = new SimpleDateFormat(&amp;quot;yyyy-MM-dd HH:ss:mm&amp;quot;);
+        for(Blog blog: blogs) {
+            row = sheet.createRow(rowNumber++);
+            cell = row.createCell(0);
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+            cell.setCellValue(blog.getAuthor());
+
+            cell = row.createCell(1);
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+            cell.setCellValue(df.format(blog.getCreatedAt()));
+
+            cell = row.createCell(2);
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+            cell.setCellValue(blog.getAuthor());
+
+            cell = row.createCell(3);
+            cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+            cell.setCellValue(blog.getCount());
+        }
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try {
+            workbook.write(os);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        byte[] content = os.toByteArray();
+        InputStream is = new ByteArrayInputStream(content);
+        // 设置response参数，可以打开下载页面
+        response.reset();
+        response.setContentType(&amp;quot;application/vnd.ms-excel;charset=utf-8&amp;quot;);
+        try {
+            response.setHeader(&amp;quot;Content-Disposition&amp;quot;, &amp;quot;attachment;filename=&amp;quot; + new String((&amp;quot;blogs.xls&amp;quot;).getBytes(), &amp;quot;iso-8859-1&amp;quot;));
+            ServletOutputStream out = response.getOutputStream();
+            BufferedInputStream bis = null;
+            BufferedOutputStream bos = null;
+            try {
+                bis = new BufferedInputStream(is);
+                bos = new BufferedOutputStream(out);
+                byte[] buff = new byte[2048];
+                int bytesRead;
+                // Simple read/write loop.
+                while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+                    bos.write(buff, 0, bytesRead);
+                }
+            } catch (final IOException e) {
+                throw e;
+            } finally {
+                if (bis != null)
+                    bis.close();
+                if (bos != null)
+                    bos.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private List&amp;lt;Blog&amp;gt; getBlog(){
+        List&amp;lt;Blog&amp;gt; blogs = new ArrayList&amp;lt;Blog&amp;gt;();
+        blogs.add(new Blog(&amp;quot;Tom&amp;quot;, new Date(), &amp;quot;how to work?&amp;quot;, 1024));
+        blogs.add(new Blog(&amp;quot;Jim&amp;quot;, new Date(), &amp;quot;Let it be&amp;quot;, 677));
+        blogs.add(new Blog(&amp;quot;Jerry&amp;quot;, new Date(), &amp;quot;Make a cake&amp;quot;, 3024));
+        blogs.add(new Blog(&amp;quot;Kate&amp;quot;, new Date(), &amp;quot;To be a good engineer&amp;quot;, 5624));
+        return blogs;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;jsp页面&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;%--
+  Created by IntelliJ IDEA.
+  User: you
+  Date: 16/10/28
+  Time: 上午10:42
+  To change this template use File | Settings | File Templates.
+--%&amp;gt;
+&amp;lt;%@ page contentType=&amp;quot;text/html;charset=UTF-8&amp;quot; language=&amp;quot;java&amp;quot; %&amp;gt;
+&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+  &amp;lt;input type=&amp;quot;button&amp;quot; value=&amp;quot;导出数据&amp;quot; onclick=&amp;quot;download()&amp;quot;/&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;script&amp;gt;
+  function download(){
+    var url = &#39;/exportExcel&#39;;
+    window.open(url);
+  }
+&amp;lt;/script&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Spring＋Mybatis＋Velocity项目搭建</title>
+      <link>http://www.itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Wed, 28 Sep 2016 15:43:54 +0800</pubDate>
+      
+      <guid>http://www.itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</guid>
+      <description>&lt;p&gt;Spring＋Mybatis＋Velocity项目搭建&lt;/p&gt;
+
+&lt;p&gt;一、开发工具&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;JDK 1.8.0_91&lt;/li&gt;
+&lt;li&gt;Intellij IDEA 15.0.6&lt;/li&gt;
+&lt;li&gt;Mysql  5.5.44&lt;/li&gt;
+&lt;li&gt;Maven 3&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;二、新建工程&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;新建Maven工程，不选Create from archtype提供的工程模版，为了学习从头开始配置工程，点击next设置工程坐标，然后一路到finish。
+&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/create_project.png&#34; alt=&#34;create_project&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;groupId&amp;gt;red.itech&amp;lt;/groupId&amp;gt;
+&amp;lt;artifactId&amp;gt;blogDemo&amp;lt;/artifactId&amp;gt;
+&amp;lt;version&amp;gt;1.0-SNAPSHOT&amp;lt;/version&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如果使用git开发，可以新建.gitignore文件，使git忽略idea自动生成的文件（.ignore插件可以帮助生成.gitignore），项目git初始化&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+### OSX template
+*.DS_Store
+    
+# IntelliJ project files
+.idea
+*.iml
+out
+target
+gen### Java template
+*.class
+    
+# Package Files #
+*.jar
+*.war
+*.ear
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;三、Spring MVC&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;编辑pom.xml添加Spring MVC、servlet依赖如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;dependencies&amp;gt;
+    &amp;lt;!-- spring --&amp;gt;
+    &amp;lt;dependency&amp;gt;
+        &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt;
+        &amp;lt;artifactId&amp;gt;spring-core&amp;lt;/artifactId&amp;gt;
+        &amp;lt;version&amp;gt;4.3.3.RELEASE&amp;lt;/version&amp;gt;
+    &amp;lt;/dependency&amp;gt;
+    &amp;lt;dependency&amp;gt;
+        &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt;
+        &amp;lt;artifactId&amp;gt;spring-webmvc&amp;lt;/artifactId&amp;gt;
+        &amp;lt;version&amp;gt;4.3.3.RELEASE&amp;lt;/version&amp;gt;
+    &amp;lt;/dependency&amp;gt;
+    &amp;lt;dependency&amp;gt;
+        &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt;
+        &amp;lt;artifactId&amp;gt;spring-web&amp;lt;/artifactId&amp;gt;
+        &amp;lt;version&amp;gt;4.3.3.RELEASE&amp;lt;/version&amp;gt;
+    &amp;lt;/dependency&amp;gt;
+
+    &amp;lt;!-- jsp --&amp;gt;
+    &amp;lt;dependency&amp;gt;
+        &amp;lt;groupId&amp;gt;javax.servlet&amp;lt;/groupId&amp;gt;
+        &amp;lt;artifactId&amp;gt;servlet-api&amp;lt;/artifactId&amp;gt;
+        &amp;lt;version&amp;gt;3.0-alpha-1&amp;lt;/version&amp;gt;
+    &amp;lt;/dependency&amp;gt;
+&amp;lt;/dependencies&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;增加Spring MVC框架支持&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/addframework.png&#34; alt=&#34;add_framework&#34; /&gt;
+&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/web.png&#34; alt=&#34;web&#34; /&gt;
+&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/springmvc.png&#34; alt=&#34;springmvc&#34; /&gt;
+添加完成后对目录结构做一定调整，将web目录移到src/main下并重命名为webapp，调整后结构如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/struct.png&#34; alt=&#34;struct&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改web.xml&lt;/p&gt;
+
+&lt;p&gt;web.xml的作用是配置Spring的DispatcherServlet，DispatcherServlet作为前端控制器，用于用户接口与Servlet间的映射。在web.xml的代码中,org.springframework.web.servlet.DispatcherServlet的实例名称为dispatcher，DispatcherServlet会从dispatcher－servlet.xml文件中加载应用上下文。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/webxml.png&#34; alt=&#34;web.xml&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改servlet-mapping中的url-pattern为/表示dispatcher会处理所有请求。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改dispatcher-servlet.xml&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xmlns:mvc=&amp;quot;http://www.springframework.org/schema/mvc&amp;quot;   //mvc注解需要
+&amp;lt;mvc:annotation-driven/&amp;gt;   //注解驱动
+&amp;lt;context:component-scan base-package=&amp;quot;red.itech.blog.controller&amp;quot;/&amp;gt;  //自动扫描@Controller注册为beans
+//xsi:schemaLocation中添加
+http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd  //通配符的匹配很全面, 但无法找到元素 &#39;mvc:annotation-driven&#39; 的声明
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;实现控制器&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package red.itech.blog.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+* Created by you on 16/9/28.
+*/
+
+@Controller
+public class BlogController {
+
+@RequestMapping(value = &amp;quot;/home&amp;quot;, method = RequestMethod.GET)
+    public void homePage(HttpServletResponse response) throws IOException{
+        response.getWriter().print(&amp;quot;&amp;lt;h1&amp;gt;Welcome to my Blog!&amp;lt;/h1&amp;gt;&amp;quot;);
+        response.flushBuffer();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;启动Web服务&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;修改index.jsp&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;%@ page contentType=&amp;quot;text/html;charset=UTF-8&amp;quot; language=&amp;quot;java&amp;quot; %&amp;gt;
+&amp;lt;html&amp;gt;
+    &amp;lt;body&amp;gt;
+        &amp;lt;%response.sendRedirect(&amp;quot;home&amp;quot;); %&amp;gt;
+    &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;配置maven构建过程&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;packaging&amp;gt;war&amp;lt;/packaging&amp;gt;   //打包格式
+&amp;lt;build&amp;gt;
+    &amp;lt;finalName&amp;gt;blog&amp;lt;/finalName&amp;gt;   //生成文件名
+&amp;lt;/build&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;配置运行tomcat&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/home.png&#34; alt=&#34;home&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;四、velocity支持（velocity使前后端分离）&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;添加velocity库支持&lt;/p&gt;
+
+&lt;p&gt;在pom.xml中添加velocity、velocity-tools、spring-context-support依赖如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.apache.velocity&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;velocity&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;1.7&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.apache.velocity&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;velocity-tools&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;2.0&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;spring-context-support&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;4.3.3.RELEASE&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;增加velocity视图解析&lt;/p&gt;
+
+&lt;p&gt;在dispatcher-servlet.xml中配置velocity视图解析器如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;bean id=&amp;quot;velocityConfigure&amp;quot; class=&amp;quot;org.springframework.web.servlet.view.velocity.VelocityConfigurer&amp;quot;&amp;gt;
+    &amp;lt;property name=&amp;quot;resourceLoaderPath&amp;quot; value=&amp;quot;/WEB-INF/templates/&amp;quot;/&amp;gt;
+    &amp;lt;property name=&amp;quot;velocityProperties&amp;quot;&amp;gt;
+        &amp;lt;props&amp;gt;
+            &amp;lt;prop key=&amp;quot;input.encoding&amp;quot;&amp;gt;utf-8&amp;lt;/prop&amp;gt;
+            &amp;lt;prop key=&amp;quot;output.encoding&amp;quot;&amp;gt;utf-8&amp;lt;/prop&amp;gt;
+        &amp;lt;/props&amp;gt;
+    &amp;lt;/property&amp;gt;
+&amp;lt;/bean&amp;gt;
+&amp;lt;bean id=&amp;quot;velocityViewResolver&amp;quot; class=&amp;quot;org.springframework.web.servlet.view.velocity.VelocityViewResolver&amp;quot;&amp;gt;
+    &amp;lt;property name=&amp;quot;suffix&amp;quot; value=&amp;quot;.vm&amp;quot;/&amp;gt;
+    &amp;lt;property name=&amp;quot;contentType&amp;quot; value=&amp;quot;text/html;charset=utf-8&amp;quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改控制器代码&lt;/p&gt;
+
+&lt;p&gt;控制器的作用是根据请求调用BLL的Service进行处理，获得处理结果后，将模型对象与逻辑视图返回。代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package red.itech.blog.controller;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletRequest;
+
+/**
+* Created by you on 16/9/28.
+*/
+
+@Controller
+public class BlogController {
+    @RequestMapping(value = &amp;quot;/home&amp;quot;, method = RequestMethod.GET)
+    public String homePage(HttpServletRequest request, Model model){
+        //1.调用BLL层的服务接口
+        //2.设置模型数据
+        model.addAttribute(&amp;quot;username&amp;quot;, &amp;quot;someone&amp;quot;);
+        //3.返回逻辑视图名称
+        return &amp;quot;welcome&amp;quot;;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;创建模版文件WEB-INF/templates/welcome.vm，测试视图解析器如下&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/vm.png&#34; alt=&#34;vm&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/page.png&#34; alt=&#34;page&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;五、mybatis支持，mybatis是一种SQL－mapping的ORM实现，将结果转化为POJO(使用mybatis-generator简化实现)&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;添加mybatis依赖&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.mybatis&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;mybatis&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;3.3.0&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.mybatis&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;mybatis-spring&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;1.2.3&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;mysql&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;mysql-connector-java&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;5.1.17&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;commons-dbcp&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;commons-dbcp&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;1.2.2&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;配置数据库源&lt;/p&gt;
+
+&lt;p&gt;修改applicationContext.xml加入dataSource&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;bean id=&amp;quot;dataSource&amp;quot; class=&amp;quot;org.apache.commons.dbcp.BasicDataSource&amp;quot; destroy-method=&amp;quot;close&amp;quot;&amp;gt;
+    &amp;lt;property name=&amp;quot;driverClassName&amp;quot; value=&amp;quot;com.mysql.jdbc.Driver&amp;quot;/&amp;gt;
+    &amp;lt;property name=&amp;quot;url&amp;quot; value=&amp;quot;jdbc:mysql://127.0.0.1:3306/blog&amp;quot;/&amp;gt;
+    &amp;lt;property name=&amp;quot;username&amp;quot; value=&amp;quot;root&amp;quot;/&amp;gt;
+    &amp;lt;property name=&amp;quot;password&amp;quot; value=&amp;quot;xxxxxx&amp;quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+
+&amp;lt;bean id=&amp;quot;sqlSessionFactory&amp;quot; class=&amp;quot;org.mybatis.spring.SqlSessionFactoryBean&amp;quot;&amp;gt;
+    &amp;lt;property name=&amp;quot;dataSource&amp;quot; ref=&amp;quot;dataSource&amp;quot;/&amp;gt;
+    &amp;lt;property name=&amp;quot;mapperLocations&amp;quot; value=&amp;quot;classpath*:red/itech/blog/**/dal/**/*Mapper*.xml&amp;quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+
+&amp;lt;bean id=&amp;quot;sqlSession&amp;quot; class=&amp;quot;org.mybatis.spring.SqlSessionTemplate&amp;quot;&amp;gt;
+    &amp;lt;constructor-arg index=&amp;quot;0&amp;quot; ref=&amp;quot;sqlSessionFactory&amp;quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+
+&amp;lt;bean class=&amp;quot;org.mybatis.spring.mapper.MapperScannerConfigurer&amp;quot;&amp;gt;
+    &amp;lt;property name=&amp;quot;annotationClass&amp;quot; value=&amp;quot;javax.annotation.Resource&amp;quot;&amp;gt;&amp;lt;/property&amp;gt;
+    &amp;lt;property name=&amp;quot;basePackage&amp;quot; value=&amp;quot;red.itech.blog.***.dal.mapper&amp;quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改mybatis-generator配置文件(放置到resource目录下)，如下&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;
+&amp;lt;!DOCTYPE generatorConfiguration PUBLIC &amp;quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&amp;quot;
+&amp;quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&amp;quot;&amp;gt;
+&amp;lt;generatorConfiguration&amp;gt;
+    &amp;lt;context id=&amp;quot;base_resource&amp;quot; targetRuntime=&amp;quot;MyBatis3&amp;quot;&amp;gt;
+        &amp;lt;property name=&amp;quot;suppressDate&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+        &amp;lt;!-- 是否去除自动生成的注释 true：是 ： false:否 --&amp;gt;
+        &amp;lt;property name=&amp;quot;suppressAllComments&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+        &amp;lt;property name=&amp;quot;useActualColumnNames&amp;quot; value=&amp;quot;false&amp;quot;/&amp;gt;
+        &amp;lt;!--数据库链接URL，用户名、密码 --&amp;gt;
+        &amp;lt;jdbcConnection
+                connectionURL=&amp;quot;jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&amp;amp;amp;characterEncoding=UTF-8&amp;quot;
+        driverClass=&amp;quot;org.gjt.mm.mysql.Driver&amp;quot; password=&amp;quot;xxx&amp;quot; userId=&amp;quot;xxx&amp;quot;/&amp;gt;
+        &amp;lt;javaTypeResolver&amp;gt;
+            &amp;lt;property name=&amp;quot;forceBigDecimals&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+        &amp;lt;/javaTypeResolver&amp;gt;
+        &amp;lt;!-- 生成模型的包名和位置 --&amp;gt;
+        &amp;lt;javaModelGenerator targetPackage=&amp;quot;red.itech.blog.dal.model&amp;quot; targetProject=&amp;quot;src/main/java&amp;quot;&amp;gt;
+            &amp;lt;property name=&amp;quot;enableSubPackages&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+            &amp;lt;property name=&amp;quot;trimStrings&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+        &amp;lt;/javaModelGenerator&amp;gt;
+        &amp;lt;!-- 生成映射文件的包名和位置 --&amp;gt;
+        &amp;lt;sqlMapGenerator targetPackage=&amp;quot;red.itech.blog.dal.mapper&amp;quot; targetProject=&amp;quot;src/main/resources&amp;quot;&amp;gt;
+            &amp;lt;property name=&amp;quot;enableSubPackages&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+        &amp;lt;/sqlMapGenerator&amp;gt;
+        &amp;lt;!-- 生成DAO的包名和位置 --&amp;gt;
+        &amp;lt;javaClientGenerator targetPackage=&amp;quot;red.itech.blog.dal.mapper&amp;quot; targetProject=&amp;quot;src/main/java&amp;quot;
+                     type=&amp;quot;XMLMAPPER&amp;quot;&amp;gt;
+            &amp;lt;property name=&amp;quot;enableSubPackages&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+        &amp;lt;/javaClientGenerator&amp;gt;
+        &amp;lt;table domainObjectName=&amp;quot;User&amp;quot; tableName=&amp;quot;user&amp;quot;&amp;gt;
+            &amp;lt;generatedKey column=&amp;quot;id&amp;quot; sqlStatement=&amp;quot;JDBC&amp;quot;/&amp;gt;
+        &amp;lt;/table&amp;gt;
+    &amp;lt;/context&amp;gt;
+&amp;lt;/generatorConfiguration&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;生成POJO对象文件与映射&lt;/p&gt;
+
+&lt;p&gt;在pom.xml中添加mybatis-generator插件如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;build&amp;gt;
+    &amp;lt;finalName&amp;gt;blog&amp;lt;/finalName&amp;gt;
+    &amp;lt;plugins&amp;gt;
+        &amp;lt;plugin&amp;gt;
+            &amp;lt;groupId&amp;gt;org.mybatis.generator&amp;lt;/groupId&amp;gt;
+            &amp;lt;artifactId&amp;gt;mybatis-generator-maven-plugin&amp;lt;/artifactId&amp;gt;
+            &amp;lt;version&amp;gt;1.3.2&amp;lt;/version&amp;gt;
+            &amp;lt;configuration&amp;gt;
+                &amp;lt;overwrite&amp;gt;true&amp;lt;/overwrite&amp;gt;
+            &amp;lt;/configuration&amp;gt;
+            &amp;lt;dependencies&amp;gt;
+                &amp;lt;dependency&amp;gt;
+                    &amp;lt;groupId&amp;gt;org.mybatis.generator&amp;lt;/groupId&amp;gt;
+                    &amp;lt;artifactId&amp;gt;mybatis-generator-core&amp;lt;/artifactId&amp;gt;
+                    &amp;lt;version&amp;gt;1.3.2&amp;lt;/version&amp;gt;
+                &amp;lt;/dependency&amp;gt;
+                &amp;lt;!-- 数据库驱动 --&amp;gt;
+                &amp;lt;dependency&amp;gt;
+                    &amp;lt;groupId&amp;gt;mysql&amp;lt;/groupId&amp;gt;
+                    &amp;lt;artifactId&amp;gt;mysql-connector-java&amp;lt;/artifactId&amp;gt;
+                    &amp;lt;version&amp;gt;5.1.17&amp;lt;/version&amp;gt;
+                &amp;lt;/dependency&amp;gt;
+            &amp;lt;/dependencies&amp;gt;
+        &amp;lt;/plugin&amp;gt;
+    &amp;lt;/plugins&amp;gt;
+&amp;lt;/build&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在项目目录下执行：&lt;/p&gt;
+
+&lt;p&gt;mvn -Dmybatis.generator.overwrite=true -Dmybatis.generator.configurationFile=src/main/resources/generatorConfig.xml mybatis-generator:generate&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;实现Service层（接口与实现）&lt;/p&gt;
+
+&lt;p&gt;根据业务逻辑实现相应逻辑代码，简化控制器层&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改控制器代码&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

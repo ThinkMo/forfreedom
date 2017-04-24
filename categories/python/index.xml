@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on 平凡世界</title>
+    <link>http://www.itech.red/categories/python/index.xml</link>
+    <description>Recent content in Python on 平凡世界</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.itech.red/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>python项目开发总结</title>
+      <link>http://www.itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Fri, 27 May 2016 13:27:04 +0800</pubDate>
+      
+      <guid>http://www.itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/</guid>
+      <description>
+
+&lt;h3 id=&#34;python项目开发总结&#34;&gt;python项目开发总结&lt;/h3&gt;
+
+&lt;h4 id=&#34;编码规范flake8&#34;&gt;编码规范flake8&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;安装 pip install flake8 或 brew install flake8&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;安装vim插件 &lt;a href=&#34;https://github.com/scrooloose/syntastic&#34;&gt;syntastic&lt;/a&gt;，语法检测插件，很方便&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;由于使用vundle管理插件，只需在.vimrc中添加 Plugin &#39;scrooloose/syntastic&#39; 
+打开vim，在命令行模式输入 PluginInstall
+最后在.vimrc中添加set lcs=extends:&amp;gt;,precedes:&amp;lt;,tab:&amp;gt;-,trail:·
+vundle相关：https://github.com/VundleVim/Vundle.vim
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;使用virtualenv-独立的开发环境&#34;&gt;使用virtualenv，独立的开发环境&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;新建project 
+virtualenv project
+环境使能
+cd project
+source bin/activate
+退出virtualenv环境
+deactive
+获得当前环境依赖
+pip freeze
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;python单例&#34;&gt;python单例&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1)   拦截类的创建
+
+2)   修改类
+
+3)   返回修改之后的类
+
+
+class Singleton(type):  ＃子类化type，__call__相当于重载了括号运算符
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Logger(object):
+    __metaclass__ = Singleton
+#Or in Python3
+
+class Logger(metaclass=Singleton):
+    pass
+If you want to run __init__ every time the class is called, add
+
+        else:
+            cls._instances[cls].__init__(*args, **kwargs)
+to the if statement in Singleton.__call__.
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;继承&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Singleton(object):
+    _instances = {}
+    def __new__(class_, *args, **kwargs):
+        if class_ not in class_._instances:
+            class_._instances[class_] = super(Singleton, class_).__new__(class_, *args, **kwargs)
+            class_._instances[class_].__init__()  # if you want init once
+        return class_._instances[class_]
+
+class MyClass(Singleton):
+    pass
+
+c = MyClass()
+
+最终采用了继承的方式，metaclass在测试时有问题
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;nosetest单元测试框架&#34;&gt;nosetest单元测试框架&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;class A():
+    def setUp(self):
+        ....
+
+    def tearDown(self):
+        ....
+
+    def testxxx(self):
+        ....
+
+每个test的运行顺序是  setUp-&amp;gt;testxxx-&amp;gt;tearDown-&amp;gt;setUp-&amp;gt;testxxx-&amp;gt;....
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

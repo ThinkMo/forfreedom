@@ -372,43 +372,1325 @@ atomic_t        users;  //引用计数
     </item>
     
     <item>
-      <title></title>
-      <link>http://www.itech.red/1/01/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>springmvc实现导出数据excel</title>
+      <link>http://www.itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/</link>
+      <pubDate>Wed, 23 Nov 2016 18:47:34 +0800</pubDate>
       
-      <guid>http://www.itech.red/1/01/</guid>
-      <description>
+      <guid>http://www.itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/</guid>
+      <description>&lt;p&gt;springmvc实现导出数据excel&lt;/p&gt;
 
-&lt;h3 id=&#34;指针与引用区别&#34;&gt;指针与引用区别&lt;/h3&gt;
+&lt;p&gt;最近在项目中要实现将数据导出为excel的功能，研究了下目前springmvc框架下excel导出的方式，在spring 4.3中使用AbstractXlsView来实现，AbstractExcelView已被弃用；但这里介绍的是直接用apache poi实现的一种方式。&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;指针本身就是一个对象，允许对指针赋值与拷贝，而且指针的生命周期内可以先后指向不同的对象&lt;/li&gt;
-&lt;li&gt;指针无须在定义时赋初值&lt;/li&gt;
-&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;model如下&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;h3 id=&#34;const&#34;&gt;const&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;package red.itech.blog.dao.model;
 
-&lt;p&gt;如果在多个文件之间共享const对象，必须在变量的定义之前添加extern关键字&lt;/p&gt;
+import java.util.Date;
+
+/**
+ * Created by you on 16/10/28.
+ */
+
+	public class Blog {
+    private String author;
+    private Date createdAt;
+    private String title;
+    private long count;
+
+    public Blog(){}
+
+    public Blog(String author, Date createdAt, String title, long count){
+        this.author = author;
+        this.count = count;
+        this.createdAt = createdAt;
+        this.title =title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public long getCount() {
+        return count;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;controller实现&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;package red.itech.blog.controller;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import red.itech.blog.dao.model.Blog;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Created by you on 16/10/28.
+ */
+@Controller
+public class ExportExcel {
+    @RequestMapping(value = &amp;quot;/exportExcel&amp;quot;, method = RequestMethod.GET)
+    public void exportExcel(HttpServletRequest request, HttpServletResponse response){
+        //根据业务需求获得数据
+        List&amp;lt;Blog&amp;gt; blogs = getBlog();
+
+        Workbook workbook = new HSSFWorkbook();
+        Sheet sheet = workbook.createSheet(&amp;quot;博客列表&amp;quot;);
+        Row row = sheet.createRow(0);
+        Cell cell = null;
+        String[] metaData = new String[]{&amp;quot;作者&amp;quot;, &amp;quot;创建日前&amp;quot;, &amp;quot;文章题目&amp;quot;, &amp;quot;字数&amp;quot;};
+        for(int i = 0; i &amp;lt; metaData.length; i++) {
+            cell = row.createCell(i);
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+            cell.setCellValue(metaData[i]);
+        }
+
+        int rowNumber = 1;
+        DateFormat df = new SimpleDateFormat(&amp;quot;yyyy-MM-dd HH:ss:mm&amp;quot;);
+        for(Blog blog: blogs) {
+            row = sheet.createRow(rowNumber++);
+            cell = row.createCell(0);
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+            cell.setCellValue(blog.getAuthor());
+
+            cell = row.createCell(1);
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+            cell.setCellValue(df.format(blog.getCreatedAt()));
+
+            cell = row.createCell(2);
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+            cell.setCellValue(blog.getAuthor());
+
+            cell = row.createCell(3);
+            cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+            cell.setCellValue(blog.getCount());
+        }
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try {
+            workbook.write(os);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        byte[] content = os.toByteArray();
+        InputStream is = new ByteArrayInputStream(content);
+        // 设置response参数，可以打开下载页面
+        response.reset();
+        response.setContentType(&amp;quot;application/vnd.ms-excel;charset=utf-8&amp;quot;);
+        try {
+            response.setHeader(&amp;quot;Content-Disposition&amp;quot;, &amp;quot;attachment;filename=&amp;quot; + new String((&amp;quot;blogs.xls&amp;quot;).getBytes(), &amp;quot;iso-8859-1&amp;quot;));
+            ServletOutputStream out = response.getOutputStream();
+            BufferedInputStream bis = null;
+            BufferedOutputStream bos = null;
+            try {
+                bis = new BufferedInputStream(is);
+                bos = new BufferedOutputStream(out);
+                byte[] buff = new byte[2048];
+                int bytesRead;
+                // Simple read/write loop.
+                while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+                    bos.write(buff, 0, bytesRead);
+                }
+            } catch (final IOException e) {
+                throw e;
+            } finally {
+                if (bis != null)
+                    bis.close();
+                if (bos != null)
+                    bos.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private List&amp;lt;Blog&amp;gt; getBlog(){
+        List&amp;lt;Blog&amp;gt; blogs = new ArrayList&amp;lt;Blog&amp;gt;();
+        blogs.add(new Blog(&amp;quot;Tom&amp;quot;, new Date(), &amp;quot;how to work?&amp;quot;, 1024));
+        blogs.add(new Blog(&amp;quot;Jim&amp;quot;, new Date(), &amp;quot;Let it be&amp;quot;, 677));
+        blogs.add(new Blog(&amp;quot;Jerry&amp;quot;, new Date(), &amp;quot;Make a cake&amp;quot;, 3024));
+        blogs.add(new Blog(&amp;quot;Kate&amp;quot;, new Date(), &amp;quot;To be a good engineer&amp;quot;, 5624));
+        return blogs;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;jsp页面&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;%--
+  Created by IntelliJ IDEA.
+  User: you
+  Date: 16/10/28
+  Time: 上午10:42
+  To change this template use File | Settings | File Templates.
+--%&amp;gt;
+&amp;lt;%@ page contentType=&amp;quot;text/html;charset=UTF-8&amp;quot; language=&amp;quot;java&amp;quot; %&amp;gt;
+&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+  &amp;lt;input type=&amp;quot;button&amp;quot; value=&amp;quot;导出数据&amp;quot; onclick=&amp;quot;download()&amp;quot;/&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;script&amp;gt;
+  function download(){
+    var url = &#39;/exportExcel&#39;;
+    window.open(url);
+  }
+&amp;lt;/script&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
     <item>
-      <title></title>
-      <link>http://www.itech.red/1/01/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>Spring＋Mybatis＋Velocity项目搭建</title>
+      <link>http://www.itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Wed, 28 Sep 2016 15:43:54 +0800</pubDate>
       
-      <guid>http://www.itech.red/1/01/</guid>
-      <description>&lt;p&gt;Kernel Testing&lt;/p&gt;
+      <guid>http://www.itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</guid>
+      <description>&lt;p&gt;Spring＋Mybatis＋Velocity项目搭建&lt;/p&gt;
+
+&lt;p&gt;一、开发工具&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;skilled developers carefully developing high quality code,&lt;/li&gt;
-&lt;li&gt;static code analysis,&lt;/li&gt;
-&lt;li&gt;regular and rigorous code review,&lt;/li&gt;
-&lt;li&gt;functional tests for new features,&lt;/li&gt;
-&lt;li&gt;regression testing,&lt;/li&gt;
-&lt;li&gt;performance testing, and&lt;/li&gt;
-&lt;li&gt;stress testing.&lt;/li&gt;
+&lt;li&gt;JDK 1.8.0_91&lt;/li&gt;
+&lt;li&gt;Intellij IDEA 15.0.6&lt;/li&gt;
+&lt;li&gt;Mysql  5.5.44&lt;/li&gt;
+&lt;li&gt;Maven 3&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;二、新建工程&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;新建Maven工程，不选Create from archtype提供的工程模版，为了学习从头开始配置工程，点击next设置工程坐标，然后一路到finish。
+&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/create_project.png&#34; alt=&#34;create_project&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;groupId&amp;gt;red.itech&amp;lt;/groupId&amp;gt;
+&amp;lt;artifactId&amp;gt;blogDemo&amp;lt;/artifactId&amp;gt;
+&amp;lt;version&amp;gt;1.0-SNAPSHOT&amp;lt;/version&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如果使用git开发，可以新建.gitignore文件，使git忽略idea自动生成的文件（.ignore插件可以帮助生成.gitignore），项目git初始化&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+### OSX template
+*.DS_Store
+    
+# IntelliJ project files
+.idea
+*.iml
+out
+target
+gen### Java template
+*.class
+    
+# Package Files #
+*.jar
+*.war
+*.ear
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;三、Spring MVC&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;编辑pom.xml添加Spring MVC、servlet依赖如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;dependencies&amp;gt;
+    &amp;lt;!-- spring --&amp;gt;
+    &amp;lt;dependency&amp;gt;
+        &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt;
+        &amp;lt;artifactId&amp;gt;spring-core&amp;lt;/artifactId&amp;gt;
+        &amp;lt;version&amp;gt;4.3.3.RELEASE&amp;lt;/version&amp;gt;
+    &amp;lt;/dependency&amp;gt;
+    &amp;lt;dependency&amp;gt;
+        &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt;
+        &amp;lt;artifactId&amp;gt;spring-webmvc&amp;lt;/artifactId&amp;gt;
+        &amp;lt;version&amp;gt;4.3.3.RELEASE&amp;lt;/version&amp;gt;
+    &amp;lt;/dependency&amp;gt;
+    &amp;lt;dependency&amp;gt;
+        &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt;
+        &amp;lt;artifactId&amp;gt;spring-web&amp;lt;/artifactId&amp;gt;
+        &amp;lt;version&amp;gt;4.3.3.RELEASE&amp;lt;/version&amp;gt;
+    &amp;lt;/dependency&amp;gt;
+
+    &amp;lt;!-- jsp --&amp;gt;
+    &amp;lt;dependency&amp;gt;
+        &amp;lt;groupId&amp;gt;javax.servlet&amp;lt;/groupId&amp;gt;
+        &amp;lt;artifactId&amp;gt;servlet-api&amp;lt;/artifactId&amp;gt;
+        &amp;lt;version&amp;gt;3.0-alpha-1&amp;lt;/version&amp;gt;
+    &amp;lt;/dependency&amp;gt;
+&amp;lt;/dependencies&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;增加Spring MVC框架支持&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/addframework.png&#34; alt=&#34;add_framework&#34; /&gt;
+&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/web.png&#34; alt=&#34;web&#34; /&gt;
+&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/springmvc.png&#34; alt=&#34;springmvc&#34; /&gt;
+添加完成后对目录结构做一定调整，将web目录移到src/main下并重命名为webapp，调整后结构如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/struct.png&#34; alt=&#34;struct&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改web.xml&lt;/p&gt;
+
+&lt;p&gt;web.xml的作用是配置Spring的DispatcherServlet，DispatcherServlet作为前端控制器，用于用户接口与Servlet间的映射。在web.xml的代码中,org.springframework.web.servlet.DispatcherServlet的实例名称为dispatcher，DispatcherServlet会从dispatcher－servlet.xml文件中加载应用上下文。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/webxml.png&#34; alt=&#34;web.xml&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改servlet-mapping中的url-pattern为/表示dispatcher会处理所有请求。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改dispatcher-servlet.xml&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xmlns:mvc=&amp;quot;http://www.springframework.org/schema/mvc&amp;quot;   //mvc注解需要
+&amp;lt;mvc:annotation-driven/&amp;gt;   //注解驱动
+&amp;lt;context:component-scan base-package=&amp;quot;red.itech.blog.controller&amp;quot;/&amp;gt;  //自动扫描@Controller注册为beans
+//xsi:schemaLocation中添加
+http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd  //通配符的匹配很全面, 但无法找到元素 &#39;mvc:annotation-driven&#39; 的声明
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;实现控制器&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package red.itech.blog.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+* Created by you on 16/9/28.
+*/
+
+@Controller
+public class BlogController {
+
+@RequestMapping(value = &amp;quot;/home&amp;quot;, method = RequestMethod.GET)
+    public void homePage(HttpServletResponse response) throws IOException{
+        response.getWriter().print(&amp;quot;&amp;lt;h1&amp;gt;Welcome to my Blog!&amp;lt;/h1&amp;gt;&amp;quot;);
+        response.flushBuffer();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;启动Web服务&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;修改index.jsp&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;%@ page contentType=&amp;quot;text/html;charset=UTF-8&amp;quot; language=&amp;quot;java&amp;quot; %&amp;gt;
+&amp;lt;html&amp;gt;
+    &amp;lt;body&amp;gt;
+        &amp;lt;%response.sendRedirect(&amp;quot;home&amp;quot;); %&amp;gt;
+    &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;配置maven构建过程&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;packaging&amp;gt;war&amp;lt;/packaging&amp;gt;   //打包格式
+&amp;lt;build&amp;gt;
+    &amp;lt;finalName&amp;gt;blog&amp;lt;/finalName&amp;gt;   //生成文件名
+&amp;lt;/build&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;配置运行tomcat&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/home.png&#34; alt=&#34;home&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;四、velocity支持（velocity使前后端分离）&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;添加velocity库支持&lt;/p&gt;
+
+&lt;p&gt;在pom.xml中添加velocity、velocity-tools、spring-context-support依赖如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.apache.velocity&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;velocity&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;1.7&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.apache.velocity&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;velocity-tools&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;2.0&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;spring-context-support&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;4.3.3.RELEASE&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;增加velocity视图解析&lt;/p&gt;
+
+&lt;p&gt;在dispatcher-servlet.xml中配置velocity视图解析器如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;bean id=&amp;quot;velocityConfigure&amp;quot; class=&amp;quot;org.springframework.web.servlet.view.velocity.VelocityConfigurer&amp;quot;&amp;gt;
+    &amp;lt;property name=&amp;quot;resourceLoaderPath&amp;quot; value=&amp;quot;/WEB-INF/templates/&amp;quot;/&amp;gt;
+    &amp;lt;property name=&amp;quot;velocityProperties&amp;quot;&amp;gt;
+        &amp;lt;props&amp;gt;
+            &amp;lt;prop key=&amp;quot;input.encoding&amp;quot;&amp;gt;utf-8&amp;lt;/prop&amp;gt;
+            &amp;lt;prop key=&amp;quot;output.encoding&amp;quot;&amp;gt;utf-8&amp;lt;/prop&amp;gt;
+        &amp;lt;/props&amp;gt;
+    &amp;lt;/property&amp;gt;
+&amp;lt;/bean&amp;gt;
+&amp;lt;bean id=&amp;quot;velocityViewResolver&amp;quot; class=&amp;quot;org.springframework.web.servlet.view.velocity.VelocityViewResolver&amp;quot;&amp;gt;
+    &amp;lt;property name=&amp;quot;suffix&amp;quot; value=&amp;quot;.vm&amp;quot;/&amp;gt;
+    &amp;lt;property name=&amp;quot;contentType&amp;quot; value=&amp;quot;text/html;charset=utf-8&amp;quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改控制器代码&lt;/p&gt;
+
+&lt;p&gt;控制器的作用是根据请求调用BLL的Service进行处理，获得处理结果后，将模型对象与逻辑视图返回。代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package red.itech.blog.controller;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletRequest;
+
+/**
+* Created by you on 16/9/28.
+*/
+
+@Controller
+public class BlogController {
+    @RequestMapping(value = &amp;quot;/home&amp;quot;, method = RequestMethod.GET)
+    public String homePage(HttpServletRequest request, Model model){
+        //1.调用BLL层的服务接口
+        //2.设置模型数据
+        model.addAttribute(&amp;quot;username&amp;quot;, &amp;quot;someone&amp;quot;);
+        //3.返回逻辑视图名称
+        return &amp;quot;welcome&amp;quot;;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;创建模版文件WEB-INF/templates/welcome.vm，测试视图解析器如下&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/vm.png&#34; alt=&#34;vm&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/page.png&#34; alt=&#34;page&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;五、mybatis支持，mybatis是一种SQL－mapping的ORM实现，将结果转化为POJO(使用mybatis-generator简化实现)&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;添加mybatis依赖&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.mybatis&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;mybatis&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;3.3.0&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.mybatis&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;mybatis-spring&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;1.2.3&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;mysql&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;mysql-connector-java&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;5.1.17&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;commons-dbcp&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;commons-dbcp&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;1.2.2&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;配置数据库源&lt;/p&gt;
+
+&lt;p&gt;修改applicationContext.xml加入dataSource&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;bean id=&amp;quot;dataSource&amp;quot; class=&amp;quot;org.apache.commons.dbcp.BasicDataSource&amp;quot; destroy-method=&amp;quot;close&amp;quot;&amp;gt;
+    &amp;lt;property name=&amp;quot;driverClassName&amp;quot; value=&amp;quot;com.mysql.jdbc.Driver&amp;quot;/&amp;gt;
+    &amp;lt;property name=&amp;quot;url&amp;quot; value=&amp;quot;jdbc:mysql://127.0.0.1:3306/blog&amp;quot;/&amp;gt;
+    &amp;lt;property name=&amp;quot;username&amp;quot; value=&amp;quot;root&amp;quot;/&amp;gt;
+    &amp;lt;property name=&amp;quot;password&amp;quot; value=&amp;quot;xxxxxx&amp;quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+
+&amp;lt;bean id=&amp;quot;sqlSessionFactory&amp;quot; class=&amp;quot;org.mybatis.spring.SqlSessionFactoryBean&amp;quot;&amp;gt;
+    &amp;lt;property name=&amp;quot;dataSource&amp;quot; ref=&amp;quot;dataSource&amp;quot;/&amp;gt;
+    &amp;lt;property name=&amp;quot;mapperLocations&amp;quot; value=&amp;quot;classpath*:red/itech/blog/**/dal/**/*Mapper*.xml&amp;quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+
+&amp;lt;bean id=&amp;quot;sqlSession&amp;quot; class=&amp;quot;org.mybatis.spring.SqlSessionTemplate&amp;quot;&amp;gt;
+    &amp;lt;constructor-arg index=&amp;quot;0&amp;quot; ref=&amp;quot;sqlSessionFactory&amp;quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+
+&amp;lt;bean class=&amp;quot;org.mybatis.spring.mapper.MapperScannerConfigurer&amp;quot;&amp;gt;
+    &amp;lt;property name=&amp;quot;annotationClass&amp;quot; value=&amp;quot;javax.annotation.Resource&amp;quot;&amp;gt;&amp;lt;/property&amp;gt;
+    &amp;lt;property name=&amp;quot;basePackage&amp;quot; value=&amp;quot;red.itech.blog.***.dal.mapper&amp;quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改mybatis-generator配置文件(放置到resource目录下)，如下&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;
+&amp;lt;!DOCTYPE generatorConfiguration PUBLIC &amp;quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&amp;quot;
+&amp;quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&amp;quot;&amp;gt;
+&amp;lt;generatorConfiguration&amp;gt;
+    &amp;lt;context id=&amp;quot;base_resource&amp;quot; targetRuntime=&amp;quot;MyBatis3&amp;quot;&amp;gt;
+        &amp;lt;property name=&amp;quot;suppressDate&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+        &amp;lt;!-- 是否去除自动生成的注释 true：是 ： false:否 --&amp;gt;
+        &amp;lt;property name=&amp;quot;suppressAllComments&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+        &amp;lt;property name=&amp;quot;useActualColumnNames&amp;quot; value=&amp;quot;false&amp;quot;/&amp;gt;
+        &amp;lt;!--数据库链接URL，用户名、密码 --&amp;gt;
+        &amp;lt;jdbcConnection
+                connectionURL=&amp;quot;jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&amp;amp;amp;characterEncoding=UTF-8&amp;quot;
+        driverClass=&amp;quot;org.gjt.mm.mysql.Driver&amp;quot; password=&amp;quot;xxx&amp;quot; userId=&amp;quot;xxx&amp;quot;/&amp;gt;
+        &amp;lt;javaTypeResolver&amp;gt;
+            &amp;lt;property name=&amp;quot;forceBigDecimals&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+        &amp;lt;/javaTypeResolver&amp;gt;
+        &amp;lt;!-- 生成模型的包名和位置 --&amp;gt;
+        &amp;lt;javaModelGenerator targetPackage=&amp;quot;red.itech.blog.dal.model&amp;quot; targetProject=&amp;quot;src/main/java&amp;quot;&amp;gt;
+            &amp;lt;property name=&amp;quot;enableSubPackages&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+            &amp;lt;property name=&amp;quot;trimStrings&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+        &amp;lt;/javaModelGenerator&amp;gt;
+        &amp;lt;!-- 生成映射文件的包名和位置 --&amp;gt;
+        &amp;lt;sqlMapGenerator targetPackage=&amp;quot;red.itech.blog.dal.mapper&amp;quot; targetProject=&amp;quot;src/main/resources&amp;quot;&amp;gt;
+            &amp;lt;property name=&amp;quot;enableSubPackages&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+        &amp;lt;/sqlMapGenerator&amp;gt;
+        &amp;lt;!-- 生成DAO的包名和位置 --&amp;gt;
+        &amp;lt;javaClientGenerator targetPackage=&amp;quot;red.itech.blog.dal.mapper&amp;quot; targetProject=&amp;quot;src/main/java&amp;quot;
+                     type=&amp;quot;XMLMAPPER&amp;quot;&amp;gt;
+            &amp;lt;property name=&amp;quot;enableSubPackages&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;
+        &amp;lt;/javaClientGenerator&amp;gt;
+        &amp;lt;table domainObjectName=&amp;quot;User&amp;quot; tableName=&amp;quot;user&amp;quot;&amp;gt;
+            &amp;lt;generatedKey column=&amp;quot;id&amp;quot; sqlStatement=&amp;quot;JDBC&amp;quot;/&amp;gt;
+        &amp;lt;/table&amp;gt;
+    &amp;lt;/context&amp;gt;
+&amp;lt;/generatorConfiguration&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;生成POJO对象文件与映射&lt;/p&gt;
+
+&lt;p&gt;在pom.xml中添加mybatis-generator插件如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;build&amp;gt;
+    &amp;lt;finalName&amp;gt;blog&amp;lt;/finalName&amp;gt;
+    &amp;lt;plugins&amp;gt;
+        &amp;lt;plugin&amp;gt;
+            &amp;lt;groupId&amp;gt;org.mybatis.generator&amp;lt;/groupId&amp;gt;
+            &amp;lt;artifactId&amp;gt;mybatis-generator-maven-plugin&amp;lt;/artifactId&amp;gt;
+            &amp;lt;version&amp;gt;1.3.2&amp;lt;/version&amp;gt;
+            &amp;lt;configuration&amp;gt;
+                &amp;lt;overwrite&amp;gt;true&amp;lt;/overwrite&amp;gt;
+            &amp;lt;/configuration&amp;gt;
+            &amp;lt;dependencies&amp;gt;
+                &amp;lt;dependency&amp;gt;
+                    &amp;lt;groupId&amp;gt;org.mybatis.generator&amp;lt;/groupId&amp;gt;
+                    &amp;lt;artifactId&amp;gt;mybatis-generator-core&amp;lt;/artifactId&amp;gt;
+                    &amp;lt;version&amp;gt;1.3.2&amp;lt;/version&amp;gt;
+                &amp;lt;/dependency&amp;gt;
+                &amp;lt;!-- 数据库驱动 --&amp;gt;
+                &amp;lt;dependency&amp;gt;
+                    &amp;lt;groupId&amp;gt;mysql&amp;lt;/groupId&amp;gt;
+                    &amp;lt;artifactId&amp;gt;mysql-connector-java&amp;lt;/artifactId&amp;gt;
+                    &amp;lt;version&amp;gt;5.1.17&amp;lt;/version&amp;gt;
+                &amp;lt;/dependency&amp;gt;
+            &amp;lt;/dependencies&amp;gt;
+        &amp;lt;/plugin&amp;gt;
+    &amp;lt;/plugins&amp;gt;
+&amp;lt;/build&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在项目目录下执行：&lt;/p&gt;
+
+&lt;p&gt;mvn -Dmybatis.generator.overwrite=true -Dmybatis.generator.configurationFile=src/main/resources/generatorConfig.xml mybatis-generator:generate&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;实现Service层（接口与实现）&lt;/p&gt;
+
+&lt;p&gt;根据业务逻辑实现相应逻辑代码，简化控制器层&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改控制器代码&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>理解UML类图关系</title>
+      <link>http://www.itech.red/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/</link>
+      <pubDate>Fri, 26 Aug 2016 16:51:34 +0800</pubDate>
+      
+      <guid>http://www.itech.red/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/</guid>
+      <description>
+
+&lt;p&gt;理解UML类图关系&lt;/p&gt;
+
+&lt;p&gt;1、依赖(Dependency)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;关系：uses temporarily，使用关系，作为局部变量、方法参数或者对静态方法的调用&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;代码示例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import B;
+public class A{
+    public void method1(B b) { // ... }
+    public void method2() { B tempB = new B(); // ... }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;图示(一套带箭头的虚线表示)：&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/image/1/64/c5da58a00cd2fcbf112fa1be3e6b2.png&#34; alt=&#34;dependency&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;2、聚合(Aggregation)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;关系：is part of，整体与部分的关系，作为成员变量&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import Engine;
+public class Car{
+    private Engine engine;
+    publilc Engine getEngine(){
+        return engine;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;图示(一条带空心菱形箭头的直线表示)：&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/image/4/2d/e12355088b0e4fb201deec5772760.png&#34; alt=&#34;aggregation&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;3、组合(Composition)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;关系：is entirely made of，更强的整体与部分关系，作为成员变量&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;代码:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import Page;
+public class Book{
+    private List&amp;lt;Page&amp;gt; pages;
+    publilc List&amp;lt;Page&amp;gt; getPages(){
+        return pages;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;图示(一条带实心菱形箭头直线表示):&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/image/a/65/66b285efb154c3d638f874a006f08.png&#34; alt=&#34;composition&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;4、关联(Association)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;关系：a usage relationship，包含以上三种关系，作为成员变量&lt;/li&gt;
+&lt;li&gt;图示(一套带箭头的直线表示):&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/image/7/4d/d53d5daaf1c53fb39bfb66f40c0b3.png&#34; alt=&#34;association&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;5、实现(Realization)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;关系：interface implementation，接口实现&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import Car;
+public class SUV implements Car{
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;图示(用一条带空心箭头的虚线表示):&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/image/3/02/8e8cf926f50f551344dbffe284c56.png&#34; alt=&#34;realization&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;6、泛化(Generalization)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;关系：inheritance between classes，继承关系&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import Widget;
+public class WindowWidget extends Widget{
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;图示(用一条带空心箭头的实线表示):&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://occ9e8dkg.bkt.clouddn.com/image/5/6e/f8cd3332f700271df86588a86508d.png&#34; alt=&#34;generalization&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;类图表现方式&#34;&gt;类图表现方式：&lt;/h2&gt;
+
+&lt;p&gt;接口 ： &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; Car&lt;/p&gt;
+
+&lt;p&gt;抽象类： 斜体&lt;/p&gt;
+
+&lt;p&gt;属性：可选，应该包含所有对象属性&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;变量名:类型
+＋ public
+# protected
+- private
+~ package
+/ derived
+静态属性  下划线标示
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;方法：可选，可省略get/set方法，不应包含继承方法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;方法名(参数):返回类型
+＋ public
+# protected
+- private
+~ package
+/ derived
+静态属性  下划线标示
+参数： name:type
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>认识Linux内核网络参数</title>
+      <link>http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</link>
+      <pubDate>Fri, 17 Jun 2016 21:03:24 +0800</pubDate>
+      
+      <guid>http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</guid>
+      <description>
+
+&lt;h2 id=&#34;认识linux内核网络参数&#34;&gt;认识Linux内核网络参数&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;本地端口&lt;/p&gt;
+
+&lt;p&gt;TCP、UDP使用的本地端口范围&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;net.ipv4.ip_local_port_range = 1024 65535  （/etc/sysctl.conf，service network restart）&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;优化短链接&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;选项&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_fin_timeout = 15&lt;/td&gt;
+&lt;td&gt;处于FIN-WAIT-2状态的时间&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_tw_reuse = 1&lt;/td&gt;
+&lt;td&gt;允许将 TIME-WAIT sockets重新用于新的TCP连接&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_tw_recycle = 1&lt;/td&gt;
+&lt;td&gt;表示开启TCP连接中TIME-WAIT sockets的快速回收&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;缓冲区大小&lt;/p&gt;
+
+&lt;p&gt;套接字的缓冲区大小限制,从Linux2.6.7内核会根据传输情况自动调整&lt;/p&gt;
+
+&lt;p&gt;默认值：&lt;/p&gt;
+
+&lt;p&gt;net.ipv4.tcp_rmem = 4096 87380 4194304
+net.ipv4.tcp_wmem = 4096 16384 4194304&lt;/p&gt;
+
+&lt;p&gt;TCP读写缓存区，缓存区超过4194304，tcp包会丢弃&lt;/p&gt;
+
+&lt;p&gt;BDP(带宽延时积)=B*D (带宽＊延时)  反推 带宽=BDP/延时   4194304/(0.015*2)/1024/1024=133M/s&lt;/p&gt;
+
+&lt;p&gt;建议值：&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;选项&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;net.core.rmem_default = 262144&lt;/td&gt;
+&lt;td&gt;默认套接字接受缓存区大小&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.core.wmem_default = 262144&lt;/td&gt;
+&lt;td&gt;默认套接字发送缓存区大小&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.core.rmem_max = 16777216&lt;/td&gt;
+&lt;td&gt;接收最大值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.core.wmem_max = 16777216&lt;/td&gt;
+&lt;td&gt;发送最大值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_rmem = 4096 87380 16777216&lt;/td&gt;
+&lt;td&gt;tcp接收缓存区大小&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_wmem = 4096 65536 16777216&lt;/td&gt;
+&lt;td&gt;tcp发送缓存区大小&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;增大初始拥塞窗口&lt;/p&gt;
+
+&lt;p&gt;依据：慢启动&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;规则
+窗口从一个小的值开始
+指数增长
+上限阈值&lt;/li&gt;
+&lt;li&gt;合理性
+避免淹没慢的接收方
+避免网络瘫痪&lt;/li&gt;
+&lt;li&gt;问题
+往往慢启动还没终止，连接已经结束
+用户的速度极限还没到
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;根据实验结果进行设置慢启动窗口大小 ip route change&lt;/p&gt;
+
+&lt;p&gt;提高性能百分比，降低TCP重传率的影响&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;拥塞控制算法&lt;/p&gt;
+
+&lt;p&gt;net.ipv4.tcp_congestion_control = cubic&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;服务器开发&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;操作的对象是socket读写缓冲区&lt;/li&gt;
+&lt;li&gt;send/write成功并不代表已经发送到对端&lt;/li&gt;
+&lt;li&gt;应用程序中响应时间的含义&lt;/li&gt;
+&lt;li&gt;明白设置缓冲区大小的影响&lt;/li&gt;
+&lt;li&gt;关键应用需要保证可靠性&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;需要应用级别的心跳检测&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;合理使用重要的TCP选项&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;TCP_DEFER_ACCEPT&lt;/li&gt;
+&lt;li&gt;TCP_CORK&lt;/li&gt;
+&lt;li&gt;TCP_NODELAY&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用writev/readv&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;真正理解non-blocking的套接字编程&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;真正理解epoll&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;队列&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Listen队列
+
+&lt;ul&gt;
+&lt;li&gt;net.ipv4.tcp_max_syn_backlog = 16384&lt;/li&gt;
+&lt;li&gt;net.core.somaxconn = 2048&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;网卡的接收队列
+
+&lt;ul&gt;
+&lt;li&gt;net.core.netdev_max_backlog = 10000&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;网卡发送队列&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ifconfig eth0 txqueuelen 10000
+
+
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;TCP拥塞控制
+手段
+    慢启动
+    拥塞避免
+    快速重传
+    快速恢复
+目的
+    探测网络速度
+    保证传输顺畅&lt;/p&gt;
+
+&lt;p&gt;TIME_WAIT
+    主动关闭   服务端不主动关闭socket连接，no zuo no die
+    2＊MSL
+CLOSE_WAIT
+    被动关闭
+    99%意味着程序有bug  从TCP状态图来看，收到FIN进入CLOSE_WAIT，未关闭socket、发送FIN，停留在该状态&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>python项目开发总结</title>
+      <link>http://www.itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Fri, 27 May 2016 13:27:04 +0800</pubDate>
+      
+      <guid>http://www.itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/</guid>
+      <description>
+
+&lt;h3 id=&#34;python项目开发总结&#34;&gt;python项目开发总结&lt;/h3&gt;
+
+&lt;h4 id=&#34;编码规范flake8&#34;&gt;编码规范flake8&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;安装 pip install flake8 或 brew install flake8&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;安装vim插件 &lt;a href=&#34;https://github.com/scrooloose/syntastic&#34;&gt;syntastic&lt;/a&gt;，语法检测插件，很方便&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;由于使用vundle管理插件，只需在.vimrc中添加 Plugin &#39;scrooloose/syntastic&#39; 
+打开vim，在命令行模式输入 PluginInstall
+最后在.vimrc中添加set lcs=extends:&amp;gt;,precedes:&amp;lt;,tab:&amp;gt;-,trail:·
+vundle相关：https://github.com/VundleVim/Vundle.vim
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;使用virtualenv-独立的开发环境&#34;&gt;使用virtualenv，独立的开发环境&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;新建project 
+virtualenv project
+环境使能
+cd project
+source bin/activate
+退出virtualenv环境
+deactive
+获得当前环境依赖
+pip freeze
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;python单例&#34;&gt;python单例&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1)   拦截类的创建
+
+2)   修改类
+
+3)   返回修改之后的类
+
+
+class Singleton(type):  ＃子类化type，__call__相当于重载了括号运算符
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Logger(object):
+    __metaclass__ = Singleton
+#Or in Python3
+
+class Logger(metaclass=Singleton):
+    pass
+If you want to run __init__ every time the class is called, add
+
+        else:
+            cls._instances[cls].__init__(*args, **kwargs)
+to the if statement in Singleton.__call__.
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;继承&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Singleton(object):
+    _instances = {}
+    def __new__(class_, *args, **kwargs):
+        if class_ not in class_._instances:
+            class_._instances[class_] = super(Singleton, class_).__new__(class_, *args, **kwargs)
+            class_._instances[class_].__init__()  # if you want init once
+        return class_._instances[class_]
+
+class MyClass(Singleton):
+    pass
+
+c = MyClass()
+
+最终采用了继承的方式，metaclass在测试时有问题
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;nosetest单元测试框架&#34;&gt;nosetest单元测试框架&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;class A():
+    def setUp(self):
+        ....
+
+    def tearDown(self):
+        ....
+
+    def testxxx(self):
+        ....
+
+每个test的运行顺序是  setUp-&amp;gt;testxxx-&amp;gt;tearDown-&amp;gt;setUp-&amp;gt;testxxx-&amp;gt;....
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>C语言结构体封装</title>
+      <link>http://www.itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/</link>
+      <pubDate>Wed, 11 May 2016 10:23:54 +0800</pubDate>
+      
+      <guid>http://www.itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/</guid>
+      <description>
+
+&lt;h1 id=&#34;c语言结构体封装&#34;&gt;C语言结构体封装&lt;/h1&gt;
+
+&lt;p&gt;&lt;em&gt;源自：&lt;a href=&#34;http://www.catb.org/esr/structure-packing/&#34;&gt;http://www.catb.org/esr/structure-packing/&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;1-简介&#34;&gt;1、简介&lt;/h2&gt;
+
+&lt;p&gt;通过手动填充、封装C语言结构体以减少C程序的内存使用，在嵌入式系统、操作系统内核模块等内存使用有限制的场景，这种知识非常有效。当你对程序的高速缓存行命中率非常在意时，理解这部分知识也是至关重要的。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-对齐&#34;&gt;2、对齐&lt;/h2&gt;
+
+&lt;p&gt;在X86与ARM处理器上，C语言基本类型并不是随意地存储在内存地址上的。除了char，每一个类型都有对齐要求。char可以存储在任何起始地址，2字节short存储的起始地址应为奇数，4字节的int、float起始地址应为4的倍数，8字节long、double起始地址应为8的倍数。C语言的基本类型是自动对齐的。字节对齐使得访问更快速，因为通过单个指令就可以对数据进行读写。如果没有对齐要求，数据可能存储在多个机器字节内，造成访问次数增加。字符是个特例。&lt;/p&gt;
+
+&lt;h2 id=&#34;3-填充&#34;&gt;3、填充&lt;/h2&gt;
+
+&lt;p&gt;如果你不知道数据对齐的知识，你可能认为下面的3个变量会占据连续的内存空间，在32位机器上时，4字节指针、1字节字符和4字节整型。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;char *p;     实际       char *p;     /* 4 or 8 bytes */
+char c;     ======&amp;gt;    char c;      /* 1 byte */
+int x;                 char pad[3];  /* 3 byte */
+                       int x;        /* 4 byte */
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;实际上的存储如右所示，pad[3]字符数组为了对齐而浪费的存储空间。看看其他两种情况。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;char *p;              char *p;      /* 4 or 8 bytes */
+char c;     =======&amp;gt;  char c;       /* 1 byte */
+short x;              char pad[1];  /* 1 byte */
+                      short x;      /* 2 byte */
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;char *p;              char *p;      /* 4 or 8 byte */
+char c;     =======&amp;gt;  char c;       /* 1 byte */
+long x;               char pad[7];  /* 7 byte */
+                      long x;       /* 8 byte */
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;char c;               char c;
+char *p;    =======&amp;gt;  char pad1[M];
+int x;                char *p;
+                      char pad2[N];
+                      int x;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;N肯定是0，M可能为0-7（大端、小端字符位置决定），为了节省内存空间使用，可以交换x与c的定义位置。&lt;/p&gt;
+
+&lt;h2 id=&#34;4-结构体对齐与填充&#34;&gt;4、结构体对齐与填充&lt;/h2&gt;
+
+&lt;p&gt;实际上，结构体根据最宽的成员长度进行对齐的。编译器通过这种方式可以保证成员对齐提高访问速度。在c中结构体的地址与首个成员的地址相同。下面两个结构体大小均为24bytes。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct foo1 {
+    char *p;
+    char c;
+    long x;
+};
+struct foo2 {
+    char *p;     /* 8 bytes */
+    long x;      /* 8 bytes */
+    char c;      /* 1 byte */
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;struct foo10 {
+    char c;
+    struct foo10 *p;
+    short x;
+};
+struct foo10 {
+    char c;          /* 1 byte */
+    char pad1[7];    /* 7 bytes */
+    struct foo10 *p; /* 8 bytes */
+    short x;         /* 2 bytes */
+    char pad2[6];    /* 6 bytes */
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;改变上面结构体内元素顺序，可以减少内存占用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct foo11 {
+    struct foo11 *p;
+    short x;
+    char c;
+};
+struct foo11 {
+    struct foo11 *p; /* 8 bytes */
+    short x;         /* 2 bytes */
+    char c;          /* 1 byte */
+    char pad[5];     /* 5 bytes */
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;5-位域bitfields&#34;&gt;5、位域Bitfields&lt;/h2&gt;
+
+&lt;p&gt;位域可以使你在结构体成员中声明小于一个字符宽度的成员，甚至一个比特位，C99标准保证在不跨越存储单元边界的情况下尽可能的整合位域。在32位机器上，结构体foo6布局如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct foo6 {
+    short s;       /* 2 bytes */
+    char c;        /* 1 byte */
+    int flip:1;    /* total 1 bit */
+    int nybble:4;  /* total 5 bits */
+    int pad1:3;    /* pad to an 8-bit boundary */
+    int septet:7;  /* 7 bits */
+    int pad2:25;   /* pad to 32 bits */
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;由于C标准没有指明位域按从低位到高位分配，结构体foo6布局也可能如下(C99标准没有指定填充)：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct foo6 {
+    short s;       /* 2 bytes */
+    char c;        /* 1 byte */
+    int pad1:3;    /* pad to an 8-bit boundary */
+    int flip:1;    /* total 1 bit */
+    int nybble:4;  /* total 5 bits */
+    int pad2:25;   /* pad to 32 bits */
+    int septet:7;  /* 7 bits */
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;位域不能跨越机器字边界：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct foo7 {
+    int bigfield:31;      /* 32-bit word 1 begins */
+    int littlefield:1;
+};
+
+struct foo8 {
+    int bigfield1:31;     /* 32-bit word 1 begins /*
+    int littlefield1:1;
+    int bigfield2:31;     /* 32-bit word 2 begins */
+    int littlefield2:1;
+};
+
+struct foo9 {
+    int bigfield1:31;     /* 32-bit word 1 begins */
+    int bigfield2:31;     /* 32-bit word 2 begins */
+    int littlefield1:1;
+    int littlefield2:1;   /* 32-bit word 3 begins */
+};
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>进程监视</title>
+      <link>http://www.itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</link>
+      <pubDate>Thu, 10 Sep 2015 10:07:34 +0800</pubDate>
+      
+      <guid>http://www.itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</guid>
+      <description>
+
+&lt;h1 id=&#34;进程监视&#34;&gt;进程监视&lt;/h1&gt;
+
+&lt;h2 id=&#34;1-ps监视进程的主要工具&#34;&gt;1、ps监视进程的主要工具&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;ps -ef 查看每一个进程
+ps aux 可以展示系统进程的全貌
+ps lax 更快，省去了将uid转换为用户名
+ps -ejH  or  ps axjf 进程树
+ps -eLf  or  ps axms 线程信息
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;字段含义&#34;&gt;字段含义&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;字段&lt;/th&gt;
+&lt;th&gt;内容&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;USER&lt;/td&gt;
+&lt;td&gt;进程属主用户名&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;PID&lt;/td&gt;
+&lt;td&gt;进程ID&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CPU&lt;/td&gt;
+&lt;td&gt;进程使用CPU百分比&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;MEM&lt;/td&gt;
+&lt;td&gt;进程使用内存百分比&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;VSZ&lt;/td&gt;
+&lt;td&gt;进程虚拟内存大小KiB&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;RSS&lt;/td&gt;
+&lt;td&gt;驻留集大小，非swap中的内存大小&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;STAT&lt;/td&gt;
+&lt;td&gt;进程状态 S:可中断睡眠 D:不可中断睡眠 R:running s会话头&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;TIME&lt;/td&gt;
+&lt;td&gt;运行时间&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;COMMAND&lt;/td&gt;
+&lt;td&gt;命令行&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NI&lt;/td&gt;
+&lt;td&gt;nice值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;WCHAN&lt;/td&gt;
+&lt;td&gt;等待的资源&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;2-top动态查看&#34;&gt;2、top动态查看&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;top对活动进程及所使用的资源情况提供了汇总信息
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;3-proc文件系统&#34;&gt;3、proc文件系统&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;proc文件系统提供了内核产生的所有状态信息与数据系统，包括进程相关的信息，linux的ps、top都是从/proc目录读取进程的状态信息。进程特有的信息存储在/proc/pid下。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;4-strace&#34;&gt;4、strace&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;strace -p pid可以追踪进程的系统调用及信号，在调试进程、理解程序执行过程非常有帮助。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;5-vmstat&#34;&gt;5、vmstat&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;vmstat提供了关于进程、内存、内存页、块IO、陷阱、磁盘及CPU的活动信息。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###字段含义
+字段 | 内容
+&amp;mdash;- | &amp;mdash;-
+r|等待执行的进程数
+b|不可中断睡眠的进程数
+swpd|使用虚拟内存大小
+free|空闲内存
+cache|用作cache的内存大小
+si|swap in
+so|swap out
+bi|block in从块设备收到数据块数
+bo|block out
+in|每秒中断数
+cs|每秒上下文切换数
+us|user time
+sy|system time
+id|idle time
+wa|wait for io&lt;/p&gt;
 </description>
     </item>
     

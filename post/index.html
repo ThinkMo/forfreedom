@@ -397,33 +397,43 @@ Group 2 &hellip;
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="http://www.itech.red/1/01/">
-          
+        <a class="link-unstyled" href="http://www.itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/">
+          springmvc实现导出数据excel
         </a>
       </h1>
       <div class="postShorten-meta post-meta">
   
-    <time itemprop="datePublished" datetime="0001-01-01T00:00:00Z">
+    <time itemprop="datePublished" datetime="2016-11-23T18:47:34&#43;08:00">
       
   
   
   
   
-    0001-01-01 00:00:00
+    2016-11-23 18:47:34
   
 
     </time>
   
   
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="http://www.itech.red/categories/java">java</a>
+    
+  
+
 
 </div>
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       <p>
-        指针与引用区别  指针本身就是一个对象，允许对指针赋值与拷贝，而且指针的生命周期内可以先后指向不同的对象 指针无须在定义时赋初值  const 如果在多个文件之间共享const对象，必须在变量的定义之前添加extern关键字
+        springmvc实现导出数据excel
+最近在项目中要实现将数据导出为excel的功能，研究了下目前springmvc框架下excel导出的方式，在spring 4.3中使用AbstractXlsView来实现，AbstractExcelView已被弃用；但这里介绍的是直接用apache poi实现的一种方式。
+ model如下  package red.itech.blog.dao.model; import java.util.Date; /** * Created by you on 16/10/28. */ public class Blog { private String author; private Date createdAt; private String title; private long count; public Blog(){} public Blog(String author, Date createdAt, String title, long count){ this.author = author; this.count = count; this.createdAt = createdAt; this.title =title; } public void setAuthor(String author) { this.author = author; } public void setCreatedAt(Date createdAt) { this.
         <br>
-        <a href="http://www.itech.red/1/01/" class="postShorten-excerpt_link link">阅读全文</a>
+        <a href="http://www.itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>
@@ -449,34 +459,189 @@ Group 2 &hellip;
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="http://www.itech.red/1/01/">
-          
+        <a class="link-unstyled" href="http://www.itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/">
+          Spring＋Mybatis＋Velocity项目搭建
         </a>
       </h1>
       <div class="postShorten-meta post-meta">
   
-    <time itemprop="datePublished" datetime="0001-01-01T00:00:00Z">
+    <time itemprop="datePublished" datetime="2016-09-28T15:43:54&#43;08:00">
       
   
   
   
   
-    0001-01-01 00:00:00
+    2016-09-28 15:43:54
   
 
     </time>
   
   
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="http://www.itech.red/categories/java">java</a>
+    
+  
+
 
 </div>
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       <p>
-        Kernel Testing
- skilled developers carefully developing high quality code, static code analysis, regular and rigorous code review, functional tests for new features, regression testing, performance testing, and stress testing.
+        Spring＋Mybatis＋Velocity项目搭建
+一、开发工具
+ JDK 1.8.0_91 Intellij IDEA 15.0.6 Mysql 5.5.44 Maven 3  二、新建工程
+ 新建Maven工程，不选Create from archtype提供的工程模版，为了学习从头开始配置工程，点击next设置工程坐标，然后一路到finish。 &lt;groupId&gt;red.itech&lt;/groupId&gt; &lt;artifactId&gt;blogDemo&lt;/artifactId&gt; &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;  如果使用git开发，可以新建.gitignore文件，使git忽略idea自动生成的文件（.ignore插件可以帮助生成.gitignore），项目git初始化</p>
+
+<h1 id="created-by-ignore-support-plugin-hsz-mobi-gitignore-osx-template-ds-store-intellij-project-files-idea-iml-out-target-gen-java-template-class-package-files-jar-war-ear-三-spring-mvc">Created by .ignore support plugin (hsz.mobi) .gitignore ### OSX template *.DS_Store # IntelliJ project files .idea *.iml out target gen### Java template *.class # Package Files # *.jar *.war *.ear  三、Spring MVC</h1>
+
+<p>编辑pom.xml添加Spring MVC、servlet依赖如下：
+&lt;dependencies&gt; &lt;!&ndash; spring &ndash;&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework&lt;/groupId&gt; &lt;artifactId&gt;spring-core&lt;/artifactId&gt; &lt;version&gt;4.3.3.RELEASE&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.
         <br>
-        <a href="http://www.itech.red/1/01/" class="postShorten-excerpt_link link">阅读全文</a>
+        <a href="http://www.itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="http://www.itech.red/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/">
+          理解UML类图关系
+        </a>
+      </h1>
+      <div class="postShorten-meta post-meta">
+  
+    <time itemprop="datePublished" datetime="2016-08-26T16:51:34&#43;08:00">
+      
+  
+  
+  
+  
+    2016-08-26 16:51:34
+  
+
+    </time>
+  
+  
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="http://www.itech.red/categories/%e5%9f%ba%e7%a1%80">基础</a>
+    
+  
+
+
+</div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      <p>
+        理解UML类图关系
+1、依赖(Dependency)
+ 关系：uses temporarily，使用关系，作为局部变量、方法参数或者对静态方法的调用 代码示例：
+import B; public class A{ public void method1(B b) { // &hellip; } public void method2() { B tempB = new B(); // &hellip; } }  图示(一套带箭头的虚线表示)：
+  2、聚合(Aggregation)
+ 关系：is part of，整体与部分的关系，作为成员变量 代码：
+import Engine; public class Car{ private Engine engine; publilc Engine getEngine(){ return engine; } }  图示(一条带空心菱形箭头的直线表示)：
+  3、组合(Composition)
+ 关系：is entirely made of，更强的整体与部分关系，作为成员变量 代码:
+import Page; public class Book{ private List&lt;Page&gt; pages; publilc List&lt;Page&gt; getPages(){ return pages; } }  图示(一条带实心菱形箭头直线表示):
+        <br>
+        <a href="http://www.itech.red/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/">
+          认识Linux内核网络参数
+        </a>
+      </h1>
+      <div class="postShorten-meta post-meta">
+  
+    <time itemprop="datePublished" datetime="2016-06-17T21:03:24&#43;08:00">
+      
+  
+  
+  
+  
+    2016-06-17 21:03:24
+  
+
+    </time>
+  
+  
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="http://www.itech.red/categories/linux">linux</a>
+    
+  
+
+
+</div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      <p>
+        认识Linux内核网络参数  本地端口
+TCP、UDP使用的本地端口范围
+net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network restart）
+ 优化短链接
+     选项 含义     net.ipv4.tcp_fin_timeout = 15 处于FIN-WAIT-2状态的时间   net.ipv4.tcp_tw_reuse = 1 允许将 TIME-WAIT sockets重新用于新的TCP连接   net.ipv4.tcp_tw_recycle = 1 表示开启TCP连接中TIME-WAIT sockets的快速回收     缓冲区大小
+套接字的缓冲区大小限制,从Linux2.6.7内核会根据传输情况自动调整
+默认值：
+net.ipv4.tcp_rmem = 4096 87380 4194304 net.ipv4.tcp_wmem = 4096 16384 4194304
+TCP读写缓存区，缓存区超过4194304，tcp包会丢弃
+BDP(带宽延时积)=B*D (带宽＊延时) 反推 带宽=BDP/延时 4194304/(0.015*2)/1024/1024=133M/s
+建议值：
+     选项 含义     net.
+        <br>
+        <a href="http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>
@@ -486,6 +651,21 @@ Group 2 &hellip;
 
           
           
+  <div class="pagination-bar">
+    <ul class="pagination">
+      
+      
+        <li class="pagination-next">
+          <a class="btn btn--default btn--small" href="http://www.itech.red/post/page/2/">
+            <span>下一页</span>
+            <i class="fa fa-angle-right text-base icon-ml"></i>
+          </a>
+        </li>
+      
+      <li class="pagination-number">第 1 页 共 2 页</li>
+    </ul>
+  </div>
+
 
         </section>
         <footer id="footer" class="main-content-wrap">
@@ -616,15 +796,17 @@ Group 2 &hellip;</div>
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="http://www.itech.red/1/01/">
-                <h3 class="media-heading"></h3>
+              <a class="link-unstyled" href="http://www.itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/">
+                <h3 class="media-heading">springmvc实现导出数据excel</h3>
               </a>
               <span class="media-meta">
                 <span class="media-date text-small">
-                  Jan 1, 0001
+                  Nov 11, 2016
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">指针与引用区别  指针本身就是一个对象，允许对指针赋值与拷贝，而且指针的生命周期内可以先后指向不同的对象 指针无须在定义时赋初值  const 如果在多个文件之间共享const对象，必须在变量的定义之前添加extern关键字</div>
+              <div class="media-content hide-xs font-merryweather">springmvc实现导出数据excel
+最近在项目中要实现将数据导出为excel的功能，研究了下目前springmvc框架下excel导出的方式，在spring 4.3中使用AbstractXlsView来实现，AbstractExcelView已被弃用；但这里介绍的是直接用apache poi实现的一种方式。
+ model如下  package red.itech.blog.dao.model; import java.util.Date; /** * Created by you on 16/10/28. */ public class Blog { private String author; private Date createdAt; private String title; private long count; public Blog(){} public Blog(String author, Date createdAt, String title, long count){ this.author = author; this.count = count; this.createdAt = createdAt; this.title =title; } public void setAuthor(String author) { this.author = author; } public void setCreatedAt(Date createdAt) { this.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -633,16 +815,21 @@ Group 2 &hellip;</div>
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="http://www.itech.red/1/01/">
-                <h3 class="media-heading"></h3>
+              <a class="link-unstyled" href="http://www.itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/">
+                <h3 class="media-heading">Spring＋Mybatis＋Velocity项目搭建</h3>
               </a>
               <span class="media-meta">
                 <span class="media-date text-small">
-                  Jan 1, 0001
+                  Sep 9, 2016
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">Kernel Testing
- skilled developers carefully developing high quality code, static code analysis, regular and rigorous code review, functional tests for new features, regression testing, performance testing, and stress testing.  </div>
+              <div class="media-content hide-xs font-merryweather">Spring＋Mybatis＋Velocity项目搭建
+一、开发工具
+ JDK 1.8.0_91 Intellij IDEA 15.0.6 Mysql 5.5.44 Maven 3  二、新建工程
+ 新建Maven工程，不选Create from archtype提供的工程模版，为了学习从头开始配置工程，点击next设置工程坐标，然后一路到finish。 &lt;groupId&gt;red.itech&lt;/groupId&gt; &lt;artifactId&gt;blogDemo&lt;/artifactId&gt; &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;  如果使用git开发，可以新建.gitignore文件，使git忽略idea自动生成的文件（.ignore插件可以帮助生成.gitignore），项目git初始化
+# Created by .ignore support plugin (hsz.mobi) .gitignore ### OSX template *.DS_Store # IntelliJ project files .idea *.iml out target gen### Java template *.class # Package Files # *.jar *.war *.ear  三、Spring MVC
+ 编辑pom.xml添加Spring MVC、servlet依赖如下：
+&lt;dependencies&gt; &lt;!-- spring --&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework&lt;/groupId&gt; &lt;artifactId&gt;spring-core&lt;/artifactId&gt; &lt;version&gt;4.3.3.RELEASE&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -651,15 +838,110 @@ Group 2 &hellip;</div>
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="http://www.itech.red/post/">
-                <h3 class="media-heading">Posts</h3>
+              <a class="link-unstyled" href="http://www.itech.red/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/">
+                <h3 class="media-heading">理解UML类图关系</h3>
               </a>
               <span class="media-meta">
                 <span class="media-date text-small">
-                  Apr 4, 2017
+                  Aug 8, 2016
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather"></div>
+              <div class="media-content hide-xs font-merryweather">理解UML类图关系
+1、依赖(Dependency)
+ 关系：uses temporarily，使用关系，作为局部变量、方法参数或者对静态方法的调用 代码示例：
+import B; public class A{ public void method1(B b) { // ... } public void method2() { B tempB = new B(); // ... } }  图示(一套带箭头的虚线表示)：
+  2、聚合(Aggregation)
+ 关系：is part of，整体与部分的关系，作为成员变量 代码：
+import Engine; public class Car{ private Engine engine; publilc Engine getEngine(){ return engine; } }  图示(一条带空心菱形箭头的直线表示)：
+  3、组合(Composition)
+ 关系：is entirely made of，更强的整体与部分关系，作为成员变量 代码:
+import Page; public class Book{ private List&lt;Page&gt; pages; publilc List&lt;Page&gt; getPages(){ return pages; } }  图示(一条带实心菱形箭头直线表示):</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/">
+                <h3 class="media-heading">认识Linux内核网络参数</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">认识Linux内核网络参数  本地端口
+TCP、UDP使用的本地端口范围
+net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network restart）
+ 优化短链接
+     选项 含义     net.ipv4.tcp_fin_timeout = 15 处于FIN-WAIT-2状态的时间   net.ipv4.tcp_tw_reuse = 1 允许将 TIME-WAIT sockets重新用于新的TCP连接   net.ipv4.tcp_tw_recycle = 1 表示开启TCP连接中TIME-WAIT sockets的快速回收     缓冲区大小
+套接字的缓冲区大小限制,从Linux2.6.7内核会根据传输情况自动调整
+默认值：
+net.ipv4.tcp_rmem = 4096 87380 4194304 net.ipv4.tcp_wmem = 4096 16384 4194304
+TCP读写缓存区，缓存区超过4194304，tcp包会丢弃
+BDP(带宽延时积)=B*D (带宽＊延时) 反推 带宽=BDP/延时 4194304/(0.015*2)/1024/1024=133M/s
+建议值：
+     选项 含义     net.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/">
+                <h3 class="media-heading">python项目开发总结</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">python项目开发总结 编码规范flake8  安装 pip install flake8 或 brew install flake8 安装vim插件 syntastic，语法检测插件，很方便
+由于使用vundle管理插件，只需在.vimrc中添加 Plugin 'scrooloose/syntastic' 打开vim，在命令行模式输入 PluginInstall 最后在.vimrc中添加set lcs=extends:&gt;,precedes:&lt;,tab:&gt;-,trail:· vundle相关：https://github.com/VundleVim/Vundle.vim   使用virtualenv，独立的开发环境 新建project virtualenv project 环境使能 cd project source bin/activate 退出virtualenv环境 deactive 获得当前环境依赖 pip freeze  python单例  metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类
+1) 拦截类的创建 2) 修改类 3) 返回修改之后的类 class Singleton(type): ＃子类化type，__call__相当于重载了括号运算符 _instances = {} def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs) return cls._instances[cls] class Logger(object): __metaclass__ = Singleton #Or in Python3 class Logger(metaclass=Singleton): pass If you want to run __init__ every time the class is called, add else: cls.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/">
+                <h3 class="media-heading">C语言结构体封装</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">C语言结构体封装 源自：http://www.catb.org/esr/structure-packing/
+1、简介 通过手动填充、封装C语言结构体以减少C程序的内存使用，在嵌入式系统、操作系统内核模块等内存使用有限制的场景，这种知识非常有效。当你对程序的高速缓存行命中率非常在意时，理解这部分知识也是至关重要的。
+2、对齐 在X86与ARM处理器上，C语言基本类型并不是随意地存储在内存地址上的。除了char，每一个类型都有对齐要求。char可以存储在任何起始地址，2字节short存储的起始地址应为奇数，4字节的int、float起始地址应为4的倍数，8字节long、double起始地址应为8的倍数。C语言的基本类型是自动对齐的。字节对齐使得访问更快速，因为通过单个指令就可以对数据进行读写。如果没有对齐要求，数据可能存储在多个机器字节内，造成访问次数增加。字符是个特例。
+3、填充 如果你不知道数据对齐的知识，你可能认为下面的3个变量会占据连续的内存空间，在32位机器上时，4字节指针、1字节字符和4字节整型。
+char *p; 实际 char *p; /* 4 or 8 bytes */ char c; ======&gt; char c; /* 1 byte */ int x; char pad[3]; /* 3 byte */ int x; /* 4 byte */  实际上的存储如右所示，pad[3]字符数组为了对齐而浪费的存储空间。看看其他两种情况。
+char *p; char *p; /* 4 or 8 bytes */ char c; =======&gt; char c; /* 1 byte */ short x; char pad[1]; /* 1 byte */ short x; /* 2 byte */  char *p; char *p; /* 4 or 8 byte */ char c; =======&gt; char c; /* 1 byte */ long x; char pad[7]; /* 7 byte */ long x; /* 8 byte */  char c; char c; char *p; =======&gt; char pad1[M]; int x; char *p; char pad2[N]; int x;  N肯定是0，M可能为0-7（大端、小端字符位置决定），为了节省内存空间使用，可以交换x与c的定义位置。</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/">
+                <h3 class="media-heading">进程监视</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">进程监视 1、ps监视进程的主要工具 ps -ef 查看每一个进程 ps aux 可以展示系统进程的全貌 ps lax 更快，省去了将uid转换为用户名 ps -ejH or ps axjf 进程树 ps -eLf or ps axms 线程信息  字段含义    字段 内容     USER 进程属主用户名   PID 进程ID   CPU 进程使用CPU百分比   MEM 进程使用内存百分比   VSZ 进程虚拟内存大小KiB   RSS 驻留集大小，非swap中的内存大小   STAT 进程状态 S:可中断睡眠 D:不可中断睡眠 R:running s会话头   TIME 运行时间   COMMAND 命令行   NI nice值   WCHAN 等待的资源    2、top动态查看 top对活动进程及所使用的资源情况提供了汇总信息  3、proc文件系统 proc文件系统提供了内核产生的所有状态信息与数据系统，包括进程相关的信息，linux的ps、top都是从/proc目录读取进程的状态信息。进程特有的信息存储在/proc/pid下。  4、strace strace -p pid可以追踪进程的系统调用及信号，在调试进程、理解程序执行过程非常有帮助。  5、vmstat vmstat提供了关于进程、内存、内存页、块IO、陷阱、磁盘及CPU的活动信息。  ###字段含义 字段 | 内容 &mdash;- | &mdash;- r|等待执行的进程数 b|不可中断睡眠的进程数 swpd|使用虚拟内存大小 free|空闲内存 cache|用作cache的内存大小 si|swap in so|swap out bi|block in从块设备收到数据块数 bo|block out in|每秒中断数 cs|每秒上下文切换数 us|user time sy|system time id|idle time wa|wait for io</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -672,7 +954,7 @@ Group 2 &hellip;</div>
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         6 posts found
+         11 posts found
       </p>
     </div>
   </div>

@@ -20,74 +20,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.19">
-    <title>Ext2设计与实现(译)</title>
+    <title>认识Linux内核网络参数</title>
     <meta name="author" content="游">
-    <meta name="keywords" content="ext2fs">
+    <meta name="keywords" content="kernel network params">
 
     <link rel="icon" href="http://www.itech.red/favicon.png">
     
 
     
-    <meta name="description" content="Ext2设计与实现 1、介绍 Linux第一版只支持Minix文件系统，Minix文件系统有两大亟待解决的限制：块地址存储在16位整型，最大文件大小为64MB；另外目录和文件名长度最大支持14个字符。
-我们设计与实现了两种新的文件系统:EXT 、 EXT2
-在这篇论文中，我们将简述Linux文件系统的历史，简单介绍Unix文件系统的基础概念；介绍Linux VFS层的实现并详细介绍EXT2内核代码与用户工具；最后，是Linux、BSD下EXT2性能测试对比。
-2、Linux文件系统历史（略） 3、文件系统概念 Linux文件系统的实现基于Unix操作系统通用概念：文件通过inodes来表示，目录是一种简单的文件包含许多列表项，设备是可以发起I/O请求的特殊文件。
-3.1 Inode 每个文件都使用inode结构体来表示，每个inode包含了描述文件元数据：文件类型、访问权限、所有者、时间戳、大小、数据块指针。分配给文件的数据块地址存储在文件的inode节点中，当用户对文件发起I/O请求时，内核代码将当前文件偏移量转为块号，使用该数字作为块地址表的索引来读写物理块，如下图所示：
-3.2 目录 目录按层次树结构组织，每一个目录可以包含文件和子目录。
-目录实现为一种特殊的文件。事实上，目录是一种包含列表项的文件，每一项包含一个inode号和一个文件名，当一个进程使用一个路径名时，内核代码会搜索目录查找对应的inode号，在路径文件名被转换为inode号后，inode结构会被存储到内存中用以后序请求。目录如下图：
-3.3 链接 Unix文件系统提出了链接的概念，若干个文件名可以关联到一个inode节点，inode节点包含一个存储链接数的域。增加一个链接会创建一个目录项并增加inode链接计数。当删除链接时，内核会递减链接计数，为0时删除inode。
-这种类型的链接称为硬链接，只能在一个文件系统中使用，且不能链接到一个目录，避免引起环路。
-另一种链接存在于大多数Unix系操作系统，符号链接：只包含文件名的简单文件，当内核inode转换时遇到符号链接，会将软链接文件内容替换链接名。因为软链接不包含inode，它可以跨文件系统，可以指向任何类型的文件，甚至不存在的文件。但软链接会占用磁盘空间、inode、在路径名到inode转换时引起额外消耗。
-3.4 设备文件 在Unix系操作系统，设备被当作特殊文件访问。一个设备文件并不占用文件系统空间，只作为设备驱动访问接口。
-有两类特殊文件：字符设备、块设备。主设备号决定类型，次设备号决定哪一个设备。
-4 VFS VFS是一个文件系统抽象层，定义了一个文件系统应该实现的操作，对上层屏蔽了底层不同文件系统的实现，一图概之： 5 EXT2 5.1 起因 修复EXT文件系统问题，提供一个强大的文件系统，实现unix文件语义并提供高级特性
-5.2 标准 ext2fs特性  支持标准Unix文件类型：普通文件、目录、设备文件、符号链接 支持最大4TB文件系统 长文件名：255字节，可扩展至1012 为root保留空间以便修复  5.3 高级 ext2fs特性  属性继承 软链接：目标名存储在inode中 创建文件系统时可选择逻辑块大小 fsck mount options Append-only files  5.4 物理结构 受BSD文件系统的影响，文件系统由块组构成，但块组并没有与磁盘的物理结构块绑定，因为现代驱动趋势是优化顺序访问和对操作系统隐藏物理结构。
-文件系统物理结构：  Boot
-Sector Block
-Group 1 Block
-Group 2 &hellip;">
-    <meta property="og:description" content="Ext2设计与实现 1、介绍 Linux第一版只支持Minix文件系统，Minix文件系统有两大亟待解决的限制：块地址存储在16位整型，最大文件大小为64MB；另外目录和文件名长度最大支持14个字符。
-我们设计与实现了两种新的文件系统:EXT 、 EXT2
-在这篇论文中，我们将简述Linux文件系统的历史，简单介绍Unix文件系统的基础概念；介绍Linux VFS层的实现并详细介绍EXT2内核代码与用户工具；最后，是Linux、BSD下EXT2性能测试对比。
-2、Linux文件系统历史（略） 3、文件系统概念 Linux文件系统的实现基于Unix操作系统通用概念：文件通过inodes来表示，目录是一种简单的文件包含许多列表项，设备是可以发起I/O请求的特殊文件。
-3.1 Inode 每个文件都使用inode结构体来表示，每个inode包含了描述文件元数据：文件类型、访问权限、所有者、时间戳、大小、数据块指针。分配给文件的数据块地址存储在文件的inode节点中，当用户对文件发起I/O请求时，内核代码将当前文件偏移量转为块号，使用该数字作为块地址表的索引来读写物理块，如下图所示：
-3.2 目录 目录按层次树结构组织，每一个目录可以包含文件和子目录。
-目录实现为一种特殊的文件。事实上，目录是一种包含列表项的文件，每一项包含一个inode号和一个文件名，当一个进程使用一个路径名时，内核代码会搜索目录查找对应的inode号，在路径文件名被转换为inode号后，inode结构会被存储到内存中用以后序请求。目录如下图：
-3.3 链接 Unix文件系统提出了链接的概念，若干个文件名可以关联到一个inode节点，inode节点包含一个存储链接数的域。增加一个链接会创建一个目录项并增加inode链接计数。当删除链接时，内核会递减链接计数，为0时删除inode。
-这种类型的链接称为硬链接，只能在一个文件系统中使用，且不能链接到一个目录，避免引起环路。
-另一种链接存在于大多数Unix系操作系统，符号链接：只包含文件名的简单文件，当内核inode转换时遇到符号链接，会将软链接文件内容替换链接名。因为软链接不包含inode，它可以跨文件系统，可以指向任何类型的文件，甚至不存在的文件。但软链接会占用磁盘空间、inode、在路径名到inode转换时引起额外消耗。
-3.4 设备文件 在Unix系操作系统，设备被当作特殊文件访问。一个设备文件并不占用文件系统空间，只作为设备驱动访问接口。
-有两类特殊文件：字符设备、块设备。主设备号决定类型，次设备号决定哪一个设备。
-4 VFS VFS是一个文件系统抽象层，定义了一个文件系统应该实现的操作，对上层屏蔽了底层不同文件系统的实现，一图概之： 5 EXT2 5.1 起因 修复EXT文件系统问题，提供一个强大的文件系统，实现unix文件语义并提供高级特性
-5.2 标准 ext2fs特性  支持标准Unix文件类型：普通文件、目录、设备文件、符号链接 支持最大4TB文件系统 长文件名：255字节，可扩展至1012 为root保留空间以便修复  5.3 高级 ext2fs特性  属性继承 软链接：目标名存储在inode中 创建文件系统时可选择逻辑块大小 fsck mount options Append-only files  5.4 物理结构 受BSD文件系统的影响，文件系统由块组构成，但块组并没有与磁盘的物理结构块绑定，因为现代驱动趋势是优化顺序访问和对操作系统隐藏物理结构。
-文件系统物理结构：  Boot
-Sector Block
-Group 1 Block
-Group 2 &hellip;">
+    <meta name="description" content="认识Linux内核网络参数  本地端口
+TCP、UDP使用的本地端口范围
+net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network restart）
+ 优化短链接
+     选项 含义     net.ipv4.tcp_fin_timeout = 15 处于FIN-WAIT-2状态的时间   net.ipv4.tcp_tw_reuse = 1 允许将 TIME-WAIT sockets重新用于新的TCP连接   net.ipv4.tcp_tw_recycle = 1 表示开启TCP连接中TIME-WAIT sockets的快速回收     缓冲区大小
+套接字的缓冲区大小限制,从Linux2.6.7内核会根据传输情况自动调整
+默认值：
+net.ipv4.tcp_rmem = 4096 87380 4194304 net.ipv4.tcp_wmem = 4096 16384 4194304
+TCP读写缓存区，缓存区超过4194304，tcp包会丢弃
+BDP(带宽延时积)=B*D (带宽＊延时) 反推 带宽=BDP/延时 4194304/(0.015*2)/1024/1024=133M/s
+建议值：
+     选项 含义     net.">
+    <meta property="og:description" content="认识Linux内核网络参数  本地端口
+TCP、UDP使用的本地端口范围
+net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network restart）
+ 优化短链接
+     选项 含义     net.ipv4.tcp_fin_timeout = 15 处于FIN-WAIT-2状态的时间   net.ipv4.tcp_tw_reuse = 1 允许将 TIME-WAIT sockets重新用于新的TCP连接   net.ipv4.tcp_tw_recycle = 1 表示开启TCP连接中TIME-WAIT sockets的快速回收     缓冲区大小
+套接字的缓冲区大小限制,从Linux2.6.7内核会根据传输情况自动调整
+默认值：
+net.ipv4.tcp_rmem = 4096 87380 4194304 net.ipv4.tcp_wmem = 4096 16384 4194304
+TCP读写缓存区，缓存区超过4194304，tcp包会丢弃
+BDP(带宽延时积)=B*D (带宽＊延时) 反推 带宽=BDP/延时 4194304/(0.015*2)/1024/1024=133M/s
+建议值：
+     选项 含义     net.">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Ext2设计与实现(译)">
-    <meta property="og:url" content="/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/">
+    <meta property="og:title" content="认识Linux内核网络参数">
+    <meta property="og:url" content="/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/">
     <meta property="og:site_name" content="平凡世界">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="平凡世界">
-    <meta name="twitter:description" content="Ext2设计与实现 1、介绍 Linux第一版只支持Minix文件系统，Minix文件系统有两大亟待解决的限制：块地址存储在16位整型，最大文件大小为64MB；另外目录和文件名长度最大支持14个字符。
-我们设计与实现了两种新的文件系统:EXT 、 EXT2
-在这篇论文中，我们将简述Linux文件系统的历史，简单介绍Unix文件系统的基础概念；介绍Linux VFS层的实现并详细介绍EXT2内核代码与用户工具；最后，是Linux、BSD下EXT2性能测试对比。
-2、Linux文件系统历史（略） 3、文件系统概念 Linux文件系统的实现基于Unix操作系统通用概念：文件通过inodes来表示，目录是一种简单的文件包含许多列表项，设备是可以发起I/O请求的特殊文件。
-3.1 Inode 每个文件都使用inode结构体来表示，每个inode包含了描述文件元数据：文件类型、访问权限、所有者、时间戳、大小、数据块指针。分配给文件的数据块地址存储在文件的inode节点中，当用户对文件发起I/O请求时，内核代码将当前文件偏移量转为块号，使用该数字作为块地址表的索引来读写物理块，如下图所示：
-3.2 目录 目录按层次树结构组织，每一个目录可以包含文件和子目录。
-目录实现为一种特殊的文件。事实上，目录是一种包含列表项的文件，每一项包含一个inode号和一个文件名，当一个进程使用一个路径名时，内核代码会搜索目录查找对应的inode号，在路径文件名被转换为inode号后，inode结构会被存储到内存中用以后序请求。目录如下图：
-3.3 链接 Unix文件系统提出了链接的概念，若干个文件名可以关联到一个inode节点，inode节点包含一个存储链接数的域。增加一个链接会创建一个目录项并增加inode链接计数。当删除链接时，内核会递减链接计数，为0时删除inode。
-这种类型的链接称为硬链接，只能在一个文件系统中使用，且不能链接到一个目录，避免引起环路。
-另一种链接存在于大多数Unix系操作系统，符号链接：只包含文件名的简单文件，当内核inode转换时遇到符号链接，会将软链接文件内容替换链接名。因为软链接不包含inode，它可以跨文件系统，可以指向任何类型的文件，甚至不存在的文件。但软链接会占用磁盘空间、inode、在路径名到inode转换时引起额外消耗。
-3.4 设备文件 在Unix系操作系统，设备被当作特殊文件访问。一个设备文件并不占用文件系统空间，只作为设备驱动访问接口。
-有两类特殊文件：字符设备、块设备。主设备号决定类型，次设备号决定哪一个设备。
-4 VFS VFS是一个文件系统抽象层，定义了一个文件系统应该实现的操作，对上层屏蔽了底层不同文件系统的实现，一图概之： 5 EXT2 5.1 起因 修复EXT文件系统问题，提供一个强大的文件系统，实现unix文件语义并提供高级特性
-5.2 标准 ext2fs特性  支持标准Unix文件类型：普通文件、目录、设备文件、符号链接 支持最大4TB文件系统 长文件名：255字节，可扩展至1012 为root保留空间以便修复  5.3 高级 ext2fs特性  属性继承 软链接：目标名存储在inode中 创建文件系统时可选择逻辑块大小 fsck mount options Append-only files  5.4 物理结构 受BSD文件系统的影响，文件系统由块组构成，但块组并没有与磁盘的物理结构块绑定，因为现代驱动趋势是优化顺序访问和对操作系统隐藏物理结构。
-文件系统物理结构：  Boot
-Sector Block
-Group 1 Block
-Group 2 &hellip;">
+    <meta name="twitter:description" content="认识Linux内核网络参数  本地端口
+TCP、UDP使用的本地端口范围
+net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network restart）
+ 优化短链接
+     选项 含义     net.ipv4.tcp_fin_timeout = 15 处于FIN-WAIT-2状态的时间   net.ipv4.tcp_tw_reuse = 1 允许将 TIME-WAIT sockets重新用于新的TCP连接   net.ipv4.tcp_tw_recycle = 1 表示开启TCP连接中TIME-WAIT sockets的快速回收     缓冲区大小
+套接字的缓冲区大小限制,从Linux2.6.7内核会根据传输情况自动调整
+默认值：
+net.ipv4.tcp_rmem = 4096 87380 4194304 net.ipv4.tcp_wmem = 4096 16384 4194304
+TCP读写缓存区，缓存区超过4194304，tcp包会丢弃
+BDP(带宽延时积)=B*D (带宽＊延时) 反推 带宽=BDP/延时 4194304/(0.015*2)/1024/1024=133M/s
+建议值：
+     选项 含义     net.">
     
     
 
@@ -239,18 +221,18 @@ ga('send', 'pageview');
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      Ext2设计与实现(译)
+      认识Linux内核网络参数
     </h1>
   
   <div class="postShorten-meta post-meta">
   
-    <time itemprop="datePublished" datetime="2017-04-06T19:10:59&#43;08:00">
+    <time itemprop="datePublished" datetime="2016-06-17T21:03:24&#43;08:00">
       
   
   
   
   
-    2017-04-06 19:10:59
+    2016-06-17 21:03:24
   
 
     </time>
@@ -273,127 +255,197 @@ ga('send', 'pageview');
             <div class="main-content-wrap">
               
 
-<h2 id="ext2设计与实现">Ext2设计与实现</h2>
-
-<h3 id="1-介绍">1、介绍</h3>
-
-<p>Linux第一版只支持Minix文件系统，Minix文件系统有两大亟待解决的限制：块地址存储在16位整型，最大文件大小为64MB；另外目录和文件名长度最大支持14个字符。</p>
-
-<p>我们设计与实现了两种新的文件系统:EXT 、 EXT2</p>
-
-<p>在这篇论文中，我们将简述Linux文件系统的历史，简单介绍Unix文件系统的基础概念；介绍Linux VFS层的实现并详细介绍EXT2内核代码与用户工具；最后，是Linux、BSD下EXT2性能测试对比。</p>
-
-<h3 id="2-linux文件系统历史-略">2、Linux文件系统历史（略）</h3>
-
-<h3 id="3-文件系统概念">3、文件系统概念</h3>
-
-<p>Linux文件系统的实现基于Unix操作系统通用概念：文件通过inodes来表示，目录是一种简单的文件包含许多列表项，设备是可以发起I/O请求的特殊文件。</p>
-
-<h4 id="3-1-inode">3.1 Inode</h4>
-
-<p>每个文件都使用inode结构体来表示，每个inode包含了描述文件元数据：文件类型、访问权限、所有者、时间戳、大小、数据块指针。分配给文件的数据块地址存储在文件的inode节点中，当用户对文件发起I/O请求时，内核代码将当前文件偏移量转为块号，使用该数字作为块地址表的索引来读写物理块，如下图所示：</p>
-
-<p><img src="http://occ9e8dkg.bkt.clouddn.com/ext2-inode.gif" alt="" /></p>
-
-<h4 id="3-2-目录">3.2 目录</h4>
-
-<p>目录按层次树结构组织，每一个目录可以包含文件和子目录。</p>
-
-<p>目录实现为一种特殊的文件。事实上，目录是一种包含列表项的文件，每一项包含一个inode号和一个文件名，当一个进程使用一个路径名时，内核代码会搜索目录查找对应的inode号，在路径文件名被转换为inode号后，inode结构会被存储到内存中用以后序请求。目录如下图：</p>
-
-<h4 id="3-3-链接">3.3 链接</h4>
-
-<p>Unix文件系统提出了链接的概念，若干个文件名可以关联到一个inode节点，inode节点包含一个存储链接数的域。增加一个链接会创建一个目录项并增加inode链接计数。当删除链接时，内核会递减链接计数，为0时删除inode。</p>
-
-<p>这种类型的链接称为硬链接，只能在一个文件系统中使用，且不能链接到一个目录，避免引起环路。</p>
-
-<p>另一种链接存在于大多数Unix系操作系统，符号链接：只包含文件名的简单文件，当内核inode转换时遇到符号链接，会将软链接文件内容替换链接名。因为软链接不包含inode，它可以跨文件系统，可以指向任何类型的文件，甚至不存在的文件。但软链接会占用磁盘空间、inode、在路径名到inode转换时引起额外消耗。</p>
-
-<h4 id="3-4-设备文件">3.4 设备文件</h4>
-
-<p>在Unix系操作系统，设备被当作特殊文件访问。一个设备文件并不占用文件系统空间，只作为设备驱动访问接口。</p>
-
-<p>有两类特殊文件：字符设备、块设备。主设备号决定类型，次设备号决定哪一个设备。</p>
-
-<h3 id="4-vfs">4 VFS</h3>
-
-<p>VFS是一个文件系统抽象层，定义了一个文件系统应该实现的操作，对上层屏蔽了底层不同文件系统的实现，一图概之：
-<img src="http://e2fsprogs.sourceforge.net/ext2-vfs.gif" alt="" /></p>
-
-<h3 id="5-ext2">5 EXT2</h3>
-
-<h4 id="5-1-起因">5.1 起因</h4>
-
-<p>修复EXT文件系统问题，提供一个强大的文件系统，实现unix文件语义并提供高级特性</p>
-
-<h4 id="5-2-标准-ext2fs特性">5.2 标准 ext2fs特性</h4>
+<h2 id="认识linux内核网络参数">认识Linux内核网络参数</h2>
 
 <ul>
-<li>支持标准Unix文件类型：普通文件、目录、设备文件、符号链接</li>
-<li>支持最大4TB文件系统</li>
-<li>长文件名：255字节，可扩展至1012</li>
-<li>为root保留空间以便修复</li>
+<li><p>本地端口</p>
+
+<p>TCP、UDP使用的本地端口范围</p>
+
+<p><code>net.ipv4.ip_local_port_range = 1024 65535  （/etc/sysctl.conf，service network restart）</code></p></li>
+
+<li><p>优化短链接</p></li>
 </ul>
 
-<h4 id="5-3-高级-ext2fs特性">5.3 高级 ext2fs特性</h4>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>net.ipv4.tcp_fin_timeout = 15</td>
+<td>处于FIN-WAIT-2状态的时间</td>
+</tr>
+
+<tr>
+<td>net.ipv4.tcp_tw_reuse = 1</td>
+<td>允许将 TIME-WAIT sockets重新用于新的TCP连接</td>
+</tr>
+
+<tr>
+<td>net.ipv4.tcp_tw_recycle = 1</td>
+<td>表示开启TCP连接中TIME-WAIT sockets的快速回收</td>
+</tr>
+</tbody>
+</table>
 
 <ul>
-<li>属性继承</li>
-<li>软链接：目标名存储在inode中</li>
-<li>创建文件系统时可选择逻辑块大小</li>
-<li>fsck</li>
-<li>mount options</li>
-<li>Append-only files</li>
+<li><p>缓冲区大小</p>
+
+<p>套接字的缓冲区大小限制,从Linux2.6.7内核会根据传输情况自动调整</p>
+
+<p>默认值：</p>
+
+<p>net.ipv4.tcp_rmem = 4096 87380 4194304
+net.ipv4.tcp_wmem = 4096 16384 4194304</p>
+
+<p>TCP读写缓存区，缓存区超过4194304，tcp包会丢弃</p>
+
+<p>BDP(带宽延时积)=B*D (带宽＊延时)  反推 带宽=BDP/延时   4194304/(0.015*2)/1024/1024=133M/s</p>
+
+<p>建议值：</p></li>
 </ul>
 
-<h4 id="5-4-物理结构">5.4 物理结构</h4>
-
-<p>受BSD文件系统的影响，文件系统由块组构成，但块组并没有与磁盘的物理结构块绑定，因为现代驱动趋势是优化顺序访问和对操作系统隐藏物理结构。</p>
-
-<p>文件系统物理结构：
-<table border="">
-<tbody><tr>
-<td>Boot<br>Sector</td>
-<td>Block<br>Group 1</td>
-<td>Block<br>Group 2</td>
-<td>&hellip;<br>&hellip;</td>
-<td>Block<br>Group N</td>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
 </tr>
-</tbody></table></p>
+</thead>
 
-<p>每一个块组包含一份冗余的文件系统控制信息（超级块和文件系统描述信息），并包含一部分文件系统（块位图、inode位图、inode表、数据块）：
-<table border="">
-<tbody><tr>
-<td>Super<br>Block</td>
-<td>FS<br>descriptors</td>
-<td>Block<br>Bitmap</td>
-<td>Inode<br>Bitmap</td>
-<td>Inode<br>Table</td>
-<td>Data<br>Blocks</td>
+<tbody>
+<tr>
+<td>net.core.rmem_default = 262144</td>
+<td>默认套接字接受缓存区大小</td>
 </tr>
-</tbody></table></p>
 
-<p>使用block group提高系统可靠性，冗余超级块信息可以简化文件系统恢复；inode表与数据块一起存储提高寻道时间，提高性能。</p>
-
-<p>在ext2fs中，目录使用链表管理变长目录项，每一项包含inode号、记录项长度、文件名和文件名长度。通过变长目录项可以实现长文件名同时减少磁盘空间浪费，目录项结构如下：
-<table border="">
-<tbody><tr>
-<td>inode number</td><td>entry length</td>
-<td>name length</td><td>filename</td>
+<tr>
+<td>net.core.wmem_default = 262144</td>
+<td>默认套接字发送缓存区大小</td>
 </tr>
-</tbody></table></p>
 
-<h4 id="5-5-性能优化">5.5 性能优化</h4>
+<tr>
+<td>net.core.rmem_max = 16777216</td>
+<td>接收最大值</td>
+</tr>
+
+<tr>
+<td>net.core.wmem_max = 16777216</td>
+<td>发送最大值</td>
+</tr>
+
+<tr>
+<td>net.ipv4.tcp_rmem = 4096 87380 16777216</td>
+<td>tcp接收缓存区大小</td>
+</tr>
+
+<tr>
+<td>net.ipv4.tcp_wmem = 4096 65536 16777216</td>
+<td>tcp发送缓存区大小</td>
+</tr>
+</tbody>
+</table>
 
 <ul>
-<li>预读：当读取一个块时，内核会请求连续的若干块，当读取下一个块时会从buffer cache读取</li>
-<li>分配优化： 块组的inode、data分配会在当前组中以减少寻道时间</li>
-<li>写时预分配</li>
+<li><p>增大初始拥塞窗口</p>
+
+<p>依据：慢启动</p>
+
+<ul>
+<li>规则
+窗口从一个小的值开始
+指数增长
+上限阈值</li>
+<li>合理性
+避免淹没慢的接收方
+避免网络瘫痪</li>
+<li>问题
+往往慢启动还没终止，连接已经结束
+用户的速度极限还没到
+<br /></li>
 </ul>
 
-<h3 id="6-ext2fs-library-略">6 Ext2fs library （略）</h3>
+<p>根据实验结果进行设置慢启动窗口大小 ip route change</p>
 
-<p>译自：<a href="http://e2fsprogs.sourceforge.net/ext2intro.html">http://e2fsprogs.sourceforge.net/ext2intro.html</a></p>
+<p>提高性能百分比，降低TCP重传率的影响</p></li>
+
+<li><p>拥塞控制算法</p>
+
+<p>net.ipv4.tcp_congestion_control = cubic</p></li>
+
+<li><p>服务器开发</p>
+
+<ul>
+<li>操作的对象是socket读写缓冲区</li>
+<li>send/write成功并不代表已经发送到对端</li>
+<li>应用程序中响应时间的含义</li>
+<li>明白设置缓冲区大小的影响</li>
+<li>关键应用需要保证可靠性</li>
+
+<li><p>需要应用级别的心跳检测</p></li>
+
+<li><p>合理使用重要的TCP选项</p>
+
+<ul>
+<li>TCP_DEFER_ACCEPT</li>
+<li>TCP_CORK</li>
+<li>TCP_NODELAY</li>
+</ul></li>
+
+<li><p>使用writev/readv</p></li>
+
+<li><p>真正理解non-blocking的套接字编程</p></li>
+
+<li><p>真正理解epoll</p></li>
+</ul></li>
+
+<li><p>队列</p>
+
+<ul>
+<li>Listen队列
+
+<ul>
+<li>net.ipv4.tcp_max_syn_backlog = 16384</li>
+<li>net.core.somaxconn = 2048</li>
+</ul></li>
+<li>网卡的接收队列
+
+<ul>
+<li>net.core.netdev_max_backlog = 10000</li>
+</ul></li>
+
+<li><p>网卡发送队列</p>
+
+<ul>
+<li>ifconfig eth0 txqueuelen 10000
+
+
+<br /></li>
+</ul>
+
+<p>TCP拥塞控制
+手段
+    慢启动
+    拥塞避免
+    快速重传
+    快速恢复
+目的
+    探测网络速度
+    保证传输顺畅</p>
+
+<p>TIME_WAIT
+    主动关闭   服务端不主动关闭socket连接，no zuo no die
+    2＊MSL
+CLOSE_WAIT
+    被动关闭
+    99%意味着程序有bug  从TCP状态图来看，收到FIN进入CLOSE_WAIT，未关闭socket、发送FIN，停留在该状态</p></li>
+</ul></li>
+</ul>
 
               
             </div>
@@ -408,7 +460,7 @@ ga('send', 'pageview');
       
         <li class="post-action">
           
-            <a class="post-action-btn btn btn--disabled">
+            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/" data-tooltip="理解UML类图关系">
           
             <i class="fa fa-angle-left"></i>
             <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -416,7 +468,7 @@ ga('send', 'pageview');
         </li>
         <li class="post-action">
           
-            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/" data-tooltip="认识sk_buff结构体">
+            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/" data-tooltip="python项目开发总结">
           
             <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
             <i class="fa fa-angle-right"></i>
@@ -468,7 +520,7 @@ ga('send', 'pageview');
       
         <li class="post-action">
           
-            <a class="post-action-btn btn btn--disabled">
+            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/" data-tooltip="理解UML类图关系">
           
             <i class="fa fa-angle-left"></i>
             <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -476,7 +528,7 @@ ga('send', 'pageview');
         </li>
         <li class="post-action">
           
-            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/" data-tooltip="认识sk_buff结构体">
+            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/" data-tooltip="python项目开发总结">
           
             <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
             <i class="fa fa-angle-right"></i>
@@ -509,17 +561,17 @@ ga('send', 'pageview');
       <div id="share-options-bar" class="share-options-bar" data-behavior="5">
   <ul class="share-options">
     <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3a%2f%2fwww.itech.red%2f2017%2f04%2fext2%25E8%25AE%25BE%25E8%25AE%25A1%25E4%25B8%258E%25E5%25AE%259E%25E7%258E%25B0%25E8%25AF%2591%2f">
+      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3a%2f%2fwww.itech.red%2f2016%2f06%2f%25E8%25AE%25A4%25E8%25AF%2586linux%25E5%2586%2585%25E6%25A0%25B8%25E7%25BD%2591%25E7%25BB%259C%25E5%258F%2582%25E6%2595%25B0%2f">
         <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
       </a>
     </li>
     <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fwww.itech.red%2f2017%2f04%2fext2%25E8%25AE%25BE%25E8%25AE%25A1%25E4%25B8%258E%25E5%25AE%259E%25E7%258E%25B0%25E8%25AF%2591%2f">
+      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fwww.itech.red%2f2016%2f06%2f%25E8%25AE%25A4%25E8%25AF%2586linux%25E5%2586%2585%25E6%25A0%25B8%25E7%25BD%2591%25E7%25BB%259C%25E5%258F%2582%25E6%2595%25B0%2f">
         <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
       </a>
     </li>
     <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3a%2f%2fwww.itech.red%2f2017%2f04%2fext2%25E8%25AE%25BE%25E8%25AE%25A1%25E4%25B8%258E%25E5%25AE%259E%25E7%258E%25B0%25E8%25AF%2591%2f">
+      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3a%2f%2fwww.itech.red%2f2016%2f06%2f%25E8%25AE%25A4%25E8%25AF%2586linux%25E5%2586%2585%25E6%25A0%25B8%25E7%25BD%2591%25E7%25BB%259C%25E5%258F%2582%25E6%2595%25B0%2f">
         <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
       </a>
     </li>
@@ -849,9 +901,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'http:\/\/www.itech.red\/2017\/04\/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91\/';
+          this.page.url = 'http:\/\/www.itech.red\/2016\/06\/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0\/';
           
-            this.page.identifier = 'ext2fs1712';
+            this.page.identifier = 'network_params_723';
           
         };
         (function() {

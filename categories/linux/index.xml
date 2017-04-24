@@ -187,5 +187,335 @@
 &lt;p&gt;在mnt下果然看到了原来/home目录，该目录下的废弃的用户账户占用磁盘40G空间！ 之前同事增加磁盘做文件系统粗心导致旧的数据未删除，给自己挖了一个坑！&lt;/p&gt;</description>
     </item>
     
+    <item>
+      <title>认识Linux内核网络参数</title>
+      <link>http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</link>
+      <pubDate>Fri, 17 Jun 2016 21:03:24 +0800</pubDate>
+      
+      <guid>http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</guid>
+      <description>
+
+&lt;h2 id=&#34;认识linux内核网络参数&#34;&gt;认识Linux内核网络参数&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;本地端口&lt;/p&gt;
+
+&lt;p&gt;TCP、UDP使用的本地端口范围&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;net.ipv4.ip_local_port_range = 1024 65535  （/etc/sysctl.conf，service network restart）&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;优化短链接&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;选项&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_fin_timeout = 15&lt;/td&gt;
+&lt;td&gt;处于FIN-WAIT-2状态的时间&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_tw_reuse = 1&lt;/td&gt;
+&lt;td&gt;允许将 TIME-WAIT sockets重新用于新的TCP连接&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_tw_recycle = 1&lt;/td&gt;
+&lt;td&gt;表示开启TCP连接中TIME-WAIT sockets的快速回收&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;缓冲区大小&lt;/p&gt;
+
+&lt;p&gt;套接字的缓冲区大小限制,从Linux2.6.7内核会根据传输情况自动调整&lt;/p&gt;
+
+&lt;p&gt;默认值：&lt;/p&gt;
+
+&lt;p&gt;net.ipv4.tcp_rmem = 4096 87380 4194304
+net.ipv4.tcp_wmem = 4096 16384 4194304&lt;/p&gt;
+
+&lt;p&gt;TCP读写缓存区，缓存区超过4194304，tcp包会丢弃&lt;/p&gt;
+
+&lt;p&gt;BDP(带宽延时积)=B*D (带宽＊延时)  反推 带宽=BDP/延时   4194304/(0.015*2)/1024/1024=133M/s&lt;/p&gt;
+
+&lt;p&gt;建议值：&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;选项&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;net.core.rmem_default = 262144&lt;/td&gt;
+&lt;td&gt;默认套接字接受缓存区大小&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.core.wmem_default = 262144&lt;/td&gt;
+&lt;td&gt;默认套接字发送缓存区大小&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.core.rmem_max = 16777216&lt;/td&gt;
+&lt;td&gt;接收最大值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.core.wmem_max = 16777216&lt;/td&gt;
+&lt;td&gt;发送最大值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_rmem = 4096 87380 16777216&lt;/td&gt;
+&lt;td&gt;tcp接收缓存区大小&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_wmem = 4096 65536 16777216&lt;/td&gt;
+&lt;td&gt;tcp发送缓存区大小&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;增大初始拥塞窗口&lt;/p&gt;
+
+&lt;p&gt;依据：慢启动&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;规则
+窗口从一个小的值开始
+指数增长
+上限阈值&lt;/li&gt;
+&lt;li&gt;合理性
+避免淹没慢的接收方
+避免网络瘫痪&lt;/li&gt;
+&lt;li&gt;问题
+往往慢启动还没终止，连接已经结束
+用户的速度极限还没到
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;根据实验结果进行设置慢启动窗口大小 ip route change&lt;/p&gt;
+
+&lt;p&gt;提高性能百分比，降低TCP重传率的影响&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;拥塞控制算法&lt;/p&gt;
+
+&lt;p&gt;net.ipv4.tcp_congestion_control = cubic&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;服务器开发&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;操作的对象是socket读写缓冲区&lt;/li&gt;
+&lt;li&gt;send/write成功并不代表已经发送到对端&lt;/li&gt;
+&lt;li&gt;应用程序中响应时间的含义&lt;/li&gt;
+&lt;li&gt;明白设置缓冲区大小的影响&lt;/li&gt;
+&lt;li&gt;关键应用需要保证可靠性&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;需要应用级别的心跳检测&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;合理使用重要的TCP选项&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;TCP_DEFER_ACCEPT&lt;/li&gt;
+&lt;li&gt;TCP_CORK&lt;/li&gt;
+&lt;li&gt;TCP_NODELAY&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用writev/readv&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;真正理解non-blocking的套接字编程&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;真正理解epoll&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;队列&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Listen队列
+
+&lt;ul&gt;
+&lt;li&gt;net.ipv4.tcp_max_syn_backlog = 16384&lt;/li&gt;
+&lt;li&gt;net.core.somaxconn = 2048&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;网卡的接收队列
+
+&lt;ul&gt;
+&lt;li&gt;net.core.netdev_max_backlog = 10000&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;网卡发送队列&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ifconfig eth0 txqueuelen 10000
+
+
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;TCP拥塞控制
+手段
+    慢启动
+    拥塞避免
+    快速重传
+    快速恢复
+目的
+    探测网络速度
+    保证传输顺畅&lt;/p&gt;
+
+&lt;p&gt;TIME_WAIT
+    主动关闭   服务端不主动关闭socket连接，no zuo no die
+    2＊MSL
+CLOSE_WAIT
+    被动关闭
+    99%意味着程序有bug  从TCP状态图来看，收到FIN进入CLOSE_WAIT，未关闭socket、发送FIN，停留在该状态&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>进程监视</title>
+      <link>http://www.itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</link>
+      <pubDate>Thu, 10 Sep 2015 10:07:34 +0800</pubDate>
+      
+      <guid>http://www.itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</guid>
+      <description>
+
+&lt;h1 id=&#34;进程监视&#34;&gt;进程监视&lt;/h1&gt;
+
+&lt;h2 id=&#34;1-ps监视进程的主要工具&#34;&gt;1、ps监视进程的主要工具&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;ps -ef 查看每一个进程
+ps aux 可以展示系统进程的全貌
+ps lax 更快，省去了将uid转换为用户名
+ps -ejH  or  ps axjf 进程树
+ps -eLf  or  ps axms 线程信息
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;字段含义&#34;&gt;字段含义&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;字段&lt;/th&gt;
+&lt;th&gt;内容&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;USER&lt;/td&gt;
+&lt;td&gt;进程属主用户名&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;PID&lt;/td&gt;
+&lt;td&gt;进程ID&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CPU&lt;/td&gt;
+&lt;td&gt;进程使用CPU百分比&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;MEM&lt;/td&gt;
+&lt;td&gt;进程使用内存百分比&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;VSZ&lt;/td&gt;
+&lt;td&gt;进程虚拟内存大小KiB&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;RSS&lt;/td&gt;
+&lt;td&gt;驻留集大小，非swap中的内存大小&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;STAT&lt;/td&gt;
+&lt;td&gt;进程状态 S:可中断睡眠 D:不可中断睡眠 R:running s会话头&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;TIME&lt;/td&gt;
+&lt;td&gt;运行时间&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;COMMAND&lt;/td&gt;
+&lt;td&gt;命令行&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NI&lt;/td&gt;
+&lt;td&gt;nice值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;WCHAN&lt;/td&gt;
+&lt;td&gt;等待的资源&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;2-top动态查看&#34;&gt;2、top动态查看&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;top对活动进程及所使用的资源情况提供了汇总信息
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;3-proc文件系统&#34;&gt;3、proc文件系统&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;proc文件系统提供了内核产生的所有状态信息与数据系统，包括进程相关的信息，linux的ps、top都是从/proc目录读取进程的状态信息。进程特有的信息存储在/proc/pid下。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;4-strace&#34;&gt;4、strace&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;strace -p pid可以追踪进程的系统调用及信号，在调试进程、理解程序执行过程非常有帮助。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;5-vmstat&#34;&gt;5、vmstat&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;vmstat提供了关于进程、内存、内存页、块IO、陷阱、磁盘及CPU的活动信息。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###字段含义
+字段 | 内容
+&amp;mdash;- | &amp;mdash;-
+r|等待执行的进程数
+b|不可中断睡眠的进程数
+swpd|使用虚拟内存大小
+free|空闲内存
+cache|用作cache的内存大小
+si|swap in
+so|swap out
+bi|block in从块设备收到数据块数
+bo|block out
+in|每秒中断数
+cs|每秒上下文切换数
+us|user time
+sy|system time
+id|idle time
+wa|wait for io&lt;/p&gt;
+</description>
+    </item>
+    
   </channel>
 </rss>
