@@ -20,50 +20,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.19">
-    <title>理解UML类图关系</title>
+    <title>shell条件测试总结</title>
     <meta name="author" content="游">
-    <meta name="keywords" content="UML">
+    <meta name="keywords" content="shell, test">
 
     <link rel="icon" href="http://www.itech.red/favicon.png">
     
 
     
-    <meta name="description" content="理解UML类图关系
-1、依赖(Dependency)
- 关系：uses temporarily，使用关系，作为局部变量、方法参数或者对静态方法的调用 代码示例：
-import B; public class A{ public void method1(B b) { // ... } public void method2() { B tempB = new B(); // ... } }  图示(一套带箭头的虚线表示)：
-  2、聚合(Aggregation)
- 关系：is part of，整体与部分的关系，作为成员变量 代码：
-import Engine; public class Car{ private Engine engine; publilc Engine getEngine(){ return engine; } }  图示(一条带空心菱形箭头的直线表示)：
-  3、组合(Composition)
- 关系：is entirely made of，更强的整体与部分关系，作为成员变量 代码:
-import Page; public class Book{ private List&lt;Page&gt; pages; publilc List&lt;Page&gt; getPages(){ return pages; } }  图示(一条带实心菱形箭头直线表示):">
-    <meta property="og:description" content="理解UML类图关系
-1、依赖(Dependency)
- 关系：uses temporarily，使用关系，作为局部变量、方法参数或者对静态方法的调用 代码示例：
-import B; public class A{ public void method1(B b) { // ... } public void method2() { B tempB = new B(); // ... } }  图示(一套带箭头的虚线表示)：
-  2、聚合(Aggregation)
- 关系：is part of，整体与部分的关系，作为成员变量 代码：
-import Engine; public class Car{ private Engine engine; publilc Engine getEngine(){ return engine; } }  图示(一条带空心菱形箭头的直线表示)：
-  3、组合(Composition)
- 关系：is entirely made of，更强的整体与部分关系，作为成员变量 代码:
-import Page; public class Book{ private List&lt;Page&gt; pages; publilc List&lt;Page&gt; getPages(){ return pages; } }  图示(一条带实心菱形箭头直线表示):">
+    <meta name="description" content="在编写shell脚本时，条件测试与判断必不可少，基于测试结果才能做进一步的处理，此文用来回顾下shell脚本中的条件测试。
+test([) test有两种格式，即test condition 或 [ condition ](注意条件两边空格)， test主要用来测试文件、字符串及数字。
+ 逻辑操作符
+-a 逻辑与 -o 逻辑或 ! 逻辑非(不是短路求值)
+best practise：使用多个[，而不是-a与-o
+ good : [ &ldquo;$a&rdquo; = &ldquo;$b&rdquo; ] &amp;&amp; [ &ldquo;$b&rdquo; = &ldquo;$c&rdquo; ] bad : [ &ldquo;$a&rdquo; = &ldquo;$b&rdquo; -a &ldquo;$b&rdquo; = &ldquo;$c&rdquo; ]  文件测试
+     参数 含义 参数 含义     -d 目录 -s 文件长度大于0、非空   -f 普通文件 -w 可写   -L 符号链接 -u 文件有suid置位   -r 可读 -x 可执行    例如:">
+    <meta property="og:description" content="在编写shell脚本时，条件测试与判断必不可少，基于测试结果才能做进一步的处理，此文用来回顾下shell脚本中的条件测试。
+test([) test有两种格式，即test condition 或 [ condition ](注意条件两边空格)， test主要用来测试文件、字符串及数字。
+ 逻辑操作符
+-a 逻辑与 -o 逻辑或 ! 逻辑非(不是短路求值)
+best practise：使用多个[，而不是-a与-o
+ good : [ &ldquo;$a&rdquo; = &ldquo;$b&rdquo; ] &amp;&amp; [ &ldquo;$b&rdquo; = &ldquo;$c&rdquo; ] bad : [ &ldquo;$a&rdquo; = &ldquo;$b&rdquo; -a &ldquo;$b&rdquo; = &ldquo;$c&rdquo; ]  文件测试
+     参数 含义 参数 含义     -d 目录 -s 文件长度大于0、非空   -f 普通文件 -w 可写   -L 符号链接 -u 文件有suid置位   -r 可读 -x 可执行    例如:">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="理解UML类图关系">
-    <meta property="og:url" content="/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/">
+    <meta property="og:title" content="shell条件测试总结">
+    <meta property="og:url" content="/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/">
     <meta property="og:site_name" content="平凡世界">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="平凡世界">
-    <meta name="twitter:description" content="理解UML类图关系
-1、依赖(Dependency)
- 关系：uses temporarily，使用关系，作为局部变量、方法参数或者对静态方法的调用 代码示例：
-import B; public class A{ public void method1(B b) { // ... } public void method2() { B tempB = new B(); // ... } }  图示(一套带箭头的虚线表示)：
-  2、聚合(Aggregation)
- 关系：is part of，整体与部分的关系，作为成员变量 代码：
-import Engine; public class Car{ private Engine engine; publilc Engine getEngine(){ return engine; } }  图示(一条带空心菱形箭头的直线表示)：
-  3、组合(Composition)
- 关系：is entirely made of，更强的整体与部分关系，作为成员变量 代码:
-import Page; public class Book{ private List&lt;Page&gt; pages; publilc List&lt;Page&gt; getPages(){ return pages; } }  图示(一条带实心菱形箭头直线表示):">
+    <meta name="twitter:description" content="在编写shell脚本时，条件测试与判断必不可少，基于测试结果才能做进一步的处理，此文用来回顾下shell脚本中的条件测试。
+test([) test有两种格式，即test condition 或 [ condition ](注意条件两边空格)， test主要用来测试文件、字符串及数字。
+ 逻辑操作符
+-a 逻辑与 -o 逻辑或 ! 逻辑非(不是短路求值)
+best practise：使用多个[，而不是-a与-o
+ good : [ &ldquo;$a&rdquo; = &ldquo;$b&rdquo; ] &amp;&amp; [ &ldquo;$b&rdquo; = &ldquo;$c&rdquo; ] bad : [ &ldquo;$a&rdquo; = &ldquo;$b&rdquo; -a &ldquo;$b&rdquo; = &ldquo;$c&rdquo; ]  文件测试
+     参数 含义 参数 含义     -d 目录 -s 文件长度大于0、非空   -f 普通文件 -w 可写   -L 符号链接 -u 文件有suid置位   -r 可读 -x 可执行    例如:">
     
     
 
@@ -215,18 +206,18 @@ ga('send', 'pageview');
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      理解UML类图关系
+      shell条件测试总结
     </h1>
   
   <div class="postShorten-meta post-meta">
   
-    <time itemprop="datePublished" datetime="2016-08-26T16:51:34&#43;08:00">
+    <time itemprop="datePublished" datetime="2017-04-27T18:55:34&#43;08:00">
       
   
   
   
   
-    2016-08-26 16:51:34
+    2017-04-27 18:55:34
   
 
     </time>
@@ -236,7 +227,7 @@ ga('send', 'pageview');
   
     <span>发布在</span>
     
-      <a class="category-link" href="http://www.itech.red/categories/%e5%9f%ba%e7%a1%80">基础</a>
+      <a class="category-link" href="http://www.itech.red/categories/linux">linux</a>
     
   
 
@@ -249,142 +240,315 @@ ga('send', 'pageview');
             <div class="main-content-wrap">
               
 
-<p>理解UML类图关系</p>
+<p>在编写shell脚本时，条件测试与判断必不可少，基于测试结果才能做进一步的处理，此文用来回顾下shell脚本中的条件测试。</p>
 
-<p>1、依赖(Dependency)</p>
+<h2 id="test">test([)</h2>
 
-<ul>
-<li>关系：uses temporarily，使用关系，作为局部变量、方法参数或者对静态方法的调用</li>
-
-<li><p>代码示例：</p>
-
-<pre><code>import B;
-public class A{
-    public void method1(B b) { // ... }
-    public void method2() { B tempB = new B(); // ... }
-}
-</code></pre></li>
-
-<li><p>图示(一套带箭头的虚线表示)：</p></li>
-</ul>
-
-<p><img src="http://occ9e8dkg.bkt.clouddn.com/image/1/64/c5da58a00cd2fcbf112fa1be3e6b2.png" alt="dependency" /></p>
-
-<p>2、聚合(Aggregation)</p>
+<p>test有两种格式，即<code>test condition</code> 或 <code>[ condition ]</code>(注意条件两边空格)，
+test主要用来测试文件、字符串及数字。</p>
 
 <ul>
-<li>关系：is part of，整体与部分的关系，作为成员变量</li>
+<li><p>逻辑操作符</p>
 
-<li><p>代码：</p>
+<p>-a 逻辑与 -o 逻辑或 ! 逻辑非(不是短路求值)</p>
 
-<pre><code>import Engine;
-public class Car{
-    private Engine engine;
-    publilc Engine getEngine(){
-        return engine;
-    }
-}
-</code></pre></li>
-
-<li><p>图示(一条带空心菱形箭头的直线表示)：</p></li>
-</ul>
-
-<p><img src="http://occ9e8dkg.bkt.clouddn.com/image/4/2d/e12355088b0e4fb201deec5772760.png" alt="aggregation" /></p>
-
-<p>3、组合(Composition)</p>
+<p><strong>best practise：使用多个[，而不是-a与-o</strong></p>
 
 <ul>
-<li>关系：is entirely made of，更强的整体与部分关系，作为成员变量</li>
+<li>good : [ &ldquo;$a&rdquo; = &ldquo;$b&rdquo; ] &amp;&amp; [ &ldquo;$b&rdquo; = &ldquo;$c&rdquo; ]</li>
+<li>bad : [ &ldquo;$a&rdquo; = &ldquo;$b&rdquo; -a &ldquo;$b&rdquo; = &ldquo;$c&rdquo; ]</li>
+</ul></li>
 
-<li><p>代码:</p>
-
-<pre><code>import Page;
-public class Book{
-    private List&lt;Page&gt; pages;
-    publilc List&lt;Page&gt; getPages(){
-        return pages;
-    }
-}
-</code></pre></li>
-
-<li><p>图示(一条带实心菱形箭头直线表示):</p></li>
+<li><p>文件测试</p></li>
 </ul>
 
-<p><img src="http://occ9e8dkg.bkt.clouddn.com/image/a/65/66b285efb154c3d638f874a006f08.png" alt="composition" /></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
 
-<p>4、关联(Association)</p>
+<tbody>
+<tr>
+<td>-d</td>
+<td>目录</td>
+<td>-s</td>
+<td>文件长度大于0、非空</td>
+</tr>
 
-<ul>
-<li>关系：a usage relationship，包含以上三种关系，作为成员变量</li>
-<li>图示(一套带箭头的直线表示):</li>
-</ul>
+<tr>
+<td>-f</td>
+<td>普通文件</td>
+<td>-w</td>
+<td>可写</td>
+</tr>
 
-<p><img src="http://occ9e8dkg.bkt.clouddn.com/image/7/4d/d53d5daaf1c53fb39bfb66f40c0b3.png" alt="association" /></p>
+<tr>
+<td>-L</td>
+<td>符号链接</td>
+<td>-u</td>
+<td>文件有suid置位</td>
+</tr>
 
-<p>5、实现(Realization)</p>
+<tr>
+<td>-r</td>
+<td>可读</td>
+<td>-x</td>
+<td>可执行</td>
+</tr>
+</tbody>
+</table>
 
-<ul>
-<li>关系：interface implementation，接口实现</li>
+<p>例如:</p>
 
-<li><p>代码：</p>
-
-<pre><code>import Car;
-public class SUV implements Car{
-    ...
-}
-</code></pre></li>
-
-<li><p>图示(用一条带空心箭头的虚线表示):</p></li>
-</ul>
-
-<p><img src="http://occ9e8dkg.bkt.clouddn.com/image/3/02/8e8cf926f50f551344dbffe284c56.png" alt="realization" /></p>
-
-<p>6、泛化(Generalization)</p>
-
-<ul>
-<li>关系：inheritance between classes，继承关系</li>
-
-<li><p>代码：</p>
-
-<pre><code>import Widget;
-public class WindowWidget extends Widget{
-    ...
-}
-</code></pre></li>
-
-<li><p>图示(用一条带空心箭头的实线表示):</p></li>
-</ul>
-
-<p><img src="http://occ9e8dkg.bkt.clouddn.com/image/5/6e/f8cd3332f700271df86588a86508d.png" alt="generalization" /></p>
-
-<h2 id="类图表现方式">类图表现方式：</h2>
-
-<p>接口 ： &lt;&lt;interface&gt;&gt; Car</p>
-
-<p>抽象类： 斜体</p>
-
-<p>属性：可选，应该包含所有对象属性</p>
-
-<pre><code>变量名:类型
-＋ public
-# protected
-- private
-~ package
-/ derived
-静态属性  下划线标示
+<pre><code>$if [ -f files ];then
+&gt; echo &quot;files is a normal file&quot;
+&gt; fi
+files is a normal file
 </code></pre>
 
-<p>方法：可选，可省略get/set方法，不应包含继承方法</p>
+<ul>
+<li>字符串测试(<strong>注意符号两侧的空格</strong>)</li>
+</ul>
 
-<pre><code>方法名(参数):返回类型
-＋ public
-# protected
-- private
-~ package
-/ derived
-静态属性  下划线标示
-参数： name:type
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>-z</td>
+<td>空串</td>
+</tr>
+
+<tr>
+<td>-n</td>
+<td>非空串</td>
+</tr>
+
+<tr>
+<td>=</td>
+<td>相等</td>
+</tr>
+
+<tr>
+<td>!=</td>
+<td>不相等</td>
+</tr>
+</tbody>
+</table>
+
+<p>例如：</p>
+
+<pre><code>test &quot;a&quot; = &quot;b&quot;
+echo $?
+1
 </code></pre>
+
+<ul>
+<li>测试数值</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>-eq</td>
+<td>相等</td>
+</tr>
+
+<tr>
+<td>-ge</td>
+<td>大于等于</td>
+</tr>
+
+<tr>
+<td>-gt</td>
+<td>大于</td>
+</tr>
+
+<tr>
+<td>-le</td>
+<td>小于等于</td>
+</tr>
+
+<tr>
+<td>-lt</td>
+<td>小于</td>
+</tr>
+
+<tr>
+<td>-ne</td>
+<td>不等</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="expr">expr</h2>
+
+<p>expr一般用于正数值，也可用于字符串，一般格式为 expr arg operator arg，
+支持 | &amp;  &lt;  &lt;=  =  !=  &gt;=  &gt;  +  -  *  /  % 等操作，此外</p>
+
+<ul>
+<li>模式匹配 STRING : REGEXP （匹配()之间的字符串）</li>
+</ul>
+
+<pre><code>$expr &quot;hello.world&quot; : &quot;\(.*\).world&quot;
+hello
+</code></pre>
+
+<ul>
+<li>求子串 substr STRING POS LENGTH （POS从1开始）</li>
+</ul>
+
+<pre><code>$expr substr &quot;hello world&quot; 7 5
+world
+</code></pre>
+
+<ul>
+<li>求位置 index STRING CHARS（多个字符返回最前匹配的字符）</li>
+</ul>
+
+<pre><code>$expr index &quot;hello world&quot; e
+2
+</code></pre>
+
+<ul>
+<li>求长度 length STRING</li>
+</ul>
+
+<pre><code>$expr length &quot;hello world&quot;
+11
+</code></pre>
+
+<h2 id="toc_2">[[</h2>
+
+<ul>
+<li>[[比test功能更强大，只有bash、zsh等支持[[，而test更加便于移植(推荐使用[[)</li>
+<li>[[是关键字，test是command</li>
+<li>[[ 短路求值</li>
+</ul>
+
+<table><tbody><tr>  <td><p class="line891"><strong>Feature</strong></p></td>
+  <td><p class="line891"><strong>new test</strong> <tt>[[</tt></p></td>
+  <td><p class="line891"><strong>old test</strong> <tt>[</tt></p></td>
+  <td><p class="line891"><strong>Example</strong></p></td>
+</tr>
+<tr>  <td rowspan="4"><span class="anchor" id="line-28"></span><p class="line862">string comparison</p></td>
+  <td><p class="line891"><tt>&gt;</tt></p></td>
+  <td><p class="line891"><tt>\&gt;</tt> <a href="http://www.itech.red/BashFAQ/031#np">(*)</a></p></td>
+  <td><p class="line891"><tt>[[&nbsp;a&nbsp;&gt;&nbsp;b&nbsp;]]&nbsp;||&nbsp;echo&nbsp;"a&nbsp;does&nbsp;not&nbsp;come&nbsp;after&nbsp;b"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-29"></span><p class="line891"><tt>&lt;</tt></p></td>
+  <td><p class="line891"><tt>\&lt;</tt> <a href="http://www.itech.red/BashFAQ/031#np">(*)</a></p></td>
+  <td><p class="line891"><tt>[[&nbsp;az&nbsp;&lt;&nbsp;za&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"az&nbsp;comes&nbsp;before&nbsp;za"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-30"></span><p class="line891"><tt>=</tt> (or <tt>==</tt>)</p></td>
+  <td><p class="line891"><tt>=</tt></p></td>
+  <td><p class="line891"><tt>[[&nbsp;a&nbsp;=&nbsp;a&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"a&nbsp;equals&nbsp;a"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-31"></span><p class="line891"><tt>!=</tt></p></td>
+  <td><p class="line891"><tt>!=</tt></p></td>
+  <td><p class="line891"><tt>[[&nbsp;a&nbsp;!=&nbsp;b&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"a&nbsp;is&nbsp;not&nbsp;equal&nbsp;to&nbsp;b"</tt></p></td>
+</tr>
+<tr>  <td rowspan="6"><span class="anchor" id="line-32"></span><p class="line862">integer comparison</p></td>
+  <td><p class="line891"><tt>-gt</tt></p></td>
+  <td><p class="line891"><tt>-gt</tt></p></td>
+  <td><p class="line891"><tt>[[&nbsp;5&nbsp;-gt&nbsp;10&nbsp;]]&nbsp;||&nbsp;echo&nbsp;"5&nbsp;is&nbsp;not&nbsp;bigger&nbsp;than&nbsp;10"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-33"></span><p class="line891"><tt>-lt</tt></p></td>
+  <td><p class="line891"><tt>-lt</tt></p></td>
+  <td><p class="line891"><tt>[[&nbsp;8&nbsp;-lt&nbsp;9&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"8&nbsp;is&nbsp;less&nbsp;than&nbsp;9"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-34"></span><p class="line891"><tt>-ge</tt></p></td>
+  <td><p class="line891"><tt>-ge</tt></p></td>
+  <td><p class="line891"><tt>[[&nbsp;3&nbsp;-ge&nbsp;3&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"3&nbsp;is&nbsp;greater&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;3"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-35"></span><p class="line891"><tt>-le</tt></p></td>
+  <td><p class="line891"><tt>-le</tt></p></td>
+  <td><p class="line891"><tt>[[&nbsp;3&nbsp;-le&nbsp;8&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"3&nbsp;is&nbsp;less&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;8"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-36"></span><p class="line891"><tt>-eq</tt></p></td>
+  <td><p class="line891"><tt>-eq</tt></p></td>
+  <td><p class="line891"><tt>[[&nbsp;5&nbsp;-eq&nbsp;05&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"5&nbsp;equals&nbsp;05"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-37"></span><p class="line891"><tt>-ne</tt></p></td>
+  <td><p class="line891"><tt>-ne</tt></p></td>
+  <td><p class="line891"><tt>[[&nbsp;6&nbsp;-ne&nbsp;20&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"6&nbsp;is&nbsp;not&nbsp;equal&nbsp;to&nbsp;20"</tt></p></td>
+</tr>
+<tr>  <td rowspan="2"><span class="anchor" id="line-38"></span><p class="line862">conditional evaluation</p></td>
+  <td><p class="line891"><tt>&amp;&amp;</tt></p></td>
+  <td><p class="line891"><tt>-a</tt> <a href="http://www.itech.red/BashFAQ/031#np2">(**)</a></p></td>
+  <td><p class="line891"><tt>[[&nbsp;-n&nbsp;$var&nbsp;&amp;&amp;&nbsp;-f&nbsp;$var&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"$var&nbsp;is&nbsp;a&nbsp;file"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-39"></span><p class="line891"><tt>||</tt></p></td>
+  <td><p class="line891"><tt>-o</tt> <a href="http://www.itech.red/BashFAQ/031#np2">(**)</a></p></td>
+  <td><p class="line891"><tt>[[&nbsp;-b&nbsp;$var&nbsp;||&nbsp;-c&nbsp;$var&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"$var&nbsp;is&nbsp;a&nbsp;device"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-40"></span><p class="line862">expression grouping</p></td>
+  <td><p class="line891"><tt>(...)</tt></p></td>
+  <td><p class="line891"><tt>\(&nbsp;...&nbsp;\)</tt> <a href="http://www.itech.red/BashFAQ/031#np2">(**)</a></p></td>
+  <td><p class="line891"><tt>[[&nbsp;$var&nbsp;=&nbsp;img*&nbsp;&amp;&amp;&nbsp;($var&nbsp;=&nbsp;*.png&nbsp;||&nbsp;$var&nbsp;=&nbsp;*.jpg)&nbsp;]]&nbsp;&amp;&amp;</tt><br>
+<tt>echo&nbsp;"$var&nbsp;starts&nbsp;with&nbsp;img&nbsp;and&nbsp;ends&nbsp;with&nbsp;.jpg&nbsp;or&nbsp;.png"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-41"></span><p class="line862">Pattern matching</p></td>
+  <td><p class="line891"><tt>=</tt> (or <tt>==</tt>)</p></td>
+  <td><p class="line862">(not available)</p></td>
+  <td><p class="line891"><tt>[[&nbsp;$name&nbsp;=&nbsp;a*&nbsp;]]&nbsp;||&nbsp;echo&nbsp;"name&nbsp;does&nbsp;not&nbsp;start&nbsp;with&nbsp;an&nbsp;'a':&nbsp;$name"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-42"></span><p class="line891"><a href="http://www.itech.red/RegularExpression">RegularExpression</a> matching</p></td>
+  <td><p class="line891"><tt>=~</tt></p></td>
+  <td><p class="line862">(not available)</p></td>
+  <td><p class="line891"><tt>[[&nbsp;$(date)&nbsp;=~&nbsp;^Fri\&nbsp;...\&nbsp;13&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"It's&nbsp;Friday&nbsp;the&nbsp;13th!"</tt></p></td>
+</tr>
+</tbody></table>
+(*)是POXIS扩展，可能不支持，(**)不建议使用
+
+<table><tbody><tr>  <td><p class="line891"><strong>Description</strong></p></td>
+  <td><p class="line891"><strong>Primitive</strong></p></td>
+  <td><p class="line891"><strong>Example</strong></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-55"></span><p class="line862">entry (file or directory) exists</p></td>
+  <td><p class="line891"><tt>-e</tt></p></td>
+  <td><p class="line891"><tt>[[&nbsp;-e&nbsp;$config&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"config&nbsp;file&nbsp;exists:&nbsp;$config"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-56"></span><p class="line862">file is newer/older than other file</p></td>
+  <td><p class="line891"><tt>-nt</tt> / <tt>-ot</tt></p></td>
+  <td><p class="line891"><tt>[[&nbsp;$file0&nbsp;-nt&nbsp;$file1&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"$file0&nbsp;is&nbsp;newer&nbsp;than&nbsp;$file1"</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-57"></span><p class="line862">two files are the same</p></td>
+  <td><p class="line891"><tt>-ef</tt></p></td>
+  <td><p class="line891"><tt>[[&nbsp;$input&nbsp;-ef&nbsp;$output&nbsp;]]&nbsp;&amp;&amp;&nbsp;{&nbsp;echo&nbsp;"will&nbsp;not&nbsp;overwrite&nbsp;input&nbsp;file:&nbsp;$input";&nbsp;exit&nbsp;1;&nbsp;}&nbsp;</tt></p></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-58"></span><p class="line862">negation</p></td>
+  <td><p class="line891"><tt>!</tt></p></td>
+  <td><p class="line891"><tt>[[&nbsp;!&nbsp;-u&nbsp;$file&nbsp;]]&nbsp;&amp;&amp;&nbsp;echo&nbsp;"$file&nbsp;is&nbsp;not&nbsp;a&nbsp;setuid&nbsp;file"</tt></p></td>
+</tr>
+</tbody></table>
+
+<h2 id="算数求值与比较-bash">(( 算数求值与比较(bash)</h2>
+
+<ul>
+<li>算术运算符+ - * / % **</li>
+<li>赋值运算符= *= /= %= += -= &lt;&lt;= &gt;&gt;= &amp;= ^= |=</li>
+<li>逻辑运算符    &gt; &lt; &gt;= &lt;= == != ! &amp;&amp; ||</li>
+<li>位操作符 ~ &lt;&lt; &gt;&gt; &amp; | ^</li>
+<li>其他 ++  &ndash; ?: ()</li>
+</ul>
 
               
             </div>
@@ -399,7 +563,7 @@ public class WindowWidget extends Widget{
       
         <li class="post-action">
           
-            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" data-tooltip="Spring＋Mybatis＋Velocity项目搭建">
+            <a class="post-action-btn btn btn--disabled">
           
             <i class="fa fa-angle-left"></i>
             <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -407,7 +571,7 @@ public class WindowWidget extends Widget{
         </li>
         <li class="post-action">
           
-            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/" data-tooltip="认识Linux内核网络参数">
+            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/" data-tooltip="Ext2设计与实现(译)">
           
             <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
             <i class="fa fa-angle-right"></i>
@@ -459,7 +623,7 @@ public class WindowWidget extends Widget{
       
         <li class="post-action">
           
-            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" data-tooltip="Spring＋Mybatis＋Velocity项目搭建">
+            <a class="post-action-btn btn btn--disabled">
           
             <i class="fa fa-angle-left"></i>
             <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -467,7 +631,7 @@ public class WindowWidget extends Widget{
         </li>
         <li class="post-action">
           
-            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/" data-tooltip="认识Linux内核网络参数">
+            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/" data-tooltip="Ext2设计与实现(译)">
           
             <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
             <i class="fa fa-angle-right"></i>
@@ -500,17 +664,17 @@ public class WindowWidget extends Widget{
       <div id="share-options-bar" class="share-options-bar" data-behavior="5">
   <ul class="share-options">
     <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3a%2f%2fwww.itech.red%2f2016%2f08%2f%25E7%2590%2586%25E8%25A7%25A3uml%25E7%25B1%25BB%25E5%259B%25BE%25E5%2585%25B3%25E7%25B3%25BB%2f">
+      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3a%2f%2fwww.itech.red%2f2017%2f04%2fshell%25E6%259D%25A1%25E4%25BB%25B6%25E6%25B5%258B%25E8%25AF%2595%25E6%2580%25BB%25E7%25BB%2593%2f">
         <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
       </a>
     </li>
     <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fwww.itech.red%2f2016%2f08%2f%25E7%2590%2586%25E8%25A7%25A3uml%25E7%25B1%25BB%25E5%259B%25BE%25E5%2585%25B3%25E7%25B3%25BB%2f">
+      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fwww.itech.red%2f2017%2f04%2fshell%25E6%259D%25A1%25E4%25BB%25B6%25E6%25B5%258B%25E8%25AF%2595%25E6%2580%25BB%25E7%25BB%2593%2f">
         <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
       </a>
     </li>
     <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3a%2f%2fwww.itech.red%2f2016%2f08%2f%25E7%2590%2586%25E8%25A7%25A3uml%25E7%25B1%25BB%25E5%259B%25BE%25E5%2585%25B3%25E7%25B3%25BB%2f">
+      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3a%2f%2fwww.itech.red%2f2017%2f04%2fshell%25E6%259D%25A1%25E4%25BB%25B6%25E6%25B5%258B%25E8%25AF%2595%25E6%2580%25BB%25E7%25BB%2593%2f">
         <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
       </a>
     </li>
@@ -846,9 +1010,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'http:\/\/www.itech.red\/2016\/08\/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB\/';
+          this.page.url = 'http:\/\/www.itech.red\/2017\/04\/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93\/';
           
-            this.page.identifier = '16826451_uml';
+            this.page.identifier = '20170427655_shell';
           
         };
         (function() {

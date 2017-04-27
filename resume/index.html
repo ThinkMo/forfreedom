@@ -483,6 +483,29 @@ ga('send', 'pageview');
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/">
+                <h3 class="media-heading">shell条件测试总结</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">在编写shell脚本时，条件测试与判断必不可少，基于测试结果才能做进一步的处理，此文用来回顾下shell脚本中的条件测试。
+test([) test有两种格式，即test condition 或 [ condition ](注意条件两边空格)， test主要用来测试文件、字符串及数字。
+ 逻辑操作符
+-a 逻辑与 -o 逻辑或 ! 逻辑非(不是短路求值)
+best practise：使用多个[，而不是-a与-o
+ good : [ &ldquo;$a&rdquo; = &ldquo;$b&rdquo; ] &amp;&amp; [ &ldquo;$b&rdquo; = &ldquo;$c&rdquo; ] bad : [ &ldquo;$a&rdquo; = &ldquo;$b&rdquo; -a &ldquo;$b&rdquo; = &ldquo;$c&rdquo; ]  文件测试
+     参数 含义 参数 含义     -d 目录 -s 文件长度大于0、非空   -f 普通文件 -w 可写   -L 符号链接 -u 文件有suid置位   -r 可读 -x 可执行    例如:</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="http://www.itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/">
                 <h3 class="media-heading">Ext2设计与实现(译)</h3>
               </a>
@@ -685,23 +708,6 @@ char *p; char *p; /* 4 or 8 bytes */ char c; =======&gt; char c; /* 1 byte */ sh
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="http://www.itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/">
-                <h3 class="media-heading">进程监视</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Sep 9, 2015
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">进程监视 1、ps监视进程的主要工具 ps -ef 查看每一个进程 ps aux 可以展示系统进程的全貌 ps lax 更快，省去了将uid转换为用户名 ps -ejH or ps axjf 进程树 ps -eLf or ps axms 线程信息  字段含义    字段 内容     USER 进程属主用户名   PID 进程ID   CPU 进程使用CPU百分比   MEM 进程使用内存百分比   VSZ 进程虚拟内存大小KiB   RSS 驻留集大小，非swap中的内存大小   STAT 进程状态 S:可中断睡眠 D:不可中断睡眠 R:running s会话头   TIME 运行时间   COMMAND 命令行   NI nice值   WCHAN 等待的资源    2、top动态查看 top对活动进程及所使用的资源情况提供了汇总信息  3、proc文件系统 proc文件系统提供了内核产生的所有状态信息与数据系统，包括进程相关的信息，linux的ps、top都是从/proc目录读取进程的状态信息。进程特有的信息存储在/proc/pid下。  4、strace strace -p pid可以追踪进程的系统调用及信号，在调试进程、理解程序执行过程非常有帮助。  5、vmstat vmstat提供了关于进程、内存、内存页、块IO、陷阱、磁盘及CPU的活动信息。  ###字段含义 字段 | 内容 &mdash;- | &mdash;- r|等待执行的进程数 b|不可中断睡眠的进程数 swpd|使用虚拟内存大小 free|空闲内存 cache|用作cache的内存大小 si|swap in so|swap out bi|block in从块设备收到数据块数 bo|block out in|每秒中断数 cs|每秒上下文切换数 us|user time sy|system time id|idle time wa|wait for io</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -709,7 +715,7 @@ char *p; char *p; /* 4 or 8 bytes */ char c; =======&gt; char c; /* 1 byte */ sh
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         11 posts found
+         12 posts found
       </p>
     </div>
   </div>

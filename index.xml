@@ -6,8 +6,328 @@
     <description>Recent content on 平凡世界</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Apr 2017 19:10:59 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 27 Apr 2017 18:55:34 +0800</lastBuildDate>
     <atom:link href="http://www.itech.red/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>shell条件测试总结</title>
+      <link>http://www.itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Thu, 27 Apr 2017 18:55:34 +0800</pubDate>
+      
+      <guid>http://www.itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
+      <description>
+
+&lt;p&gt;在编写shell脚本时，条件测试与判断必不可少，基于测试结果才能做进一步的处理，此文用来回顾下shell脚本中的条件测试。&lt;/p&gt;
+
+&lt;h2 id=&#34;test&#34;&gt;test([)&lt;/h2&gt;
+
+&lt;p&gt;test有两种格式，即&lt;code&gt;test condition&lt;/code&gt; 或 &lt;code&gt;[ condition ]&lt;/code&gt;(注意条件两边空格)，
+test主要用来测试文件、字符串及数字。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;逻辑操作符&lt;/p&gt;
+
+&lt;p&gt;-a 逻辑与 -o 逻辑或 ! 逻辑非(不是短路求值)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;best practise：使用多个[，而不是-a与-o&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;good : [ &amp;ldquo;$a&amp;rdquo; = &amp;ldquo;$b&amp;rdquo; ] &amp;amp;&amp;amp; [ &amp;ldquo;$b&amp;rdquo; = &amp;ldquo;$c&amp;rdquo; ]&lt;/li&gt;
+&lt;li&gt;bad : [ &amp;ldquo;$a&amp;rdquo; = &amp;ldquo;$b&amp;rdquo; -a &amp;ldquo;$b&amp;rdquo; = &amp;ldquo;$c&amp;rdquo; ]&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;文件测试&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;参数&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;th&gt;参数&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;-d&lt;/td&gt;
+&lt;td&gt;目录&lt;/td&gt;
+&lt;td&gt;-s&lt;/td&gt;
+&lt;td&gt;文件长度大于0、非空&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-f&lt;/td&gt;
+&lt;td&gt;普通文件&lt;/td&gt;
+&lt;td&gt;-w&lt;/td&gt;
+&lt;td&gt;可写&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-L&lt;/td&gt;
+&lt;td&gt;符号链接&lt;/td&gt;
+&lt;td&gt;-u&lt;/td&gt;
+&lt;td&gt;文件有suid置位&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-r&lt;/td&gt;
+&lt;td&gt;可读&lt;/td&gt;
+&lt;td&gt;-x&lt;/td&gt;
+&lt;td&gt;可执行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;例如:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$if [ -f files ];then
+&amp;gt; echo &amp;quot;files is a normal file&amp;quot;
+&amp;gt; fi
+files is a normal file
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;字符串测试(&lt;strong&gt;注意符号两侧的空格&lt;/strong&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;参数&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;-z&lt;/td&gt;
+&lt;td&gt;空串&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-n&lt;/td&gt;
+&lt;td&gt;非空串&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;=&lt;/td&gt;
+&lt;td&gt;相等&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;!=&lt;/td&gt;
+&lt;td&gt;不相等&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;test &amp;quot;a&amp;quot; = &amp;quot;b&amp;quot;
+echo $?
+1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;测试数值&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;参数&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;-eq&lt;/td&gt;
+&lt;td&gt;相等&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-ge&lt;/td&gt;
+&lt;td&gt;大于等于&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-gt&lt;/td&gt;
+&lt;td&gt;大于&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-le&lt;/td&gt;
+&lt;td&gt;小于等于&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-lt&lt;/td&gt;
+&lt;td&gt;小于&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-ne&lt;/td&gt;
+&lt;td&gt;不等&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;expr&#34;&gt;expr&lt;/h2&gt;
+
+&lt;p&gt;expr一般用于正数值，也可用于字符串，一般格式为 expr arg operator arg，
+支持 | &amp;amp;  &amp;lt;  &amp;lt;=  =  !=  &amp;gt;=  &amp;gt;  +  -  *  /  % 等操作，此外&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;模式匹配 STRING : REGEXP （匹配()之间的字符串）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;$expr &amp;quot;hello.world&amp;quot; : &amp;quot;\(.*\).world&amp;quot;
+hello
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;求子串 substr STRING POS LENGTH （POS从1开始）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;$expr substr &amp;quot;hello world&amp;quot; 7 5
+world
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;求位置 index STRING CHARS（多个字符返回最前匹配的字符）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;$expr index &amp;quot;hello world&amp;quot; e
+2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;求长度 length STRING&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;$expr length &amp;quot;hello world&amp;quot;
+11
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;toc_2&#34;&gt;[[&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;[[比test功能更强大，只有bash、zsh等支持[[，而test更加便于移植(推荐使用[[)&lt;/li&gt;
+&lt;li&gt;[[是关键字，test是command&lt;/li&gt;
+&lt;li&gt;[[ 短路求值&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;strong&gt;Feature&lt;/strong&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;strong&gt;new test&lt;/strong&gt; &lt;tt&gt;[[&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;strong&gt;old test&lt;/strong&gt; &lt;tt&gt;[&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;strong&gt;Example&lt;/strong&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td rowspan=&#34;4&#34;&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-28&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line862&#34;&gt;string comparison&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;&amp;gt;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;\&amp;gt;&lt;/tt&gt; &lt;a href=&#34;http://www.itech.red/BashFAQ/031#np&#34;&gt;(*)&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;a&amp;nbsp;&amp;gt;&amp;nbsp;b&amp;nbsp;]]&amp;nbsp;||&amp;nbsp;echo&amp;nbsp;&#34;a&amp;nbsp;does&amp;nbsp;not&amp;nbsp;come&amp;nbsp;after&amp;nbsp;b&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-29&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;&amp;lt;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;\&amp;lt;&lt;/tt&gt; &lt;a href=&#34;http://www.itech.red/BashFAQ/031#np&#34;&gt;(*)&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;az&amp;nbsp;&amp;lt;&amp;nbsp;za&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;az&amp;nbsp;comes&amp;nbsp;before&amp;nbsp;za&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-30&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;=&lt;/tt&gt; (or &lt;tt&gt;==&lt;/tt&gt;)&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;=&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;a&amp;nbsp;=&amp;nbsp;a&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;a&amp;nbsp;equals&amp;nbsp;a&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-31&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;!=&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;!=&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;a&amp;nbsp;!=&amp;nbsp;b&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;a&amp;nbsp;is&amp;nbsp;not&amp;nbsp;equal&amp;nbsp;to&amp;nbsp;b&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td rowspan=&#34;6&#34;&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-32&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line862&#34;&gt;integer comparison&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-gt&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-gt&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;5&amp;nbsp;-gt&amp;nbsp;10&amp;nbsp;]]&amp;nbsp;||&amp;nbsp;echo&amp;nbsp;&#34;5&amp;nbsp;is&amp;nbsp;not&amp;nbsp;bigger&amp;nbsp;than&amp;nbsp;10&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-33&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-lt&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-lt&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;8&amp;nbsp;-lt&amp;nbsp;9&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;8&amp;nbsp;is&amp;nbsp;less&amp;nbsp;than&amp;nbsp;9&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-34&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-ge&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-ge&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;3&amp;nbsp;-ge&amp;nbsp;3&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;3&amp;nbsp;is&amp;nbsp;greater&amp;nbsp;than&amp;nbsp;or&amp;nbsp;equal&amp;nbsp;to&amp;nbsp;3&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-35&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-le&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-le&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;3&amp;nbsp;-le&amp;nbsp;8&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;3&amp;nbsp;is&amp;nbsp;less&amp;nbsp;than&amp;nbsp;or&amp;nbsp;equal&amp;nbsp;to&amp;nbsp;8&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-36&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-eq&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-eq&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;5&amp;nbsp;-eq&amp;nbsp;05&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;5&amp;nbsp;equals&amp;nbsp;05&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-37&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-ne&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-ne&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;6&amp;nbsp;-ne&amp;nbsp;20&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;6&amp;nbsp;is&amp;nbsp;not&amp;nbsp;equal&amp;nbsp;to&amp;nbsp;20&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td rowspan=&#34;2&#34;&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-38&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line862&#34;&gt;conditional evaluation&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;&amp;amp;&amp;amp;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-a&lt;/tt&gt; &lt;a href=&#34;http://www.itech.red/BashFAQ/031#np2&#34;&gt;(**)&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;-n&amp;nbsp;$var&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;-f&amp;nbsp;$var&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;$var&amp;nbsp;is&amp;nbsp;a&amp;nbsp;file&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-39&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;||&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-o&lt;/tt&gt; &lt;a href=&#34;http://www.itech.red/BashFAQ/031#np2&#34;&gt;(**)&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;-b&amp;nbsp;$var&amp;nbsp;||&amp;nbsp;-c&amp;nbsp;$var&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;$var&amp;nbsp;is&amp;nbsp;a&amp;nbsp;device&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-40&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line862&#34;&gt;expression grouping&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;(...)&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;\(&amp;nbsp;...&amp;nbsp;\)&lt;/tt&gt; &lt;a href=&#34;http://www.itech.red/BashFAQ/031#np2&#34;&gt;(**)&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;$var&amp;nbsp;=&amp;nbsp;img*&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;($var&amp;nbsp;=&amp;nbsp;*.png&amp;nbsp;||&amp;nbsp;$var&amp;nbsp;=&amp;nbsp;*.jpg)&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&lt;/tt&gt;&lt;br&gt;
+&lt;tt&gt;echo&amp;nbsp;&#34;$var&amp;nbsp;starts&amp;nbsp;with&amp;nbsp;img&amp;nbsp;and&amp;nbsp;ends&amp;nbsp;with&amp;nbsp;.jpg&amp;nbsp;or&amp;nbsp;.png&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-41&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line862&#34;&gt;Pattern matching&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;=&lt;/tt&gt; (or &lt;tt&gt;==&lt;/tt&gt;)&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line862&#34;&gt;(not available)&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;$name&amp;nbsp;=&amp;nbsp;a*&amp;nbsp;]]&amp;nbsp;||&amp;nbsp;echo&amp;nbsp;&#34;name&amp;nbsp;does&amp;nbsp;not&amp;nbsp;start&amp;nbsp;with&amp;nbsp;an&amp;nbsp;&#39;a&#39;:&amp;nbsp;$name&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-42&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line891&#34;&gt;&lt;a href=&#34;http://www.itech.red/RegularExpression&#34;&gt;RegularExpression&lt;/a&gt; matching&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;=~&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line862&#34;&gt;(not available)&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;$(date)&amp;nbsp;=~&amp;nbsp;^Fri\&amp;nbsp;...\&amp;nbsp;13&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;It&#39;s&amp;nbsp;Friday&amp;nbsp;the&amp;nbsp;13th!&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+(*)是POXIS扩展，可能不支持，(**)不建议使用
+
+&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;strong&gt;Description&lt;/strong&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;strong&gt;Primitive&lt;/strong&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;strong&gt;Example&lt;/strong&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-55&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line862&#34;&gt;entry (file or directory) exists&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-e&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;-e&amp;nbsp;$config&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;config&amp;nbsp;file&amp;nbsp;exists:&amp;nbsp;$config&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-56&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line862&#34;&gt;file is newer/older than other file&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-nt&lt;/tt&gt; / &lt;tt&gt;-ot&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;$file0&amp;nbsp;-nt&amp;nbsp;$file1&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;$file0&amp;nbsp;is&amp;nbsp;newer&amp;nbsp;than&amp;nbsp;$file1&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-57&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line862&#34;&gt;two files are the same&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;-ef&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;$input&amp;nbsp;-ef&amp;nbsp;$output&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;{&amp;nbsp;echo&amp;nbsp;&#34;will&amp;nbsp;not&amp;nbsp;overwrite&amp;nbsp;input&amp;nbsp;file:&amp;nbsp;$input&#34;;&amp;nbsp;exit&amp;nbsp;1;&amp;nbsp;}&amp;nbsp;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;  &lt;td&gt;&lt;span class=&#34;anchor&#34; id=&#34;line-58&#34;&gt;&lt;/span&gt;&lt;p class=&#34;line862&#34;&gt;negation&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;!&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p class=&#34;line891&#34;&gt;&lt;tt&gt;[[&amp;nbsp;!&amp;nbsp;-u&amp;nbsp;$file&amp;nbsp;]]&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;echo&amp;nbsp;&#34;$file&amp;nbsp;is&amp;nbsp;not&amp;nbsp;a&amp;nbsp;setuid&amp;nbsp;file&#34;&lt;/tt&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+
+&lt;h2 id=&#34;算数求值与比较-bash&#34;&gt;(( 算数求值与比较(bash)&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;算术运算符+ - * / % **&lt;/li&gt;
+&lt;li&gt;赋值运算符= *= /= %= += -= &amp;lt;&amp;lt;= &amp;gt;&amp;gt;= &amp;amp;= ^= |=&lt;/li&gt;
+&lt;li&gt;逻辑运算符    &amp;gt; &amp;lt; &amp;gt;= &amp;lt;= == != ! &amp;amp;&amp;amp; ||&lt;/li&gt;
+&lt;li&gt;位操作符 ~ &amp;lt;&amp;lt; &amp;gt;&amp;gt; &amp;amp; | ^&lt;/li&gt;
+&lt;li&gt;其他 ++  &amp;ndash; ?: ()&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>Ext2设计与实现(译)</title>
