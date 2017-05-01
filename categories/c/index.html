@@ -486,14 +486,7 @@ import Page; public class Book{ private List&lt;Page&gt; pages; publilc List&lt;
 TCP、UDP使用的本地端口范围
 net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network restart）
  优化短链接
-     选项 含义     net.ipv4.tcp_fin_timeout = 15 处于FIN-WAIT-2状态的时间   net.ipv4.tcp_tw_reuse = 1 允许将 TIME-WAIT sockets重新用于新的TCP连接   net.ipv4.tcp_tw_recycle = 1 表示开启TCP连接中TIME-WAIT sockets的快速回收     缓冲区大小
-套接字的缓冲区大小限制,从Linux2.6.7内核会根据传输情况自动调整
-默认值：
-net.ipv4.tcp_rmem = 4096 87380 4194304 net.ipv4.tcp_wmem = 4096 16384 4194304
-TCP读写缓存区，缓存区超过4194304，tcp包会丢弃
-BDP(带宽延时积)=B*D (带宽＊延时) 反推 带宽=BDP/延时 4194304/(0.015*2)/1024/1024=133M/s
-建议值：
-     选项 含义     net.</div>
+     选项 含义     net.ipv4.tcp_fin_timeout = 15 处于FIN-WAIT-2状态的时间，建议10   net.ipv4.tcp_tw_reuse = 1 允许将 TIME-WAIT sockets重新用于新的TCP连接   net.ipv4.tcp_tw_recycle = 1 表示开启TCP连接中TIME-WAIT sockets的快速回收(建议关闭)   net.ipv4.tcp_syncookies 防止syn flood攻击，当syn backlog满时发送syncookies(建议关闭)   net.ipv4.tcp_syn_retries 初始SYN重传次数，默认5   net.ipv4.tcp_keepalive_intvl tcp keepalive探测间隔时间，默认75s，可减小   net.ipv4.tcp_keepalive_probes 最大探测次数，默认9，可减小   net.ipv4.tcp_keepalive_time 只有在SO_KEEPALIVE设置时才启用，链接空闲多久发送keepalive，默认7200s，空闲后大概11min关闭连接，可减小     缓冲区大小</div>
             </div>
             <div style="clear:both;"></div>
             <hr>

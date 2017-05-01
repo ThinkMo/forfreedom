@@ -1420,7 +1420,7 @@ public class WindowWidget extends Widget{
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;net.ipv4.tcp_fin_timeout = 15&lt;/td&gt;
-&lt;td&gt;处于FIN-WAIT-2状态的时间&lt;/td&gt;
+&lt;td&gt;处于FIN-WAIT-2状态的时间，建议10&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
@@ -1430,7 +1430,32 @@ public class WindowWidget extends Widget{
 
 &lt;tr&gt;
 &lt;td&gt;net.ipv4.tcp_tw_recycle = 1&lt;/td&gt;
-&lt;td&gt;表示开启TCP连接中TIME-WAIT sockets的快速回收&lt;/td&gt;
+&lt;td&gt;表示开启TCP连接中TIME-WAIT sockets的快速回收(建议关闭)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_syncookies&lt;/td&gt;
+&lt;td&gt;防止syn flood攻击，当syn backlog满时发送syncookies(建议关闭)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_syn_retries&lt;/td&gt;
+&lt;td&gt;初始SYN重传次数，默认5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_keepalive_intvl&lt;/td&gt;
+&lt;td&gt;tcp keepalive探测间隔时间，默认75s，可减小&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_keepalive_probes&lt;/td&gt;
+&lt;td&gt;最大探测次数，默认9，可减小&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;net.ipv4.tcp_keepalive_time&lt;/td&gt;
+&lt;td&gt;只有在SO_KEEPALIVE设置时才启用，链接空闲多久发送keepalive，默认7200s，空闲后大概11min关闭连接，可减小&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1514,6 +1539,11 @@ net.ipv4.tcp_wmem = 4096 16384 4194304&lt;/p&gt;
 
 &lt;p&gt;根据实验结果进行设置慢启动窗口大小 ip route change&lt;/p&gt;
 
+&lt;pre&gt;&lt;code&gt;ip route | while read p; do
+    ip route change $p initcwnd 10
+done
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;提高性能百分比，降低TCP重传率的影响&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;拥塞控制算法&lt;/p&gt;
@@ -1553,41 +1583,61 @@ net.ipv4.tcp_wmem = 4096 16384 4194304&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;net.ipv4.tcp_max_syn_backlog = 16384&lt;/li&gt;
-&lt;li&gt;net.core.somaxconn = 2048&lt;/li&gt;
+&lt;li&gt;net.core.somaxconn = 2048&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;网卡的接收队列
 
 &lt;ul&gt;
 &lt;li&gt;net.core.netdev_max_backlog = 10000&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;网卡发送队列&lt;/p&gt;
+&lt;li&gt;网卡发送队列(网卡中断绑定)
 
 &lt;ul&gt;
-&lt;li&gt;ifconfig eth0 txqueuelen 10000
-
-
-&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;TCP拥塞控制
-手段
-    慢启动
-    拥塞避免
-    快速重传
-    快速恢复
-目的
-    探测网络速度
-    保证传输顺畅&lt;/p&gt;
-
-&lt;p&gt;TIME_WAIT
-    主动关闭   服务端不主动关闭socket连接，no zuo no die
-    2＊MSL
-CLOSE_WAIT
-    被动关闭
-    99%意味着程序有bug  从TCP状态图来看，收到FIN进入CLOSE_WAIT，未关闭socket、发送FIN，停留在该状态&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;ifconfig eth0 txqueuelen 10000&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;man listen
+The behavior of the backlog argument on TCP sockets changed with Linux 2.2.
+Now  it  specifies  the queue  length  for  completely  established sockets 
+waiting to be accepted, instead of the number of incomplete connection 
+requests.  The maximum length of the queue for incomplete sockets can  be  set 
+using /proc/sys/net/ipv4/tcp_max_syn_backlog.  When syncookies are enabled 
+there is no logical maxi‐mum length and this setting is ignored.  See tcp(7) 
+for more information.
+
+If the backlog argument is greater than  the  value  in  /proc/sys/net/core/
+somaxconn,  then  it  is silently  truncated to that value; the default value 
+in this file is 128.  In kernels before 2.4.25,this limit was a hard coded 
+value, SOMAXCONN, with the value 128.
+
+net.ipv4.tcp_max_syn_backlog：最大半开连接数，未完成TCP 3次握手的连接数，如果设置了
+net.ipv4.tcp_syncookies则该设置被忽略
+
+net.core.somaxconn：最大连接数(完成TCP 3次握手)，listen函数backlog含义相同，当backlog大
+于somaxconn时设置为somaxconn
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;－ TCP拥塞控制&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    手段
+        慢启动
+        拥塞避免
+        快速重传
+        快速恢复
+    目的
+        探测网络速度
+        保证传输顺畅
+
+    TIME_WAIT
+        net.ipv4.tcp_max_tw_buckets 处于TIME_WAIT状态sockets最大值
+        主动关闭   服务端不主动关闭socket连接不会走到TIME_WAIT状态，no zuo no die
+        2＊MSL
+    CLOSE_WAIT
+        被动关闭
+        99%意味着程序有bug  从TCP状态图来看，收到FIN进入CLOSE_WAIT，未关闭socket、发送FIN，停留在该状态
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
