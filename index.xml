@@ -2064,5 +2064,132 @@ wa|wait for io&lt;/p&gt;
 </description>
     </item>
     
+    <item>
+      <title></title>
+      <link>http://www.itech.red/base/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.itech.red/base/</guid>
+      <description>
+
+&lt;p&gt;##　知识整理&lt;/p&gt;
+
+&lt;h3 id=&#34;基础知识&#34;&gt;基础知识&lt;/h3&gt;
+
+&lt;h4 id=&#34;网络&#34;&gt;网络&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;四层网络模型&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;链路层&lt;/th&gt;
+&lt;th&gt;处理与传输媒介有关的细节&lt;/th&gt;
+&lt;th&gt;6smac｜6dmac｜2type｜46-1500｜4crc&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;网络层&lt;/td&gt;
+&lt;td&gt;处理分组在网络中的活动&lt;/td&gt;
+&lt;td&gt;IP协议 20字节&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;传输层&lt;/td&gt;
+&lt;td&gt;提供端到端的通信&lt;/td&gt;
+&lt;td&gt;UDP 8字节 TCP 20字节&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;应用层&lt;/td&gt;
+&lt;td&gt;特定应用程序细节&lt;/td&gt;
+&lt;td&gt;HTTP DNS&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;HTTP1.0与1.1的区别&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;缓存处理，在HTTP1.0中主要使用header里的If-Modified-Since,Expires来做为缓存判断的标准，HTTP1.1则引入了更多的缓存控制策略例如Entity tag，If-Unmodified-Since, If-Match, If-None-Match等更多可供选择的缓存头来控制缓存策略。&lt;/li&gt;
+&lt;li&gt;带宽优化及网络连接的使用，HTTP1.0中，存在一些浪费带宽的现象，例如客户端只是需要某个对象的一部分，而服务器却将整个对象送过来了，并且不支持断点续传功能，HTTP1.1则在请求头引入了range头域，它允许只请求资源的某个部分，即返回码是206（Partial Content），这样就方便了开发者自由的选择以便于充分利用带宽和连接。&lt;/li&gt;
+&lt;li&gt;错误通知的管理，在HTTP1.1中新增了24个错误状态响应码，如409（Conflict）表示请求的资源与资源的当前状态发生冲突；410（Gone）表示服务器上的某个资源被永久性的删除。&lt;/li&gt;
+&lt;li&gt;Host头处理，在HTTP1.0中认为每台服务器都绑定一个唯一的IP地址，因此，请求消息中的URL并没有传递主机名（hostname）。但随着虚拟主机技术的发展，在一台物理服务器上可以存在多个虚拟主机（Multi-homed Web Servers），并且它们共享一个IP地址。HTTP1.1的请求消息和响应消息都应支持Host头域，且请求消息中如果没有Host头域会报告一个错误（400 Bad Request）。&lt;/li&gt;
+&lt;li&gt;长连接，HTTP 1.1支持长连接（PersistentConnection）和请求的流水线（Pipelining）处理，在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟，在HTTP1.1中默认开启Connection： keep-alive，一定程度上弥补了HTTP1.0每次请求都要创建连接的缺点&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;HTTP与HTTPS区别&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;HTTPS协议需要到CA申请证书，一般免费证书很少，需要交费。&lt;/li&gt;
+&lt;li&gt;HTTP协议运行在TCP之上，所有传输的内容都是明文，HTTPS运行在SSL/TLS之上，SSL/TLS运行在TCP之上，所有传输的内容都经过加密的。&lt;/li&gt;
+&lt;li&gt;HTTP和HTTPS使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。&lt;/li&gt;
+&lt;li&gt;HTTPS可以有效的防止运营商劫持，解决了防劫持的一个大问题。&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;TCP协议&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;IP协议&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;数据结构与算法&#34;&gt;数据结构与算法&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;链表&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;栈与队列&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;树&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;图&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;哈希表&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;排序算法&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;贪心算法&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;动态规划&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;字符串匹配&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;操作系统-linux内核&#34;&gt;操作系统(Linux内核)&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;进程管理&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;内存管理&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;中断&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;文件系统&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;数据库系统&#34;&gt;数据库系统&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;ACID&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;索引&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;设计模式&#34;&gt;设计模式&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;单例模式&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;适配器模式&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;工厂模式&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
   </channel>
 </rss>
