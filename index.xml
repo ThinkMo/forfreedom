@@ -2140,23 +2140,203 @@ wa|wait for io&lt;/p&gt;
 &lt;h4 id=&#34;数据结构与算法&#34;&gt;数据结构与算法&lt;/h4&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;链表&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;链表&lt;/p&gt;
 
-&lt;li&gt;&lt;p&gt;栈与队列&lt;/p&gt;&lt;/li&gt;
+&lt;p&gt;Linux kernel中的双向链表&lt;/p&gt;
 
-&lt;li&gt;&lt;p&gt;树&lt;/p&gt;&lt;/li&gt;
+&lt;pre&gt;&lt;code&gt;/* 定义在linux/types.h，作为结构体的数据成员 */
+185 struct list_head {
+186     struct list_head *next, *prev;
+187 };
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+17 #define offsetof(TYPE, MEMBER) ((size_t) &amp;amp;((TYPE *)0)-&amp;gt;MEMBER)
+78 #define container_of(ptr, type, member) ({            \
+79     const typeof(((type *)0)-&amp;gt;member)*__mptr = (ptr);    \
+80     (type *)((char *)__mptr - offsetof(type, member)); })
+81 #endif
+/* 相关操作linux/list.h */
+/* 空链表判断 */
+186 static inline int list_empty(const struct list_head *head)
+187 {
+188     return head-&amp;gt;next == head;
+189 }
+/* 添加元素 */
+37 static inline void __list_add(struct list_head *new,
+38                   struct list_head *prev,
+39                   struct list_head *next)
+40 {
+41     next-&amp;gt;prev = new;
+42     new-&amp;gt;next = next;
+43     new-&amp;gt;prev = prev;
+44     prev-&amp;gt;next = new;
+45 }
+60 static inline void list_add(struct list_head *new, struct list_head *head)
+61 {
+62     __list_add(new, head, head-&amp;gt;next);
+63 }
+/* 根据struct list_head的地址取得保护该数据成员结构体的地址 */
+350 #define list_entry(ptr, type, member) \
+351     container_of(ptr, type, member)
+/* 遍历list */
+396 #define list_for_each(pos, head) \
+397     for (pos = (head)-&amp;gt;next; pos != (head); pos = pos-&amp;gt;next)
+/* 遍历list_entry */
+445 #define list_for_each_entry(pos, head, member)              \
+446     for (pos = list_entry((head)-&amp;gt;next, typeof(*pos), member);  \
+447          &amp;amp;pos-&amp;gt;member != (head);    \
+448          pos = list_entry(pos-&amp;gt;member.next, typeof(*pos), member))
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;图&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;栈与队列&lt;/p&gt;
 
-&lt;li&gt;&lt;p&gt;哈希表&lt;/p&gt;&lt;/li&gt;
+&lt;p&gt;在元素访问上有限定性的数据结构，适配器&lt;/p&gt;
 
-&lt;li&gt;&lt;p&gt;排序算法&lt;/p&gt;&lt;/li&gt;
+&lt;p&gt;栈：LIFO (子弹夹，在图的遍历、迷宫中用为辅助数据结构)&lt;/p&gt;
+
+&lt;p&gt;队列: FIFO (排队，IO队列)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;跳表SkipList&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;树&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;红黑树&lt;/li&gt;
+&lt;li&gt;B树&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;图&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;存储&lt;/li&gt;
+&lt;li&gt;BFS&lt;/li&gt;
+&lt;li&gt;DFS&lt;/li&gt;
+&lt;li&gt;最短路径Dijkstra&lt;/li&gt;
+&lt;li&gt;最小生成树&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;哈希表（avg:O(1),worst:O(n)）&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;链式哈希&lt;/li&gt;
+&lt;li&gt;一致性哈希&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;排序算法&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;冒泡排序
+&lt;img src=&#34;./images/bubble_sort.png&#34; alt=&#34;insert_sort&#34; /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;template&amp;lt;typename RandomAccessIterator&amp;gt;
+void bubble_sort(RandomAccessIterator begin, RandomAccessIterator end){
+    typedef typename iterator_traits&amp;lt;RandomAccessIterator&amp;gt;::value_type value_type;
+    value_type tmp;
+    for(auto iter=begin; iter!=end; iter++)
+        for(auto inner_iter=begin; inner_iter!=end-(iter-begin); inner_iter++){
+            if(*inner_iter &amp;gt; *(inner_iter+1)){
+                tmp = *inner_iter;
+                *inner_iter = *(inner_iter+1);
+                *(inner_iter+1) = tmp;
+            }
+        }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;选择排序&lt;/li&gt;
+&lt;li&gt;插入排序
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;./images/insertion_sort.png&#34; alt=&#34;insert_sort&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;template&amp;lt;typename RandomAccessIterator&amp;gt;
+void insert_sort(RandomAccessIterator begin, RandomAccessIterator end){
+    typedef typename iterator_traits&amp;lt;RandomAccessIterator&amp;gt;::value_type value_type;
+    value_type tmp;
+    RandomAccessIterator i,j;
+    for(i = begin+1; i != end; i++){
+    tmp = *i;
+    for(j = i-1; j &amp;gt;= begin &amp;amp;&amp;amp; *j &amp;gt; tmp; j--){
+        *(j+1) = *j;
+    }
+    *(j+1) = tmp;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;归并排序&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;./images/merge-sort.png&#34; alt=&#34;merge-sort&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;template&amp;lt;typename RandomAccessIterator&amp;gt;
+void merge(RandomAccessIterator begin, RandomAccessIterator mid, RandomAccessIterator end){
+    typedef typename iterator_traits&amp;lt;RandomAccessIterator&amp;gt;::value_type value_type;
+    value_type* m = new value_type[end-begin];
+    unsigned int pos = 0;
+    auto fpos = begin, lpos = mid;
+    while(fpos != mid &amp;amp;&amp;amp; lpos != end){
+        if(*fpos &amp;gt; *lpos){
+            m[pos] = *lpos;
+            lpos++;
+        }else{
+            m[pos] = *fpos;
+            fpos++;
+        }
+        pos++;
+    }
+    while(fpos != mid){
+        m[pos++] = *fpos++;
+    }
+    while(lpos != end){
+        m[pos++] = *lpos++;
+    }
+    for(fpos = begin, pos = 0; fpos != end; fpos++, pos++){
+        *fpos = m[pos];
+    }
+    delete [] m;
+}
+    
+template&amp;lt;typename RandomAccessIterator&amp;gt;
+void merge_sort(RandomAccessIterator begin, RandomAccessIterator end){
+    if(end - begin &amp;gt; 1){
+        auto mid = begin + (end-begin)/2;
+        merge_sort(begin, mid);   // [begin,mid)
+        merge_sort(mid, end);
+        merge(begin, mid, end);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;快排&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;堆排序
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;二分查找&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;贪心算法&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;动态规划&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;字符串匹配&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;分治法&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;字符串匹配(Rabin-Karp与KMP)&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h4 id=&#34;操作系统-linux内核&#34;&gt;操作系统(Linux内核)&lt;/h4&gt;
@@ -2174,9 +2354,28 @@ wa|wait for io&lt;/p&gt;
 &lt;h4 id=&#34;数据库系统&#34;&gt;数据库系统&lt;/h4&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;ACID&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;ACID(保证事务是正确可靠的4个条件)&lt;/p&gt;
 
-&lt;li&gt;&lt;p&gt;索引&lt;/p&gt;&lt;/li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Atomic
+：一个事务（transaction）中的所有操作，要么全部完成，要么全部不完成，不会结束在中间某个环节。事务在执行过程中发生错误，会被回滚（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Consistency：
+在事务开始之前和事务结束以后，数据库的完整性没有被破坏。这表示写入的资料必须完全符合所有的预设规则，这包含资料的精确度、串联性以及后续数据库可以自发性地完成预定的工作。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Isolation：
+数据库允许多个并发事务同时对其数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致。事务隔离分为不同级别，包括读未提交（Read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（Serializable）。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Durability：
+持久性：事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;索引(B+树)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;聚集索引：叶子节点存储所有数据&lt;/li&gt;
+&lt;li&gt;非聚集索引：叶子节点存储非聚集索引值与聚集索引值&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h4 id=&#34;设计模式&#34;&gt;设计模式&lt;/h4&gt;
@@ -2188,6 +2387,10 @@ wa|wait for io&lt;/p&gt;
 
 &lt;li&gt;&lt;p&gt;工厂模式&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h4 id=&#34;资料&#34;&gt;资料&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.cs.yale.edu/homes/aspnes/classes/223/notes.html&#34;&gt;Data Structures and Algorithm&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     

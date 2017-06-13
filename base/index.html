@@ -295,23 +295,203 @@ ga('send', 'pageview');
 <h4 id="数据结构与算法">数据结构与算法</h4>
 
 <ul>
-<li><p>链表</p></li>
+<li><p>链表</p>
 
-<li><p>栈与队列</p></li>
+<p>Linux kernel中的双向链表</p>
 
-<li><p>树</p></li>
+<pre><code>/* 定义在linux/types.h，作为结构体的数据成员 */
+185 struct list_head {
+186     struct list_head *next, *prev;
+187 };
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+17 #define offsetof(TYPE, MEMBER) ((size_t) &amp;((TYPE *)0)-&gt;MEMBER)
+78 #define container_of(ptr, type, member) ({            \
+79     const typeof(((type *)0)-&gt;member)*__mptr = (ptr);    \
+80     (type *)((char *)__mptr - offsetof(type, member)); })
+81 #endif
+/* 相关操作linux/list.h */
+/* 空链表判断 */
+186 static inline int list_empty(const struct list_head *head)
+187 {
+188     return head-&gt;next == head;
+189 }
+/* 添加元素 */
+37 static inline void __list_add(struct list_head *new,
+38                   struct list_head *prev,
+39                   struct list_head *next)
+40 {
+41     next-&gt;prev = new;
+42     new-&gt;next = next;
+43     new-&gt;prev = prev;
+44     prev-&gt;next = new;
+45 }
+60 static inline void list_add(struct list_head *new, struct list_head *head)
+61 {
+62     __list_add(new, head, head-&gt;next);
+63 }
+/* 根据struct list_head的地址取得保护该数据成员结构体的地址 */
+350 #define list_entry(ptr, type, member) \
+351     container_of(ptr, type, member)
+/* 遍历list */
+396 #define list_for_each(pos, head) \
+397     for (pos = (head)-&gt;next; pos != (head); pos = pos-&gt;next)
+/* 遍历list_entry */
+445 #define list_for_each_entry(pos, head, member)              \
+446     for (pos = list_entry((head)-&gt;next, typeof(*pos), member);  \
+447          &amp;pos-&gt;member != (head);    \
+448          pos = list_entry(pos-&gt;member.next, typeof(*pos), member))
+</code></pre></li>
 
-<li><p>图</p></li>
+<li><p>栈与队列</p>
 
-<li><p>哈希表</p></li>
+<p>在元素访问上有限定性的数据结构，适配器</p>
 
-<li><p>排序算法</p></li>
+<p>栈：LIFO (子弹夹，在图的遍历、迷宫中用为辅助数据结构)</p>
+
+<p>队列: FIFO (排队，IO队列)</p></li>
+
+<li><p>跳表SkipList</p></li>
+
+<li><p>树</p>
+
+<ul>
+<li>红黑树</li>
+<li>B树</li>
+</ul></li>
+
+<li><p>图</p>
+
+<ul>
+<li>存储</li>
+<li>BFS</li>
+<li>DFS</li>
+<li>最短路径Dijkstra</li>
+<li>最小生成树</li>
+</ul></li>
+
+<li><p>哈希表（avg:O(1),worst:O(n)）</p>
+
+<ul>
+<li>链式哈希</li>
+<li>一致性哈希</li>
+</ul></li>
+
+<li><p>排序算法</p>
+
+<ul>
+<li>冒泡排序
+<img src="./images/bubble_sort.png" alt="insert_sort" />
+<br /></li>
+</ul>
+
+<pre><code>template&lt;typename RandomAccessIterator&gt;
+void bubble_sort(RandomAccessIterator begin, RandomAccessIterator end){
+    typedef typename iterator_traits&lt;RandomAccessIterator&gt;::value_type value_type;
+    value_type tmp;
+    for(auto iter=begin; iter!=end; iter++)
+        for(auto inner_iter=begin; inner_iter!=end-(iter-begin); inner_iter++){
+            if(*inner_iter &gt; *(inner_iter+1)){
+                tmp = *inner_iter;
+                *inner_iter = *(inner_iter+1);
+                *(inner_iter+1) = tmp;
+            }
+        }
+}
+</code></pre>
+
+<ul>
+<li>选择排序</li>
+<li>插入排序
+<br /></li>
+</ul>
+
+<p><img src="./images/insertion_sort.png" alt="insert_sort" /></p>
+
+<pre><code>template&lt;typename RandomAccessIterator&gt;
+void insert_sort(RandomAccessIterator begin, RandomAccessIterator end){
+    typedef typename iterator_traits&lt;RandomAccessIterator&gt;::value_type value_type;
+    value_type tmp;
+    RandomAccessIterator i,j;
+    for(i = begin+1; i != end; i++){
+    tmp = *i;
+    for(j = i-1; j &gt;= begin &amp;&amp; *j &gt; tmp; j--){
+        *(j+1) = *j;
+    }
+    *(j+1) = tmp;
+    }
+}
+</code></pre>
+
+<ul>
+<li>归并排序</li>
+</ul>
+
+<p><img src="./images/merge-sort.png" alt="merge-sort" /></p>
+
+<pre><code>template&lt;typename RandomAccessIterator&gt;
+void merge(RandomAccessIterator begin, RandomAccessIterator mid, RandomAccessIterator end){
+    typedef typename iterator_traits&lt;RandomAccessIterator&gt;::value_type value_type;
+    value_type* m = new value_type[end-begin];
+    unsigned int pos = 0;
+    auto fpos = begin, lpos = mid;
+    while(fpos != mid &amp;&amp; lpos != end){
+        if(*fpos &gt; *lpos){
+            m[pos] = *lpos;
+            lpos++;
+        }else{
+            m[pos] = *fpos;
+            fpos++;
+        }
+        pos++;
+    }
+    while(fpos != mid){
+        m[pos++] = *fpos++;
+    }
+    while(lpos != end){
+        m[pos++] = *lpos++;
+    }
+    for(fpos = begin, pos = 0; fpos != end; fpos++, pos++){
+        *fpos = m[pos];
+    }
+    delete [] m;
+}
+    
+template&lt;typename RandomAccessIterator&gt;
+void merge_sort(RandomAccessIterator begin, RandomAccessIterator end){
+    if(end - begin &gt; 1){
+        auto mid = begin + (end-begin)/2;
+        merge_sort(begin, mid);   // [begin,mid)
+        merge_sort(mid, end);
+        merge(begin, mid, end);
+    }
+}
+</code></pre>
+
+<ul>
+<li>快排</li>
+</ul>
+
+<pre><code>    
+</code></pre>
+
+<ul>
+<li>堆排序
+<br /></li>
+</ul>
+
+<pre><code></code></pre>
+
+<ul>
+<li>二分查找</li>
+</ul></li>
 
 <li><p>贪心算法</p></li>
 
 <li><p>动态规划</p></li>
 
-<li><p>字符串匹配</p></li>
+<li><p>分治法</p></li>
+
+<li><p>字符串匹配(Rabin-Karp与KMP)</p></li>
 </ul>
 
 <h4 id="操作系统-linux内核">操作系统(Linux内核)</h4>
@@ -329,9 +509,28 @@ ga('send', 'pageview');
 <h4 id="数据库系统">数据库系统</h4>
 
 <ul>
-<li><p>ACID</p></li>
+<li><p>ACID(保证事务是正确可靠的4个条件)</p>
 
-<li><p>索引</p></li>
+<ul>
+<li><p>Atomic
+：一个事务（transaction）中的所有操作，要么全部完成，要么全部不完成，不会结束在中间某个环节。事务在执行过程中发生错误，会被回滚（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样</p></li>
+
+<li><p>Consistency：
+在事务开始之前和事务结束以后，数据库的完整性没有被破坏。这表示写入的资料必须完全符合所有的预设规则，这包含资料的精确度、串联性以及后续数据库可以自发性地完成预定的工作。</p></li>
+
+<li><p>Isolation：
+数据库允许多个并发事务同时对其数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致。事务隔离分为不同级别，包括读未提交（Read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（Serializable）。</p></li>
+
+<li><p>Durability：
+持久性：事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。</p></li>
+</ul></li>
+
+<li><p>索引(B+树)</p>
+
+<ul>
+<li>聚集索引：叶子节点存储所有数据</li>
+<li>非聚集索引：叶子节点存储非聚集索引值与聚集索引值</li>
+</ul></li>
 </ul>
 
 <h4 id="设计模式">设计模式</h4>
@@ -343,6 +542,10 @@ ga('send', 'pageview');
 
 <li><p>工厂模式</p></li>
 </ul>
+
+<h4 id="资料">资料</h4>
+
+<p><a href="http://www.cs.yale.edu/homes/aspnes/classes/223/notes.html">Data Structures and Algorithm</a></p>
 
               
             </div>
