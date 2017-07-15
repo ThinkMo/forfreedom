@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on 平凡世界</title>
+    <link>http://www.itech.red/categories/</link>
+    <description>Recent content in Categories on 平凡世界</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 11 May 2016 10:23:54 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.itech.red/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>C</title>
+      <link>http://www.itech.red/categories/c/</link>
+      <pubDate>Wed, 11 May 2016 10:23:54 +0800</pubDate>
+      
+      <guid>http://www.itech.red/categories/c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>http://www.itech.red/categories/java/</link>
+      <pubDate>Wed, 23 Nov 2016 18:47:34 +0800</pubDate>
+      
+      <guid>http://www.itech.red/categories/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>http://www.itech.red/categories/linux/</link>
+      <pubDate>Thu, 27 Apr 2017 18:55:34 +0800</pubDate>
+      
+      <guid>http://www.itech.red/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Network</title>
+      <link>http://www.itech.red/categories/network/</link>
+      <pubDate>Tue, 04 Apr 2017 19:07:48 +0800</pubDate>
+      
+      <guid>http://www.itech.red/categories/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>http://www.itech.red/categories/python/</link>
+      <pubDate>Fri, 27 May 2016 13:27:04 +0800</pubDate>
+      
+      <guid>http://www.itech.red/categories/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>基础</title>
+      <link>http://www.itech.red/categories/%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Fri, 26 Aug 2016 16:51:34 +0800</pubDate>
+      
+      <guid>http://www.itech.red/categories/%E5%9F%BA%E7%A1%80/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
