@@ -570,6 +570,29 @@ public class WindowWidget extends Widget{
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/">
+                <h3 class="media-heading">ansible自动化部署配置工具</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">ansible自动化部署配置工具 初识ansible  简介  ansible是运维自动化工具，可以实现系统配置、软件部署，可以通过编排实现更高级的功能如持续集成、热更新等；ansible具有简单易用、安全、agentless等特点，通过ssh来完成与管理节点的交互。
+ inventory  ansible管理的主机信息称为inventory，默认存储在/etc/ansible/hosts，也可以在运行时通过-i 指定inventory文件位置，通常为ini格式，如下：
+ [jumpserver] 44.33.22.11:1024	ansible_ssh_user=xxx # xxx用户ssh端口1024 [other] 192.168.1.[2:255] # 范围2-255 [localhost] localhost	ansible_connection=local  处于[]中的为组名，一个节点可以在多个组下，组下为机器名可指定端口与参数，支持的参数详情见文档。
+ patterns:  ansible执行ad-hoc 命令的基本格式如下：
+ ansible &lt;pattern_goes_here&gt; -m &lt;module_name&gt; -a &lt;arguments&gt;  ansible中的模式patterns决定了inventory中哪些主机将执行指定命令，默认是all(*)所有机器，可以指定多个组的集合如other:localhost(并集) other:!localhost(差集)、other:&amp;localhost(交集)等
+ ad-hoc命令  ad-hoc命令是指执行简单短小的、无需保存结果的任务
+# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &quot;/usr/bin/uptime&quot; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &quot;/usr/bin/uptime&quot; -u sa # 文件传输 ansible jumpserver -m copy -a &quot;src=/etc/hosts dest=/tmp/hosts mode=600&quot; # 包管理 ansible jumpserver -m yum -a &quot;name=vim state=present&quot; #确保vim包已安装 ansible jumpserver -m yum -a &quot;name=vim state=absent&quot; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &quot;name=xiao password=xxx&quot; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &quot;name=httpd state=restarted&quot; # 信息收集 ansible jumpserver -m setup   配置优先级   1.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="http://www.itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/">
                 <h3 class="media-heading">shell条件测试总结</h3>
               </a>
@@ -766,28 +789,6 @@ net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network 
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="http://www.itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/">
-                <h3 class="media-heading">C语言结构体封装</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  May 5, 2016
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">C语言结构体封装 源自：http://www.catb.org/esr/structure-packing/
-1、简介 通过手动填充、封装C语言结构体以减少C程序的内存使用，在嵌入式系统、操作系统内核模块等内存使用有限制的场景，这种知识非常有效。当你对程序的高速缓存行命中率非常在意时，理解这部分知识也是至关重要的。
-2、对齐 在X86与ARM处理器上，C语言基本类型并不是随意地存储在内存地址上的。除了char，每一个类型都有对齐要求。char可以存储在任何起始地址，2字节short存储的起始地址应为奇数，4字节的int、float起始地址应为4的倍数，8字节long、double起始地址应为8的倍数。C语言的基本类型是自动对齐的。字节对齐使得访问更快速，因为通过单个指令就可以对数据进行读写。如果没有对齐要求，数据可能存储在多个机器字节内，造成访问次数增加。字符是个特例。
-3、填充 如果你不知道数据对齐的知识，你可能认为下面的3个变量会占据连续的内存空间，在32位机器上时，4字节指针、1字节字符和4字节整型。
-char *p; 实际 char *p; /* 4 or 8 bytes */ char c; ======&gt; char c; /* 1 byte */ int x; char pad[3]; /* 3 byte */ int x; /* 4 byte */  实际上的存储如右所示，pad[3]字符数组为了对齐而浪费的存储空间。看看其他两种情况。
-char *p; char *p; /* 4 or 8 bytes */ char c; =======&gt; char c; /* 1 byte */ short x; char pad[1]; /* 1 byte */ short x; /* 2 byte */  char *p; char *p; /* 4 or 8 byte */ char c; =======&gt; char c; /* 1 byte */ long x; char pad[7]; /* 7 byte */ long x; /* 8 byte */  char c; char c; char *p; =======&gt; char pad1[M]; int x; char *p; char pad2[N]; int x;  N肯定是0，M可能为0-7（大端、小端字符位置决定），为了节省内存空间使用，可以交换x与c的定义位置。</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -795,7 +796,7 @@ char *p; char *p; /* 4 or 8 bytes */ char c; =======&gt; char c; /* 1 byte */ sh
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         12 posts found
+         13 posts found
       </p>
     </div>
   </div>
