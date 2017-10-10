@@ -280,7 +280,7 @@ char *p; char <em>p; /</em> 4 or 8 bytes <em>/ char c; =======&gt; char c; /</em
       <div id="about-card-job">
         <i class="fa fa-briefcase"></i>
         <br/>
-        系统工程师
+        云计算研发工程师
       </div>
     
     
@@ -311,6 +311,60 @@ char *p; char <em>p; /</em> 4 or 8 bytes <em>/ char c; =======&gt; char c; /</em
       <div class="no-result text-color-light text-center"></div>
       <div class="results">
         
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2017/09/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/">
+                <h3 class="media-heading">Logstash过滤插件grok正则解析</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Logstash过滤插件grok正则解析 一、grok介绍 grok是Logstash中用来解析非结构化日志数据，将日志转化为可查询的结构化数据的最佳方法，可以用来处理syslog日志、apache等webserver日志、mysql日志以及用户自定义日志。
+Logstash自带有120多种预定义好的正则表达式方便用户使用，你可以在 https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns 查看这些正则表达式，你也可以添加自己的匹配规则。
+有两个网站可以帮助我们来构建正则表达式去匹配我们的日志：
+ http://grokdebug.herokuapp.com http://grokconstructor.appspot.com (推荐)  二、grok基础 grok匹配模式语法为：%{SYNTAX:SEMANTIC:TYPE}
+SYNTAX: 正则表达式、预定义的正则表达式名称
+SEMANTIC: 标识符，标识匹配后的数据
+TYPE: 可选的类型，目前支持int、float
+例如：NUMBER可以匹配3.44，IP可以匹配：192.168.21.2
+一个复杂的日志格式如下：
+192.168.21.2 GET /index.html 15823 0.023  grok匹配模式可以为：
+${IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}  更加实际的，该条日志可能来自一个文件：
+input { file { path =&gt; &quot;/var/log/http.log&quot; } } filter { grok { match =&gt; { &quot;message&quot; =&gt; &quot;%{IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}&quot; } } }  在grok过滤后，可以得到额外一下字段：
+client: 192.168.21.2 method: GET request: /index.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2017/09/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95--use%E6%96%B9%E6%B3%95/">
+                <h3 class="media-heading">性能分析方法--USE方法</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">性能分析方法&ndash;USE方法 USE是utilization、saturation、errors的集合，USE方法即：对于所有的资源，查看它的使用率、饱和度和错误。
+ 资源：所有服务器物理元器件(CPU、Memory&hellip;)，某些软件资源也包含在内，提供有用的指标。 使用率：在规定的时间间隔内，资源用于服务工作的时间百分比；或容量使用百分比。 饱和度：资源不能在服务更多额外工作的程度，通常有等待队列。 错误：错误事件。  分析流程 资源列表与指标 CPU: 插槽(socket)、核(core)、硬件线程(thread)
+内存: DRAM
+网络接口: 以太网端口
+存储设备: 磁盘、SSD、SAS
+控制器: 存储、网络
+互联: CPU、内存、I/O
+软件资源: 互斥锁、线程池、进程/线程容量、文件描述符容量
+   资源 类型 指标     CPU 使用率 CPU使用率(单CPU使用率或系统均值)   CPU 饱和度 等待队列长度   内存 使用率 可用空闲内存   内存 饱和度 匿名换页或线程换出、OOM   网络接口 使用率 接收吞吐量/最大带宽,传输吞吐量/最大带宽   存储设备I/O 使用率 设备繁忙百分比   存储设备I/O 饱和度 等待队列长度   存储设备I/O 错误 设备错误    使用建议  使用率：使用率超过60%可能会是问题，短期的100%使用率易被忽视 饱和度：任何程度的饱和度都是问题 错误：错误都是值得研究的  更多 the use method linux performance checklist</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
         
           <div class="media">
             
@@ -494,46 +548,6 @@ import Page; public class Book{ private List&lt;Page&gt; pages; publilc List&lt;
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/">
-                <h3 class="media-heading">认识Linux内核网络参数</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jun 6, 2016
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">认识Linux内核网络参数  本地端口
-TCP、UDP使用的本地端口范围
-net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network restart）
- 优化短链接
-     选项 含义     net.ipv4.tcp_fin_timeout = 15 处于FIN-WAIT-2状态的时间，建议10   net.ipv4.tcp_tw_reuse = 1 允许将 TIME-WAIT sockets重新用于新的TCP连接   net.ipv4.tcp_tw_recycle = 1 表示开启TCP连接中TIME-WAIT sockets的快速回收(建议关闭)   net.ipv4.tcp_syncookies 防止syn flood攻击，当syn backlog满时发送syncookies(建议关闭)   net.ipv4.tcp_syn_retries 初始SYN重传次数，默认5   net.ipv4.tcp_keepalive_intvl tcp keepalive探测间隔时间，默认75s，可减小   net.ipv4.tcp_keepalive_probes 最大探测次数，默认9，可减小   net.ipv4.tcp_keepalive_time 只有在SO_KEEPALIVE设置时才启用，链接空闲多久发送keepalive，默认7200s，空闲后大概11min关闭连接，可减小     缓冲区大小</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="http://www.itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/">
-                <h3 class="media-heading">python项目开发总结</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  May 5, 2016
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">python项目开发总结 编码规范flake8  安装 pip install flake8 或 brew install flake8 安装vim插件 syntastic，语法检测插件，很方便
-由于使用vundle管理插件，只需在.vimrc中添加 Plugin 'scrooloose/syntastic' 打开vim，在命令行模式输入 PluginInstall 最后在.vimrc中添加set lcs=extends:&gt;,precedes:&lt;,tab:&gt;-,trail:· vundle相关：https://github.com/VundleVim/Vundle.vim   使用virtualenv，独立的开发环境 新建project virtualenv project 环境使能 cd project source bin/activate 退出virtualenv环境 deactive 获得当前环境依赖 pip freeze  python单例  metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类
-1) 拦截类的创建 2) 修改类 3) 返回修改之后的类 class Singleton(type): ＃子类化type，__call__相当于重载了括号运算符 _instances = {} def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs) return cls._instances[cls] class Logger(object): __metaclass__ = Singleton #Or in Python3 class Logger(metaclass=Singleton): pass If you want to run __init__ every time the class is called, add else: cls.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -541,7 +555,7 @@ net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network 
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         13 posts found
+         15 posts found
       </p>
     </div>
   </div>

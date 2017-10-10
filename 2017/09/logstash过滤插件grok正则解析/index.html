@@ -1,5 +1,9 @@
 
 
+  
+    
+  
+
 
   
 
@@ -16,25 +20,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.26-DEV">
-    <title>404 Page not found</title>
+    <title>Logstash过滤插件grok正则解析</title>
     <meta name="author" content="游">
-    <meta name="keywords" content="">
+    <meta name="keywords" content="logstash, grok">
 
     <link rel="icon" href="http://www.itech.red/favicon.png">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.itech.red/index.xml">
-    
 
     
-    <meta name="description" content="游记">
-    <meta property="og:description" content="游记">
+    <meta name="description" content="Logstash过滤插件grok正则解析 一、grok介绍 grok是Logstash中用来解析非结构化日志数据，将日志转化为可查询的结构化数据的最佳方法，可以用来处理syslog日志、apache等webserver日志、mysql日志以及用户自定义日志。
+Logstash自带有120多种预定义好的正则表达式方便用户使用，你可以在 https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns 查看这些正则表达式，你也可以添加自己的匹配规则。
+有两个网站可以帮助我们来构建正则表达式去匹配我们的日志：
+ http://grokdebug.herokuapp.com http://grokconstructor.appspot.com (推荐)  二、grok基础 grok匹配模式语法为：%{SYNTAX:SEMANTIC:TYPE}
+SYNTAX: 正则表达式、预定义的正则表达式名称
+SEMANTIC: 标识符，标识匹配后的数据
+TYPE: 可选的类型，目前支持int、float
+例如：NUMBER可以匹配3.44，IP可以匹配：192.168.21.2
+一个复杂的日志格式如下：
+192.168.21.2 GET /index.html 15823 0.023  grok匹配模式可以为：
+${IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}  更加实际的，该条日志可能来自一个文件：
+input { file { path =&gt; &quot;/var/log/http.log&quot; } } filter { grok { match =&gt; { &quot;message&quot; =&gt; &quot;%{IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}&quot; } } }  在grok过滤后，可以得到额外一下字段：
+client: 192.168.21.2 method: GET request: /index.">
+    <meta property="og:description" content="Logstash过滤插件grok正则解析 一、grok介绍 grok是Logstash中用来解析非结构化日志数据，将日志转化为可查询的结构化数据的最佳方法，可以用来处理syslog日志、apache等webserver日志、mysql日志以及用户自定义日志。
+Logstash自带有120多种预定义好的正则表达式方便用户使用，你可以在 https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns 查看这些正则表达式，你也可以添加自己的匹配规则。
+有两个网站可以帮助我们来构建正则表达式去匹配我们的日志：
+ http://grokdebug.herokuapp.com http://grokconstructor.appspot.com (推荐)  二、grok基础 grok匹配模式语法为：%{SYNTAX:SEMANTIC:TYPE}
+SYNTAX: 正则表达式、预定义的正则表达式名称
+SEMANTIC: 标识符，标识匹配后的数据
+TYPE: 可选的类型，目前支持int、float
+例如：NUMBER可以匹配3.44，IP可以匹配：192.168.21.2
+一个复杂的日志格式如下：
+192.168.21.2 GET /index.html 15823 0.023  grok匹配模式可以为：
+${IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}  更加实际的，该条日志可能来自一个文件：
+input { file { path =&gt; &quot;/var/log/http.log&quot; } } filter { grok { match =&gt; { &quot;message&quot; =&gt; &quot;%{IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}&quot; } } }  在grok过滤后，可以得到额外一下字段：
+client: 192.168.21.2 method: GET request: /index.">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="404 Page not found">
-    <meta property="og:url" content="">
+    <meta property="og:title" content="Logstash过滤插件grok正则解析">
+    <meta property="og:url" content="/2017/09/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/">
     <meta property="og:site_name" content="平凡世界">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="平凡世界">
-    <meta name="twitter:description" content="游记">
+    <meta name="twitter:description" content="Logstash过滤插件grok正则解析 一、grok介绍 grok是Logstash中用来解析非结构化日志数据，将日志转化为可查询的结构化数据的最佳方法，可以用来处理syslog日志、apache等webserver日志、mysql日志以及用户自定义日志。
+Logstash自带有120多种预定义好的正则表达式方便用户使用，你可以在 https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns 查看这些正则表达式，你也可以添加自己的匹配规则。
+有两个网站可以帮助我们来构建正则表达式去匹配我们的日志：
+ http://grokdebug.herokuapp.com http://grokconstructor.appspot.com (推荐)  二、grok基础 grok匹配模式语法为：%{SYNTAX:SEMANTIC:TYPE}
+SYNTAX: 正则表达式、预定义的正则表达式名称
+SEMANTIC: 标识符，标识匹配后的数据
+TYPE: 可选的类型，目前支持int、float
+例如：NUMBER可以匹配3.44，IP可以匹配：192.168.21.2
+一个复杂的日志格式如下：
+192.168.21.2 GET /index.html 15823 0.023  grok匹配模式可以为：
+${IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}  更加实际的，该条日志可能来自一个文件：
+input { file { path =&gt; &quot;/var/log/http.log&quot; } } filter { grok { match =&gt; { &quot;message&quot; =&gt; &quot;%{IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}&quot; } } }  在grok过滤后，可以得到额外一下字段：
+client: 192.168.21.2 method: GET request: /index.">
     
     
 
@@ -77,13 +115,394 @@ ga('send', 'pageview');
     
   </head>
 
-<main class="posts">
-  <article class="post">
-    <h1>404 Not Found</h1>
-    <p>Sorry, but we couldn't find the page you're looking for.</p>
-    <p>Please head back <a href="http://www.itech.red/">home</a>.</p>
-  </article>
-</main>
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://www.itech.red/">平凡世界</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://www.itech.red/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/6330242?v=3&amp;s=460" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://www.itech.red/#about">
+          <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/6330242?v=3&amp;s=460" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">游</h4>
+        
+          <h5 class="sidebar-profile-bio">Follow Your Heart</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://www.itech.red/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://www.itech.red/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://www.itech.red/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/thinkmo" target="_blank">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://www.itech.red/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="5"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Logstash过滤插件grok正则解析
+    </h1>
+  
+  <div class="postShorten-meta post-meta">
+  
+    <time itemprop="datePublished" datetime="2017-09-29T21:27:34&#43;08:00">
+      
+  
+  
+  
+  
+    2017-09-29 21:27:34
+  
+
+    </time>
+  
+  
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="http://www.itech.red/categories/elk-stack">ELK Stack</a>
+    
+  
+
+
+</div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+<h3 id="logstash过滤插件grok正则解析">Logstash过滤插件grok正则解析</h3>
+
+<h4 id="一-grok介绍">一、grok介绍</h4>
+
+<p>grok是Logstash中用来解析非结构化日志数据，将日志转化为可查询的结构化数据的最佳方法，可以用来处理syslog日志、apache等webserver日志、mysql日志以及用户自定义日志。</p>
+
+<p>Logstash自带有120多种预定义好的正则表达式方便用户使用，你可以在 <a href="https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns">https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns</a> 查看这些正则表达式，你也可以添加自己的匹配规则。</p>
+
+<p>有两个网站可以帮助我们来构建正则表达式去匹配我们的日志：</p>
+
+<ul>
+<li><a href="http://grokdebug.herokuapp.com">http://grokdebug.herokuapp.com</a></li>
+<li><a href="http://grokconstructor.appspot.com">http://grokconstructor.appspot.com</a> (推荐)</li>
+</ul>
+
+<h4 id="二-grok基础">二、grok基础</h4>
+
+<p>grok匹配模式语法为：%{SYNTAX:SEMANTIC:TYPE}</p>
+
+<p>SYNTAX: 正则表达式、预定义的正则表达式名称</p>
+
+<p>SEMANTIC: 标识符，标识匹配后的数据</p>
+
+<p>TYPE: 可选的类型，目前支持int、float</p>
+
+<p>例如：NUMBER可以匹配3.44，IP可以匹配：192.168.21.2</p>
+
+<p>一个复杂的日志格式如下：</p>
+
+<pre><code>192.168.21.2 GET /index.html 15823 0.023
+</code></pre>
+
+<p>grok匹配模式可以为：</p>
+
+<pre><code>${IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}
+</code></pre>
+
+<p>更加实际的，该条日志可能来自一个文件：</p>
+
+<pre><code>input {
+  file {
+    path =&gt; &quot;/var/log/http.log&quot;
+  }
+}
+filter {
+  grok {
+    match =&gt; { &quot;message&quot; =&gt; &quot;%{IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}&quot; }
+  }
+}
+</code></pre>
+
+<p>在grok过滤后，可以得到额外一下字段：</p>
+
+<pre><code>client: 192.168.21.2
+method: GET
+request: /index.html
+bytes: 15823
+duration: 0.023
+</code></pre>
+
+<h4 id="grok中的正则表达式">grok中的正则表达式</h4>
+
+<p>Grok采用了Oniguruma正则表达式库，在<a href="https://github.com/kkos/oniguruma/blob/master/doc/RE">on the Oniguruma site</a>看到支持的正则语法。</p>
+
+<p>如果logstash中没有你需要的匹配模式，你可以使用Oniguruma语法实现自定义正则匹配：</p>
+
+<pre><code>(?&lt;field_name&gt;the pattern here)
+</code></pre>
+
+<p>例如：匹配一个10到11位的16进制<code>(?&lt;queue_id&gt;[0-9A-F]{10,11})</code></p>
+
+<p>更佳的做法是，新建一个自定义模式文件：
+- 创建一个正则模式目录以及包含正则表达式的文件
+- 在这个文件中编写正则表达式，像logstash预定义的正则匹配名称一样</p>
+
+<pre><code># ./pattern/postfix
+POSTFIX_QUEUEID [0-9A-F]{10,11}
+</code></pre>
+
+<p>在logstash配置文件中便可以使用POSTFIX_QUQUEID了</p>
+
+<pre><code>filter {
+  grok {
+    patterns_dir =&gt; [&quot;./patterns&quot;]
+    match =&gt; { &quot;message&quot; =&gt; &quot;%{SYSLOGBASE} %{POSTFIX_QUEUEID:queue_id}: %{GREEDYDATA:syslog_message}&quot; }
+  }
+}
+</code></pre>
+
+<h4 id="grok配置选项">grok配置选项</h4>
+
+<p>grok支持许多额外的配置选项，具体信息见<a href="https://www.elastic.co/guide/en/logstash/5.3/plugins-filters-grok.html#_synopsis_130">这里</a>：</p>
+
+<p>比较常用的有：
+- add_field</p>
+
+<pre><code>增加自定义字段
+</code></pre>
+
+<ul>
+<li><p>add_tag</p>
+
+<p>增加tag</p></li>
+
+<li><p>overwrite</p>
+
+<p>重写字段，时间戳等</p></li>
+
+<li><p>match</p>
+
+<p>匹配过滤</p></li>
+</ul>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            <div class="post-actions-wrap">
+  <nav>
+    <ul class="post-actions post-action-nav">
+      
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--disabled">
+          
+            <i class="fa fa-angle-left"></i>
+            <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+          </a>
+        </li>
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2017/09/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95--use%E6%96%B9%E6%B3%95/" data-tooltip="性能分析方法--USE方法">
+          
+            <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+  <ul class="post-actions post-action-share">
+    
+    
+      <li class="post-action">
+        <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <i class="fa fa-comment-o"></i>
+        </a>
+      </li>
+    
+    <li class="post-action">
+      
+        <a class="post-action-btn btn btn--default" href="#">
+      
+        <i class="fa fa-list"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 <a href="https://github.com/ThinkMo">ThinkMo</a>. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  <nav>
+    <ul class="post-actions post-action-nav">
+      
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--disabled">
+          
+            <i class="fa fa-angle-left"></i>
+            <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+          </a>
+        </li>
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2017/09/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95--use%E6%96%B9%E6%B3%95/" data-tooltip="性能分析方法--USE方法">
+          
+            <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+  <ul class="post-actions post-action-share">
+    
+    
+      <li class="post-action">
+        <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <i class="fa fa-comment-o"></i>
+        </a>
+      </li>
+    
+    <li class="post-action">
+      
+        <a class="post-action-btn btn btn--default" href="#">
+      
+        <i class="fa fa-list"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <ul class="share-options">
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3a%2f%2fwww.itech.red%2f2017%2f09%2flogstash%25E8%25BF%2587%25E6%25BB%25A4%25E6%258F%2592%25E4%25BB%25B6grok%25E6%25AD%25A3%25E5%2588%2599%25E8%25A7%25A3%25E6%259E%2590%2f">
+        <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+      </a>
+    </li>
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fwww.itech.red%2f2017%2f09%2flogstash%25E8%25BF%2587%25E6%25BB%25A4%25E6%258F%2592%25E4%25BB%25B6grok%25E6%25AD%25A3%25E5%2588%2599%25E8%25A7%25A3%25E6%259E%2590%2f">
+        <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+      </a>
+    </li>
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3a%2f%2fwww.itech.red%2f2017%2f09%2flogstash%25E8%25BF%2587%25E6%25BB%25A4%25E6%258F%2592%25E4%25BB%25B6grok%25E6%25AD%25A3%25E5%2588%2599%25E8%25A7%25A3%25E6%259E%2590%2f">
+        <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
     
     <div id="about">
   <div id="about-card">
@@ -415,6 +834,32 @@ $(document).ready(function() {
   });
 });
 </script>
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/www.itech.red\/2017\/09\/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90\/';
+          
+            this.page.identifier = '20170929001_logstash';
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'itech-1';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
 
 
 
