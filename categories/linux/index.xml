@@ -6,42 +6,10 @@
     <description>Recent content in Linux on 平凡世界</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 14 Sep 2017 20:58:34 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 27 Apr 2017 18:55:34 +0800</lastBuildDate>
     
 	<atom:link href="http://www.itech.red/categories/linux/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>性能分析方法--USE方法</title>
-      <link>http://www.itech.red/2017/09/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95--use%E6%96%B9%E6%B3%95/</link>
-      <pubDate>Thu, 14 Sep 2017 20:58:34 +0800</pubDate>
-      
-      <guid>http://www.itech.red/2017/09/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95--use%E6%96%B9%E6%B3%95/</guid>
-      <description>性能分析方法&amp;ndash;USE方法 USE是utilization、saturation、errors的集合，USE方法即：对于所有的资源，查看它的使用率、饱和度和错误。
- 资源：所有服务器物理元器件(CPU、Memory&amp;hellip;)，某些软件资源也包含在内，提供有用的指标。 使用率：在规定的时间间隔内，资源用于服务工作的时间百分比；或容量使用百分比。 饱和度：资源不能在服务更多额外工作的程度，通常有等待队列。 错误：错误事件。  分析流程 资源列表与指标 CPU: 插槽(socket)、核(core)、硬件线程(thread)
-内存: DRAM
-网络接口: 以太网端口
-存储设备: 磁盘、SSD、SAS
-控制器: 存储、网络
-互联: CPU、内存、I/O
-软件资源: 互斥锁、线程池、进程/线程容量、文件描述符容量
-   资源 类型 指标     CPU 使用率 CPU使用率(单CPU使用率或系统均值)   CPU 饱和度 等待队列长度   内存 使用率 可用空闲内存   内存 饱和度 匿名换页或线程换出、OOM   网络接口 使用率 接收吞吐量/最大带宽,传输吞吐量/最大带宽   存储设备I/O 使用率 设备繁忙百分比   存储设备I/O 饱和度 等待队列长度   存储设备I/O 错误 设备错误    使用建议  使用率：使用率超过60%可能会是问题，短期的100%使用率易被忽视 饱和度：任何程度的饱和度都是问题 错误：错误都是值得研究的  更多 the use method linux performance checklist</description>
-    </item>
-    
-    <item>
-      <title>ansible自动化部署配置工具</title>
-      <link>http://www.itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</link>
-      <pubDate>Tue, 25 Jul 2017 22:58:34 +0800</pubDate>
-      
-      <guid>http://www.itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</guid>
-      <description>ansible自动化部署配置工具 初识ansible  简介  ansible是运维自动化工具，可以实现系统配置、软件部署，可以通过编排实现更高级的功能如持续集成、热更新等；ansible具有简单易用、安全、agentless等特点，通过ssh来完成与管理节点的交互。
- inventory  ansible管理的主机信息称为inventory，默认存储在/etc/ansible/hosts，也可以在运行时通过-i 指定inventory文件位置，通常为ini格式，如下：
- [jumpserver] 44.33.22.11:1024	ansible_ssh_user=xxx # xxx用户ssh端口1024 [other] 192.168.1.[2:255] # 范围2-255 [localhost] localhost	ansible_connection=local  处于[]中的为组名，一个节点可以在多个组下，组下为机器名可指定端口与参数，支持的参数详情见文档。
- patterns:  ansible执行ad-hoc 命令的基本格式如下：
- ansible &amp;lt;pattern_goes_here&amp;gt; -m &amp;lt;module_name&amp;gt; -a &amp;lt;arguments&amp;gt;  ansible中的模式patterns决定了inventory中哪些主机将执行指定命令，默认是all(*)所有机器，可以指定多个组的集合如other:localhost(并集) other:!localhost(差集)、other:&amp;amp;localhost(交集)等
- ad-hoc命令  ad-hoc命令是指执行简单短小的、无需保存结果的任务
-# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &amp;quot;/usr/bin/uptime&amp;quot; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &amp;quot;/usr/bin/uptime&amp;quot; -u sa # 文件传输 ansible jumpserver -m copy -a &amp;quot;src=/etc/hosts dest=/tmp/hosts mode=600&amp;quot; # 包管理 ansible jumpserver -m yum -a &amp;quot;name=vim state=present&amp;quot; #确保vim包已安装 ansible jumpserver -m yum -a &amp;quot;name=vim state=absent&amp;quot; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &amp;quot;name=xiao password=xxx&amp;quot; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &amp;quot;name=httpd state=restarted&amp;quot; # 信息收集 ansible jumpserver -m setup   配置优先级   1.</description>
-    </item>
     
     <item>
       <title>shell条件测试总结</title>
