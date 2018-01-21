@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://www.itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/</loc>
+    <lastmod>2018-01-19T18:10:59+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://www.itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</loc>
     <lastmod>2017-04-27T18:55:34+08:00</lastmod>
   </url>
@@ -79,6 +84,12 @@
   </url>
   
   <url>
+    <loc>http://www.itech.red/categories/elk/</loc>
+    <lastmod>2018-01-19T18:10:59+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://www.itech.red/categories/java/</loc>
     <lastmod>2016-11-23T18:47:34+08:00</lastmod>
     <priority>0</priority>
@@ -98,7 +109,7 @@
   
   <url>
     <loc>http://www.itech.red/post/</loc>
-    <lastmod>2017-04-27T18:55:34+08:00</lastmod>
+    <lastmod>2018-01-19T18:10:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -116,7 +127,7 @@
   
   <url>
     <loc>http://www.itech.red/</loc>
-    <lastmod>2017-04-27T18:55:34+08:00</lastmod>
+    <lastmod>2018-01-19T18:10:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   

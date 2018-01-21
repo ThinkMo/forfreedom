@@ -16,21 +16,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.33 with theme Tranquilpeak 0.4.3-BETA">
-    <title>基础</title>
+    <title>Elk</title>
     <meta name="author" content="游">
     <meta name="keywords" content="">
 
     <link rel="icon" href="http://www.itech.red/favicon.png">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.itech.red/categories/%E5%9F%BA%E7%A1%80/index.xml">
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.itech.red/categories/elk/index.xml">
     
 
     
     <meta name="description" content="游记">
     <meta property="og:description" content="游记">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="基础">
-    <meta property="og:url" content="/categories/%E5%9F%BA%E7%A1%80/">
+    <meta property="og:title" content="Elk">
+    <meta property="og:url" content="/categories/elk/">
     <meta property="og:site_name" content="平凡世界">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="平凡世界">
@@ -206,20 +206,20 @@ ga('send', 'pageview');
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="http://www.itech.red/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/">
-          理解UML类图关系
+        <a class="link-unstyled" href="http://www.itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/">
+          ElasticSearch索引类型映射
         </a>
       </h1>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2016-08-26T16:51:34&#43;08:00">
+      <time itemprop="datePublished" datetime="2018-01-19T18:10:59&#43;08:00">
         
   
   
   
   
-    2016-08-26 16:51:34
+    2018-01-19 18:10:59
   
 
       </time>
@@ -229,7 +229,7 @@ ga('send', 'pageview');
   
     <span>发布在</span>
     
-      <a class="category-link" href="http://www.itech.red/categories/%e5%9f%ba%e7%a1%80">基础</a>
+      <a class="category-link" href="http://www.itech.red/categories/elk">ELK</a>
     
   
 
@@ -237,18 +237,18 @@ ga('send', 'pageview');
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
-      理解UML类图关系
-1、依赖(Dependency)
- 关系：uses temporarily，使用关系，作为局部变量、方法参数或者对静态方法的调用 代码示例：
-import B; public class A{ public void method1(B b) { // ... } public void method2() { B tempB = new B(); // ... } }  图示(一套带箭头的虚线表示)：
-  2、聚合(Aggregation)
- 关系：is part of，整体与部分的关系，作为成员变量 代码：
-import Engine; public class Car{ private Engine engine; publilc Engine getEngine(){ return engine; } }  图示(一条带空心菱形箭头的直线表示)：
-  3、组合(Composition)
- 关系：is entirely made of，更强的整体与部分关系，作为成员变量 代码:
-import Page; public class Book{ private List&lt;Page&gt; pages; publilc List&lt;Page&gt; getPages(){ return pages; } }  图示(一条带实心菱形箭头直线表示):
+      最近接手维护了几个ELK集群，对接的是IaaS、PaaS服务日志，简单的ELK架构，通过filebeat采集日志，发送到logstash结构化日志然后发送到ElasticSearch，用户可以通过Kibana查看服务日志定位问题、做一些性能分析图表等，同时利用elastalert做日志报警。
+在ElasticSearch须要对用户的索引建立合适的类型映射(尤其是int类型)，才可以在kibana中对数据进行分析，关于ES的映射类型可以看这里，需指出的是一旦某个field字段类型确定就很难更改该字段的类型(需reindex)。
+Logstash将非结构化数据转化为结构化数据，通过JSON将数据发送给ElasticSearch，所有字段都会被当作string来处理，而ElasticSearch在自动判断字段类型建立映射这方面做的不足，与我们需求不符，那么如何正确建立索引类型映射呢？
+一、通过Logstash的grok、mutate确定字段类型
+ grok  根据grok官方文档，在grok正则表达式后可以添加一个数据类型，默认是string类型，如果你想使字段类型为int，你可以在表达式后加int，例如%{NUMBER:num:int}，那么num字段会从string类型变为int类型，目前只支持int和float。
+ mutate   通过mutate可以将field转化为integer、float、string，例如：
+ filter { mutate { convert =&gt; { &quot;num&quot; =&gt; &quot;integer&quot; } } }  二、ElasticSearch mapping template
+映射(mappings)决定了一个字段(field)如何被ElasticSearch解释、存储，例如数据{&ldquo;ip&rdquo;:&ldquo;223.5.5.5&rdquo;}发送给ES，ES会将ip字段存储为string类型，而不是ip类型，不能做IP范围查询同时造成存储空间浪费、查询效率低等。不管在Logstash如何转换类型，ElasticSearch不会知道你的用意除非你正确映射。所有整型会存为long，小数会存为float或double，关于最小类型可以看这里，使用integer而不是long会有效的减少ELasticSearch负担。
+ 映射模版  编写模版文件my_template.json
+ { &quot;index_patterns&quot; : &quot;index*&quot;, &quot;version&quot; : 1, &quot;settings&quot; : { &quot;index.refresh_interval&quot; : &quot;5s&quot; }, &quot;mappings&quot; : { &quot;_default_&quot; : { &quot;properties&quot;:{ &quot;host&quot;: { &quot;type&quot; : &quot;string&quot;}, &quot;ip&quot;: {&quot;type&quot; : &quot;ip&quot;}, .... } } } }  上传template.
       <p>
-        <a href="http://www.itech.red/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/" class="postShorten-excerpt_link link">阅读全文</a>
+        <a href="http://www.itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>
