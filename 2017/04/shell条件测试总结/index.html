@@ -567,7 +567,7 @@ world
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/" data-tooltip="ElasticSearch索引类型映射">
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/" data-tooltip="ansible自动化部署配置工具">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -628,7 +628,7 @@ world
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/" data-tooltip="ElasticSearch索引类型映射">
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/" data-tooltip="ansible自动化部署配置工具">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -744,6 +744,58 @@ Logstash将非结构化数据转化为结构化数据，通过JSON将数据发�
 映射(mappings)决定了一个字段(field)如何被ElasticSearch解释、存储，例如数据{&ldquo;ip&rdquo;:&ldquo;223.5.5.5&rdquo;}发送给ES，ES会将ip字段存储为string类型，而不是ip类型，不能做IP范围查询同时造成存储空间浪费、查询效率低等。不管在Logstash如何转换类型，ElasticSearch不会知道你的用意除非你正确映射。所有整型会存为long，小数会存为float或double，关于最小类型可以看这里，使用integer而不是long会有效的减少ELasticSearch负担。
  映射模版  编写模版文件my_template.json
  { &quot;index_patterns&quot; : &quot;index*&quot;, &quot;version&quot; : 1, &quot;settings&quot; : { &quot;index.refresh_interval&quot; : &quot;5s&quot; }, &quot;mappings&quot; : { &quot;_default_&quot; : { &quot;properties&quot;:{ &quot;host&quot;: { &quot;type&quot; : &quot;string&quot;}, &quot;ip&quot;: {&quot;type&quot; : &quot;ip&quot;}, .... } } } }  上传template.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/">
+                <h3 class="media-heading">Logstash过滤插件grok正则解析</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Logstash过滤插件grok正则解析 一、grok介绍 grok是Logstash中用来解析非结构化日志数据，将日志转化为可查询的结构化数据的最佳方法，可以用来处理syslog日志、apache等webserver日志、mysql日志以及用户自定义日志。
+Logstash自带有120多种预定义好的正则表达式方便用户使用，你可以在这里查看这些正则表达式，你也可以添加自己的匹配规则。
+有两个网站可以帮助我们来构建正则表达式去匹配我们的日志：
+ http://grokdebug.herokuapp.com http://grokconstructor.appspot.com (推荐)  二、grok基础 grok匹配模式语法为：%{SYNTAX:SEMANTIC:TYPE}
+SYNTAX: 正则表达式、预定义的正则表达式名称
+SEMANTIC: 标识符，标识匹配后的数据
+TYPE: 可选的类型，目前支持int、float
+例如：NUMBER可以匹配3.44，IP可以匹配：192.168.21.2
+一个复杂的日志格式如下：
+192.168.21.2 GET /index.html 15823 0.023  grok匹配模式可以为：
+${IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}  更加实际的，该条日志可能来自一个文件：
+input { file { path =&gt; &quot;/var/log/http.log&quot; } } filter { grok { match =&gt; { &quot;message&quot; =&gt; &quot;%{IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}&quot; } } }  在grok过滤后，可以得到额外一下字段：
+client: 192.168.21.2 method: GET request: /index.html bytes: 15823 duration: 0.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/">
+                <h3 class="media-heading">ansible自动化部署配置工具</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">ansible自动化部署配置工具 初识ansible  简介  ansible是运维自动化工具，可以实现系统配置、软件部署，可以通过编排实现更高级的功能如持续集成、热更新等；ansible具有简单易用、安全、agentless等特点，通过ssh来完成与管理节点的交互。
+ inventory  ansible管理的主机信息称为inventory，默认存储在/etc/ansible/hosts，也可以在运行时通过-i 指定inventory文件位置，通常为ini格式，如下：
+ [jumpserver] 44.33.22.11:1024	ansible_ssh_user=xxx # xxx用户ssh端口1024 [other] 192.168.1.[2:255] # 范围2-255 [localhost] localhost	ansible_connection=local  处于[]中的为组名，一个节点可以在多个组下，组下为机器名可指定端口与参数，支持的参数详情见文档。
+ patterns:  ansible执行ad-hoc 命令的基本格式如下：
+ ansible &lt;pattern_goes_here&gt; -m &lt;module_name&gt; -a &lt;arguments&gt;  ansible中的模式patterns决定了inventory中哪些主机将执行指定命令，默认是all(*)所有机器，可以指定多个组的集合如other:localhost(并集) other:!localhost(差集)、other:&amp;localhost(交集)等
+ ad-hoc命令  ad-hoc命令是指执行简单短小的、无需保存结果的任务
+# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &quot;/usr/bin/uptime&quot; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &quot;/usr/bin/uptime&quot; -u sa # 文件传输 ansible jumpserver -m copy -a &quot;src=/etc/hosts dest=/tmp/hosts mode=600&quot; # 包管理 ansible jumpserver -m yum -a &quot;name=vim state=present&quot; #确保vim包已安装 ansible jumpserver -m yum -a &quot;name=vim state=absent&quot; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &quot;name=xiao password=xxx&quot; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &quot;name=httpd state=restarted&quot; # 信息收集 ansible jumpserver -m setup   配置优先级   1.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -908,46 +960,6 @@ import Page; public class Book{ private List&lt;Page&gt; pages; publilc List&lt;
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/">
-                <h3 class="media-heading">认识Linux内核网络参数</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jun 6, 2016
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">认识Linux内核网络参数  本地端口
-TCP、UDP使用的本地端口范围
-net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network restart）
- 优化短链接
-     选项 含义     net.ipv4.tcp_fin_timeout = 15 处于FIN-WAIT-2状态的时间，建议10   net.ipv4.tcp_tw_reuse = 1 允许将 TIME-WAIT sockets重新用于新的TCP连接   net.ipv4.tcp_tw_recycle = 1 表示开启TCP连接中TIME-WAIT sockets的快速回收(建议关闭)   net.ipv4.tcp_syncookies 防止syn flood攻击，当syn backlog满时发送syncookies(建议关闭)   net.ipv4.tcp_syn_retries 初始SYN重传次数，默认5   net.ipv4.tcp_keepalive_intvl tcp keepalive探测间隔时间，默认75s，可减小   net.ipv4.tcp_keepalive_probes 最大探测次数，默认9，可减小   net.ipv4.tcp_keepalive_time 只有在SO_KEEPALIVE设置时才启用，链接空闲多久发送keepalive，默认7200s，空闲后大概11min关闭连接，可减小     缓冲区大小</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="http://www.itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/">
-                <h3 class="media-heading">python项目开发总结</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  May 5, 2016
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">python项目开发总结 编码规范flake8  安装 pip install flake8 或 brew install flake8 安装vim插件 syntastic，语法检测插件，很方便
-由于使用vundle管理插件，只需在.vimrc中添加 Plugin 'scrooloose/syntastic' 打开vim，在命令行模式输入 PluginInstall 最后在.vimrc中添加set lcs=extends:&gt;,precedes:&lt;,tab:&gt;-,trail:· vundle相关：https://github.com/VundleVim/Vundle.vim   使用virtualenv，独立的开发环境 新建project virtualenv project 环境使能 cd project source bin/activate 退出virtualenv环境 deactive 获得当前环境依赖 pip freeze  python单例  metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类
-1) 拦截类的创建 2) 修改类 3) 返回修改之后的类 class Singleton(type): ＃子类化type，__call__相当于重载了括号运算符 _instances = {} def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs) return cls._instances[cls] class Logger(object): __metaclass__ = Singleton #Or in Python3 class Logger(metaclass=Singleton): pass If you want to run __init__ every time the class is called, add else: cls.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -955,7 +967,7 @@ net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network 
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         12 posts found
+         14 posts found
       </p>
     </div>
   </div>
