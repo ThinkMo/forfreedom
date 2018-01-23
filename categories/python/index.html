@@ -379,11 +379,11 @@ client: 192.168.21.2 method: GET request: /index.html bytes: 15823 duration: 0.<
               </span>
               <div class="media-content hide-xs font-merryweather">ansible自动化部署配置工具 初识ansible  简介  ansible是运维自动化工具，可以实现系统配置、软件部署，可以通过编排实现更高级的功能如持续集成、热更新等；ansible具有简单易用、安全、agentless等特点，通过ssh来完成与管理节点的交互。
  inventory  ansible管理的主机信息称为inventory，默认存储在/etc/ansible/hosts，也可以在运行时通过-i 指定inventory文件位置，通常为ini格式，如下：
- [jumpserver] 44.33.22.11:1024	ansible_ssh_user=xxx # xxx用户ssh端口1024 [other] 192.168.1.[2:255] # 范围2-255 [localhost] localhost	ansible_connection=local  处于[]中的为组名，一个节点可以在多个组下，组下为机器名可指定端口与参数，支持的参数详情见文档。
+ [jumpserver] 44.33.22.11:1024	ansible_ssh_user=xxx # xxx用户ssh端口1024，2.0后参数变为ansible_user [other] 192.168.1.[2:255] # 范围2-255 [localhost] localhost	ansible_connection=local  处于[]中的为组名，一个节点可以在多个组下，组下为机器名可指定端口与参数，支持的参数详情见文档。
  patterns:  ansible执行ad-hoc 命令的基本格式如下：
  ansible &lt;pattern_goes_here&gt; -m &lt;module_name&gt; -a &lt;arguments&gt;  ansible中的模式patterns决定了inventory中哪些主机将执行指定命令，默认是all(*)所有机器，可以指定多个组的集合如other:localhost(并集) other:!localhost(差集)、other:&amp;localhost(交集)等
  ad-hoc命令  ad-hoc命令是指执行简单短小的、无需保存结果的任务
-# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &quot;/usr/bin/uptime&quot; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &quot;/usr/bin/uptime&quot; -u sa # 文件传输 ansible jumpserver -m copy -a &quot;src=/etc/hosts dest=/tmp/hosts mode=600&quot; # 包管理 ansible jumpserver -m yum -a &quot;name=vim state=present&quot; #确保vim包已安装 ansible jumpserver -m yum -a &quot;name=vim state=absent&quot; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &quot;name=xiao password=xxx&quot; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &quot;name=httpd state=restarted&quot; # 信息收集 ansible jumpserver -m setup   配置优先级   1.</div>
+# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &quot;/usr/bin/uptime&quot; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &quot;/usr/bin/uptime&quot; -u sa # 文件传输 ansible jumpserver -m copy -a &quot;src=/etc/hosts dest=/tmp/hosts mode=600&quot; # 包管理 ansible jumpserver -m yum -a &quot;name=vim state=present&quot; #确保vim包已安装 ansible jumpserver -m yum -a &quot;name=vim state=absent&quot; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &quot;name=xiao password=xxx&quot; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &quot;name=httpd state=restarted&quot; # 信息收集 ansible jumpserver -m setup   常用配置项   配置项读取顺序如下： * ANSIBLE_CONFIG (一个环境变量) * ansible.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
