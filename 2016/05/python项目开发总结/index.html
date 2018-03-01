@@ -326,6 +326,39 @@ c = MyClass()
 每个test的运行顺序是  setUp-&gt;testxxx-&gt;tearDown-&gt;setUp-&gt;testxxx-&gt;....
 </code></pre>
 
+<h4 id="django发送内嵌图片的email">django发送内嵌图片的email</h4>
+
+<pre><code># email_with_picture.html
+
+{% for item in data %}
+&lt;p&gt;item title&lt;/p&gt;
+&lt;div&gt;
+    &lt;img src=&quot;cid:{{item}}&quot;/&gt;
+&lt;/div&gt;
+{% endfor %}
+
+# python代码片段
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+
+subject = u&quot;邮件title&quot;
+files = {'picturea': 'a.png', 'pictureb': 'b.png'}
+render_data = files.keys()
+html = render_to_string('email_with_picture.html', {&quot;data&quot;: render_data})  # 渲染模版
+msg = EmailMultiAlternatives(subject, html, 'tryit0714@gmail.com', ['a@126.com', 'b@yahoo.com'])
+msg.content_subtype = 'html'
+msg.mixed_subtype = 'related'
+# 增加图片内容到邮件内容
+for key, filename in files.iteritems():
+    fp = open(filename, 'rb')
+    msg_img = MIMEImage(fp.read())
+    fp.close()
+    content_id = u'&lt;{}&gt;'.format(key.name)
+    msg_img.add_header('Content-ID', content_id.encode('utf8'))
+    msg.attach(msg_img)
+msg.send()
+</code></pre>
+
               
             </div>
           </div>
