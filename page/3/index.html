@@ -1,9 +1,5 @@
 
 
-  
-    
-  
-
 
   
 
@@ -20,29 +16,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.33 with theme Tranquilpeak 0.4.3-BETA">
-    <title>python项目开发总结</title>
+    <title>平凡世界</title>
     <meta name="author" content="游">
-    <meta name="keywords" content="python develop">
+    <meta name="keywords" content="">
 
     <link rel="icon" href="http://www.itech.red/favicon.png">
     
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.itech.red/index.xml">
+    
 
     
-    <meta name="description" content="python项目开发总结 编码规范flake8  安装 pip install flake8 或 brew install flake8 安装vim插件 syntastic，语法检测插件，很方便
-由于使用vundle管理插件，只需在.vimrc中添加 Plugin &#39;scrooloose/syntastic&#39; 打开vim，在命令行模式输入 PluginInstall 最后在.vimrc中添加set lcs=extends:&gt;,precedes:&lt;,tab:&gt;-,trail:· vundle相关：https://github.com/VundleVim/Vundle.vim   使用virtualenv，独立的开发环境 新建project virtualenv project 环境使能 cd project source bin/activate 退出virtualenv环境 deactive 获得当前环境依赖 pip freeze  python单例  metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类
-1) 拦截类的创建 2) 修改类 3) 返回修改之后的类 class Singleton(type): ＃子类化type，__call__相当于重载了括号运算符 _instances = {} def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs) return cls._instances[cls] class Logger(object): __metaclass__ = Singleton #Or in Python3 class Logger(metaclass=Singleton): pass If you want to run __init__ every time the class is called, add else: cls.">
-    <meta property="og:description" content="python项目开发总结 编码规范flake8  安装 pip install flake8 或 brew install flake8 安装vim插件 syntastic，语法检测插件，很方便
-由于使用vundle管理插件，只需在.vimrc中添加 Plugin &#39;scrooloose/syntastic&#39; 打开vim，在命令行模式输入 PluginInstall 最后在.vimrc中添加set lcs=extends:&gt;,precedes:&lt;,tab:&gt;-,trail:· vundle相关：https://github.com/VundleVim/Vundle.vim   使用virtualenv，独立的开发环境 新建project virtualenv project 环境使能 cd project source bin/activate 退出virtualenv环境 deactive 获得当前环境依赖 pip freeze  python单例  metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类
-1) 拦截类的创建 2) 修改类 3) 返回修改之后的类 class Singleton(type): ＃子类化type，__call__相当于重载了括号运算符 _instances = {} def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs) return cls._instances[cls] class Logger(object): __metaclass__ = Singleton #Or in Python3 class Logger(metaclass=Singleton): pass If you want to run __init__ every time the class is called, add else: cls.">
+    <meta name="description" content="游记">
+    <meta property="og:description" content="游记">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="python项目开发总结">
-    <meta property="og:url" content="/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/">
+    <meta property="og:title" content="平凡世界">
+    <meta property="og:url" content="/">
     <meta property="og:site_name" content="平凡世界">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="平凡世界">
-    <meta name="twitter:description" content="python项目开发总结 编码规范flake8  安装 pip install flake8 或 brew install flake8 安装vim插件 syntastic，语法检测插件，很方便
-由于使用vundle管理插件，只需在.vimrc中添加 Plugin &#39;scrooloose/syntastic&#39; 打开vim，在命令行模式输入 PluginInstall 最后在.vimrc中添加set lcs=extends:&gt;,precedes:&lt;,tab:&gt;-,trail:· vundle相关：https://github.com/VundleVim/Vundle.vim   使用virtualenv，独立的开发环境 新建project virtualenv project 环境使能 cd project source bin/activate 退出virtualenv环境 deactive 获得当前环境依赖 pip freeze  python单例  metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类
-1) 拦截类的创建 2) 修改类 3) 返回修改之后的类 class Singleton(type): ＃子类化type，__call__相当于重载了括号运算符 _instances = {} def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs) return cls._instances[cls] class Logger(object): __metaclass__ = Singleton #Or in Python3 class Logger(metaclass=Singleton): pass If you want to run __init__ every time the class is called, add else: cls.">
+    <meta name="twitter:description" content="游记">
     
     
 
@@ -87,7 +79,7 @@ ga('send', 'pageview');
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="5">
+      <header id="header" data-behavior="2">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="http://www.itech.red/">平凡世界</a>
@@ -107,7 +99,7 @@ ga('send', 'pageview');
   
 </header>
 
-      <nav id="sidebar" data-behavior="5">
+      <nav id="sidebar" data-behavior="2">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -187,29 +179,44 @@ ga('send', 'pageview');
 
       
 
-      <div id="main" data-behavior="5"
+      <div id="main" data-behavior="2"
         class="
                hasCoverMetaIn
                ">
-        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+        <section class="postShorten-group main-content-wrap">
           
           
-            <div class="post-header main-content-wrap text-left">
+            
   
-    <h1 class="post-title" itemprop="headline">
-      python项目开发总结
-    </h1>
+    
+      
+        
+      
+    
   
+
+
   
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="http://www.itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/">
+          进程监视
+        </a>
+      </h1>
+      
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2016-05-27T13:27:04&#43;08:00">
+      <time itemprop="datePublished" datetime="2015-09-10T10:07:34&#43;08:00">
         
   
   
   
   
-    2016-05-27 13:27:04
+    2015-09-10 10:07:34
   
 
       </time>
@@ -219,206 +226,45 @@ ga('send', 'pageview');
   
     <span>发布在</span>
     
-      <a class="category-link" href="http://www.itech.red/categories/python">python</a>
+      <a class="category-link" href="http://www.itech.red/categories/linux">linux</a>
     
   
 
   </div>
 
-</div>
-          
-          <div class="post-content markdown" itemprop="articleBody">
-            <div class="main-content-wrap">
-              
-
-<h3 id="python项目开发总结">python项目开发总结</h3>
-
-<h4 id="编码规范flake8">编码规范flake8</h4>
-
-<ul>
-<li>安装 pip install flake8 或 brew install flake8</li>
-
-<li><p>安装vim插件 <a href="https://github.com/scrooloose/syntastic">syntastic</a>，语法检测插件，很方便</p>
-
-<pre><code>由于使用vundle管理插件，只需在.vimrc中添加 Plugin 'scrooloose/syntastic' 
-打开vim，在命令行模式输入 PluginInstall
-最后在.vimrc中添加set lcs=extends:&gt;,precedes:&lt;,tab:&gt;-,trail:·
-vundle相关：https://github.com/VundleVim/Vundle.vim
-</code></pre></li>
-</ul>
-
-<h4 id="使用virtualenv-独立的开发环境">使用virtualenv，独立的开发环境</h4>
-
-<pre><code>新建project 
-virtualenv project
-环境使能
-cd project
-source bin/activate
-退出virtualenv环境
-deactive
-获得当前环境依赖
-pip freeze
-</code></pre>
-
-<h4 id="python单例">python单例</h4>
-
-<ul>
-<li><p>metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类</p>
-
-<pre><code>1)   拦截类的创建
-
-2)   修改类
-
-3)   返回修改之后的类
-
-
-class Singleton(type):  ＃子类化type，__call__相当于重载了括号运算符
-    _instances = {}
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls._instances[cls]
-
-class Logger(object):
-    __metaclass__ = Singleton
-#Or in Python3
-
-class Logger(metaclass=Singleton):
-    pass
-If you want to run __init__ every time the class is called, add
-
-        else:
-            cls._instances[cls].__init__(*args, **kwargs)
-to the if statement in Singleton.__call__.
-</code></pre></li>
-
-<li><p>继承</p>
-
-<pre><code>class Singleton(object):
-    _instances = {}
-    def __new__(class_, *args, **kwargs):
-        if class_ not in class_._instances:
-            class_._instances[class_] = super(Singleton, class_).__new__(class_, *args, **kwargs)
-            class_._instances[class_].__init__()  # if you want init once
-        return class_._instances[class_]
-
-class MyClass(Singleton):
-    pass
-
-c = MyClass()
-
-最终采用了继承的方式，metaclass在测试时有问题
-</code></pre></li>
-</ul>
-
-<h4 id="nosetest单元测试框架">nosetest单元测试框架</h4>
-
-<pre><code>class A():
-    def setUp(self):
-        ....
-
-    def tearDown(self):
-        ....
-
-    def testxxx(self):
-        ....
-
-每个test的运行顺序是  setUp-&gt;testxxx-&gt;tearDown-&gt;setUp-&gt;testxxx-&gt;....
-</code></pre>
-
-<h4 id="django发送内嵌图片的email">django发送内嵌图片的email</h4>
-
-<pre><code># email_with_picture.html
-
-{% for item in data %}
-&lt;p&gt;item title&lt;/p&gt;
-&lt;div&gt;
-    &lt;img src=&quot;cid:{{item}}&quot;/&gt;
-&lt;/div&gt;
-{% endfor %}
-
-# python代码片段
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-
-subject = u&quot;邮件title&quot;
-files = {'picturea': 'a.png', 'pictureb': 'b.png'}
-render_data = files.keys()
-html = render_to_string('email_with_picture.html', {&quot;data&quot;: render_data})  # 渲染模版
-msg = EmailMultiAlternatives(subject, html, 'tryit0714@gmail.com', ['a@126.com', 'b@yahoo.com'])
-msg.content_subtype = 'html'
-msg.mixed_subtype = 'related'
-# 增加图片内容到邮件内容
-for key, filename in files.iteritems():
-    fp = open(filename, 'rb')
-    msg_img = MIMEImage(fp.read())
-    fp.close()
-    content_id = u'&lt;{}&gt;'.format(key.name)
-    msg_img.add_header('Content-ID', content_id.encode('utf8'))
-    msg.attach(msg_img)
-msg.send()
-</code></pre>
-
-              
-            </div>
-          </div>
-          <div id="post-footer" class="post-footer main-content-wrap">
-            
-              
-            
-            
-  <div class="post-actions-wrap">
-      <nav >
-        <ul class="post-actions post-action-nav">
-          
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/" data-tooltip="认识Linux内核网络参数">
-              
-                  <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
-                </a>
-            </li>
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/" data-tooltip="C语言结构体封装">
-              
-                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
-                  <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-          
-        </ul>
-      </nav>
-    <ul class="post-actions post-action-share" >
-      
-      
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
-      
-      <li class="post-action">
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      进程监视 1、ps监视进程的主要工具 ps -ef 查看每一个进程 ps aux 可以展示系统进程的全貌 ps lax 更快，省去了将uid转换为用户名 ps -ejH or ps axjf 进程树 ps -eLf or ps axms 线程信息  字段含义    字段 内容     USER 进程属主用户名   PID 进程ID   CPU 进程使用CPU百分比   MEM 进程使用内存百分比   VSZ 进程虚拟内存大小KiB   RSS 驻留集大小，非swap中的内存大小   STAT 进程状态 S:可中断睡眠 D:不可中断睡眠 R:running s会话头   TIME 运行时间   COMMAND 命令行   NI nice值   WCHAN 等待的资源    2、top动态查看 top对活动进程及所使用的资源情况提供了汇总信息  3、proc文件系统 proc文件系统提供了内核产生的所有状态信息与数据系统，包括进程相关的信息，linux的ps、top都是从/proc目录读取进程的状态信息。进程特有的信息存储在/proc/pid下。  4、strace strace -p pid可以追踪进程的系统调用及信号，在调试进程、理解程序执行过程非常有帮助。  5、vmstat vmstat提供了关于进程、内存、内存页、块IO、陷阱、磁盘及CPU的活动信息。  ###字段含义 字段 | 内容 &mdash;- | &mdash;- r|等待执行的进程数 b|不可中断睡眠的进程数 swpd|使用虚拟内存大小 free|空闲内存 cache|用作cache的内存大小 si|swap in so|swap out bi|block in从块设备收到数据块数 bo|block out in|每秒中断数 cs|每秒上下文切换数 us|user time sy|system time id|idle time wa|wait for io
+      <p>
+        <a href="http://www.itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/" class="postShorten-excerpt_link link">阅读全文</a>
         
-          <a class="post-action-btn btn btn--default" href="#">
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+          
+  <div class="pagination-bar">
+    <ul class="pagination">
+      
         
-          <i class="fa fa-list"></i>
-        </a>
-      </li>
+          <li class="pagination-prev">
+            <a class="btn btn--default btn--small" href="http://www.itech.red/page/2/">
+              <i class="fa fa-angle-left text-base icon-mr"></i>
+              <span>上一页</span>
+            </a>
+          </li>
+        
+        
+      
+      <li class="pagination-number">第 3 页 共 3 页</li>
     </ul>
   </div>
 
 
-            
-              
-                <div id="disqus_thread">
-  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-              
-            
-          </div>
-        </article>
+        </section>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
     &copy; 2018 <a href="https://github.com/ThinkMo">ThinkMo</a>. All Rights Reserved
@@ -426,59 +272,6 @@ msg.send()
 </footer>
 
       </div>
-      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
-        
-  <div class="post-actions-wrap">
-      <nav >
-        <ul class="post-actions post-action-nav">
-          
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/" data-tooltip="认识Linux内核网络参数">
-              
-                  <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
-                </a>
-            </li>
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/" data-tooltip="C语言结构体封装">
-              
-                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
-                  <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-          
-        </ul>
-      </nav>
-    <ul class="post-actions post-action-share" >
-      
-      
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
-      
-      <li class="post-action">
-        
-          <a class="post-action-btn btn btn--default" href="#">
-        
-          <i class="fa fa-list"></i>
-        </a>
-      </li>
-    </ul>
-  </div>
-
-
-      </div>
-      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
-  <i id="btn-close-shareoptions" class="fa fa-close"></i>
-  <ul class="share-options">
-    
-  </ul>
-</div>
-<div id="share-options-mask" class="share-options-mask"></div>
     </div>
     
     <div id="about">
@@ -792,35 +585,8 @@ Group 2 &hellip;</div>
 
 
 
-  
-    
-      <script>
-        var disqus_config = function () {
-          this.page.url = 'http:\/\/www.itech.red\/2016\/05\/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93\/';
-          
-            this.page.identifier = '16526127_python_project';
-          
-        };
-        (function() {
-          
-          
-          if (window.location.hostname == "localhost") {
-            return;
-          }
-          var d = document, s = d.createElement('script');
-          var disqus_shortname = 'itech-1';
-          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
-    
-  
-
 
 
     
   </body>
 </html>
-

@@ -20,29 +20,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.33 with theme Tranquilpeak 0.4.3-BETA">
-    <title>python项目开发总结</title>
+    <title>ELK集群2.x到5.6升级记录</title>
     <meta name="author" content="游">
-    <meta name="keywords" content="python develop">
+    <meta name="keywords" content="ELK, update">
 
     <link rel="icon" href="http://www.itech.red/favicon.png">
     
 
     
-    <meta name="description" content="python项目开发总结 编码规范flake8  安装 pip install flake8 或 brew install flake8 安装vim插件 syntastic，语法检测插件，很方便
-由于使用vundle管理插件，只需在.vimrc中添加 Plugin &#39;scrooloose/syntastic&#39; 打开vim，在命令行模式输入 PluginInstall 最后在.vimrc中添加set lcs=extends:&gt;,precedes:&lt;,tab:&gt;-,trail:· vundle相关：https://github.com/VundleVim/Vundle.vim   使用virtualenv，独立的开发环境 新建project virtualenv project 环境使能 cd project source bin/activate 退出virtualenv环境 deactive 获得当前环境依赖 pip freeze  python单例  metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类
-1) 拦截类的创建 2) 修改类 3) 返回修改之后的类 class Singleton(type): ＃子类化type，__call__相当于重载了括号运算符 _instances = {} def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs) return cls._instances[cls] class Logger(object): __metaclass__ = Singleton #Or in Python3 class Logger(metaclass=Singleton): pass If you want to run __init__ every time the class is called, add else: cls.">
-    <meta property="og:description" content="python项目开发总结 编码规范flake8  安装 pip install flake8 或 brew install flake8 安装vim插件 syntastic，语法检测插件，很方便
-由于使用vundle管理插件，只需在.vimrc中添加 Plugin &#39;scrooloose/syntastic&#39; 打开vim，在命令行模式输入 PluginInstall 最后在.vimrc中添加set lcs=extends:&gt;,precedes:&lt;,tab:&gt;-,trail:· vundle相关：https://github.com/VundleVim/Vundle.vim   使用virtualenv，独立的开发环境 新建project virtualenv project 环境使能 cd project source bin/activate 退出virtualenv环境 deactive 获得当前环境依赖 pip freeze  python单例  metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类
-1) 拦截类的创建 2) 修改类 3) 返回修改之后的类 class Singleton(type): ＃子类化type，__call__相当于重载了括号运算符 _instances = {} def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs) return cls._instances[cls] class Logger(object): __metaclass__ = Singleton #Or in Python3 class Logger(metaclass=Singleton): pass If you want to run __init__ every time the class is called, add else: cls.">
+    <meta name="description" content="考虑到目前使用的ELK集群版本与开源版本的版本差距有点大，而ELK5.6相较2.3版本性能有较大提升，尤其是Logstash grok插件，最近对测试环境的两个ELK集群进行了升级，对升级过程进行一个记录；升级主要参考了官方文档
+当前系统运行版本  filebeat：1.2.3 kibana：4.5.1 logstash：2.3.2 elasticsearch：2.3.3 JVM: 1.7  升级顺序  jvm(略) elasticsearch kibana logstash beats  升级Elasticsearch 升级之前  升级前使用Elasticsearch Migration Plugin查看潜在问题 最好先在测试环境升级ELK 在升级之前先备份数据  升级（跨大版本整个集群需重启）  禁止自动分配分片，在停止elasticsearch时减少不必要的I/O
+curl -XPUT &#39;localhost:9200/_cluster/settings?pretty&#39; -H &#39;Content-Type: application/json&#39; -d&#39; { &quot;persistent&quot;: { &quot;cluster.routing.allocation.enable&quot;: &quot;none&quot; } }&#39;  同步刷新以加快分片恢复
+curl -XPOST &#39;localhost:9200/_flush/synced?pretty&#39;  停止并升级各个节点（安装新的rpm或deb，更新配置文件，配置文件有较大改动）
+/etc/init.d/elasticsearch stop apt-get pruge elasticsearch(所有deb包已在本地apt源中,删除原配置文件) apt-get install elasticsearch=5.6.5  升级插件（需删除旧的插件）
+/usr/share/elasticsearch/bin/elasticsearch-plubin remove license /usr/share/elasticsearch/bin/elasticsearch-plubin remove marvel /usr/share/elasticsearch/bin/elasticsearch-plubin install x-pack  启动集群各个节点，保证所有节点均加入集群(优先启动master node)">
+    <meta property="og:description" content="考虑到目前使用的ELK集群版本与开源版本的版本差距有点大，而ELK5.6相较2.3版本性能有较大提升，尤其是Logstash grok插件，最近对测试环境的两个ELK集群进行了升级，对升级过程进行一个记录；升级主要参考了官方文档
+当前系统运行版本  filebeat：1.2.3 kibana：4.5.1 logstash：2.3.2 elasticsearch：2.3.3 JVM: 1.7  升级顺序  jvm(略) elasticsearch kibana logstash beats  升级Elasticsearch 升级之前  升级前使用Elasticsearch Migration Plugin查看潜在问题 最好先在测试环境升级ELK 在升级之前先备份数据  升级（跨大版本整个集群需重启）  禁止自动分配分片，在停止elasticsearch时减少不必要的I/O
+curl -XPUT &#39;localhost:9200/_cluster/settings?pretty&#39; -H &#39;Content-Type: application/json&#39; -d&#39; { &quot;persistent&quot;: { &quot;cluster.routing.allocation.enable&quot;: &quot;none&quot; } }&#39;  同步刷新以加快分片恢复
+curl -XPOST &#39;localhost:9200/_flush/synced?pretty&#39;  停止并升级各个节点（安装新的rpm或deb，更新配置文件，配置文件有较大改动）
+/etc/init.d/elasticsearch stop apt-get pruge elasticsearch(所有deb包已在本地apt源中,删除原配置文件) apt-get install elasticsearch=5.6.5  升级插件（需删除旧的插件）
+/usr/share/elasticsearch/bin/elasticsearch-plubin remove license /usr/share/elasticsearch/bin/elasticsearch-plubin remove marvel /usr/share/elasticsearch/bin/elasticsearch-plubin install x-pack  启动集群各个节点，保证所有节点均加入集群(优先启动master node)">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="python项目开发总结">
-    <meta property="og:url" content="/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/">
+    <meta property="og:title" content="ELK集群2.x到5.6升级记录">
+    <meta property="og:url" content="/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/">
     <meta property="og:site_name" content="平凡世界">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="平凡世界">
-    <meta name="twitter:description" content="python项目开发总结 编码规范flake8  安装 pip install flake8 或 brew install flake8 安装vim插件 syntastic，语法检测插件，很方便
-由于使用vundle管理插件，只需在.vimrc中添加 Plugin &#39;scrooloose/syntastic&#39; 打开vim，在命令行模式输入 PluginInstall 最后在.vimrc中添加set lcs=extends:&gt;,precedes:&lt;,tab:&gt;-,trail:· vundle相关：https://github.com/VundleVim/Vundle.vim   使用virtualenv，独立的开发环境 新建project virtualenv project 环境使能 cd project source bin/activate 退出virtualenv环境 deactive 获得当前环境依赖 pip freeze  python单例  metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类
-1) 拦截类的创建 2) 修改类 3) 返回修改之后的类 class Singleton(type): ＃子类化type，__call__相当于重载了括号运算符 _instances = {} def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs) return cls._instances[cls] class Logger(object): __metaclass__ = Singleton #Or in Python3 class Logger(metaclass=Singleton): pass If you want to run __init__ every time the class is called, add else: cls.">
+    <meta name="twitter:description" content="考虑到目前使用的ELK集群版本与开源版本的版本差距有点大，而ELK5.6相较2.3版本性能有较大提升，尤其是Logstash grok插件，最近对测试环境的两个ELK集群进行了升级，对升级过程进行一个记录；升级主要参考了官方文档
+当前系统运行版本  filebeat：1.2.3 kibana：4.5.1 logstash：2.3.2 elasticsearch：2.3.3 JVM: 1.7  升级顺序  jvm(略) elasticsearch kibana logstash beats  升级Elasticsearch 升级之前  升级前使用Elasticsearch Migration Plugin查看潜在问题 最好先在测试环境升级ELK 在升级之前先备份数据  升级（跨大版本整个集群需重启）  禁止自动分配分片，在停止elasticsearch时减少不必要的I/O
+curl -XPUT &#39;localhost:9200/_cluster/settings?pretty&#39; -H &#39;Content-Type: application/json&#39; -d&#39; { &quot;persistent&quot;: { &quot;cluster.routing.allocation.enable&quot;: &quot;none&quot; } }&#39;  同步刷新以加快分片恢复
+curl -XPOST &#39;localhost:9200/_flush/synced?pretty&#39;  停止并升级各个节点（安装新的rpm或deb，更新配置文件，配置文件有较大改动）
+/etc/init.d/elasticsearch stop apt-get pruge elasticsearch(所有deb包已在本地apt源中,删除原配置文件) apt-get install elasticsearch=5.6.5  升级插件（需删除旧的插件）
+/usr/share/elasticsearch/bin/elasticsearch-plubin remove license /usr/share/elasticsearch/bin/elasticsearch-plubin remove marvel /usr/share/elasticsearch/bin/elasticsearch-plubin install x-pack  启动集群各个节点，保证所有节点均加入集群(优先启动master node)">
     
     
 
@@ -197,19 +206,19 @@ ga('send', 'pageview');
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      python项目开发总结
+      ELK集群2.x到5.6升级记录
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2016-05-27T13:27:04&#43;08:00">
+      <time itemprop="datePublished" datetime="2018-04-02T20:10:59&#43;08:00">
         
   
   
   
   
-    2016-05-27 13:27:04
+    2018-04-02 20:10:59
   
 
       </time>
@@ -219,7 +228,7 @@ ga('send', 'pageview');
   
     <span>发布在</span>
     
-      <a class="category-link" href="http://www.itech.red/categories/python">python</a>
+      <a class="category-link" href="http://www.itech.red/categories/elk">ELK</a>
     
   
 
@@ -231,133 +240,173 @@ ga('send', 'pageview');
             <div class="main-content-wrap">
               
 
-<h3 id="python项目开发总结">python项目开发总结</h3>
+<p>考虑到目前使用的ELK集群版本与开源版本的版本差距有点大，而ELK5.6相较2.3版本性能有较大提升，尤其是Logstash grok插件，最近对测试环境的两个ELK集群进行了升级，对升级过程进行一个记录；升级主要参考了官方<a href="https://www.elastic.co/guide/en/elastic-stack/5.6/upgrading-elastic-stack.html">文档</a></p>
 
-<h4 id="编码规范flake8">编码规范flake8</h4>
-
-<ul>
-<li>安装 pip install flake8 或 brew install flake8</li>
-
-<li><p>安装vim插件 <a href="https://github.com/scrooloose/syntastic">syntastic</a>，语法检测插件，很方便</p>
-
-<pre><code>由于使用vundle管理插件，只需在.vimrc中添加 Plugin 'scrooloose/syntastic' 
-打开vim，在命令行模式输入 PluginInstall
-最后在.vimrc中添加set lcs=extends:&gt;,precedes:&lt;,tab:&gt;-,trail:·
-vundle相关：https://github.com/VundleVim/Vundle.vim
-</code></pre></li>
-</ul>
-
-<h4 id="使用virtualenv-独立的开发环境">使用virtualenv，独立的开发环境</h4>
-
-<pre><code>新建project 
-virtualenv project
-环境使能
-cd project
-source bin/activate
-退出virtualenv环境
-deactive
-获得当前环境依赖
-pip freeze
-</code></pre>
-
-<h4 id="python单例">python单例</h4>
+<h4 id="当前系统运行版本">当前系统运行版本</h4>
 
 <ul>
-<li><p>metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类</p>
-
-<pre><code>1)   拦截类的创建
-
-2)   修改类
-
-3)   返回修改之后的类
-
-
-class Singleton(type):  ＃子类化type，__call__相当于重载了括号运算符
-    _instances = {}
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls._instances[cls]
-
-class Logger(object):
-    __metaclass__ = Singleton
-#Or in Python3
-
-class Logger(metaclass=Singleton):
-    pass
-If you want to run __init__ every time the class is called, add
-
-        else:
-            cls._instances[cls].__init__(*args, **kwargs)
-to the if statement in Singleton.__call__.
-</code></pre></li>
-
-<li><p>继承</p>
-
-<pre><code>class Singleton(object):
-    _instances = {}
-    def __new__(class_, *args, **kwargs):
-        if class_ not in class_._instances:
-            class_._instances[class_] = super(Singleton, class_).__new__(class_, *args, **kwargs)
-            class_._instances[class_].__init__()  # if you want init once
-        return class_._instances[class_]
-
-class MyClass(Singleton):
-    pass
-
-c = MyClass()
-
-最终采用了继承的方式，metaclass在测试时有问题
-</code></pre></li>
+<li>filebeat：1.2.3</li>
+<li>kibana：4.5.1</li>
+<li>logstash：2.3.2</li>
+<li>elasticsearch：2.3.3   JVM: 1.7</li>
 </ul>
 
-<h4 id="nosetest单元测试框架">nosetest单元测试框架</h4>
+<h4 id="升级顺序">升级顺序</h4>
 
-<pre><code>class A():
-    def setUp(self):
-        ....
+<ul>
+<li>jvm(略)</li>
+<li>elasticsearch</li>
+<li>kibana</li>
+<li>logstash</li>
+<li>beats</li>
+</ul>
 
-    def tearDown(self):
-        ....
+<h4 id="升级elasticsearch">升级Elasticsearch</h4>
 
-    def testxxx(self):
-        ....
+<h6 id="升级之前">升级之前</h6>
 
-每个test的运行顺序是  setUp-&gt;testxxx-&gt;tearDown-&gt;setUp-&gt;testxxx-&gt;....
+<ul>
+<li>升级前使用<a href="https://github.com/elastic/elasticsearch-migration/">Elasticsearch Migration Plugin</a>查看潜在问题</li>
+<li>最好先在测试环境升级ELK</li>
+<li>在升级之前先备份数据</li>
+</ul>
+
+<h6 id="升级-跨大版本整个集群需重启">升级（跨大版本整个集群需重启）</h6>
+
+<ol>
+<li><p>禁止自动分配分片，在停止elasticsearch时减少不必要的I/O</p>
+
+<pre><code>curl -XPUT 'localhost:9200/_cluster/settings?pretty' -H 'Content-Type: application/json' -d'
+{
+    &quot;persistent&quot;: {
+        &quot;cluster.routing.allocation.enable&quot;: &quot;none&quot;
+    }
+}'
+</code></pre></li>
+
+<li><p>同步刷新以加快分片恢复</p>
+
+<pre><code>curl -XPOST 'localhost:9200/_flush/synced?pretty'
+</code></pre></li>
+
+<li><p>停止并升级各个节点（安装新的rpm或deb，更新配置文件，配置文件有较大改动）</p>
+
+<pre><code>/etc/init.d/elasticsearch stop
+apt-get pruge elasticsearch(所有deb包已在本地apt源中,删除原配置文件)
+apt-get install elasticsearch=5.6.5
+</code></pre></li>
+
+<li><p>升级插件（需删除旧的插件）</p>
+
+<pre><code>/usr/share/elasticsearch/bin/elasticsearch-plubin remove license
+/usr/share/elasticsearch/bin/elasticsearch-plubin remove marvel
+/usr/share/elasticsearch/bin/elasticsearch-plubin install x-pack
+</code></pre></li>
+
+<li><p>启动集群各个节点，保证所有节点均加入集群(优先启动master node)</p>
+
+<pre><code>curl -XGET 'localhost:9200/_cat/health?pretty'
+curl -XGET 'localhost:9200/_cat/nodes?pretty'
+</code></pre></li>
+
+<li><p>等待集群状态变为yellow，即所有主分片已恢复</p></li>
+
+<li><p>使能自动分配分片</p>
+
+<pre><code>curl -XPUT 'localhost:9200/_cluster/settings?pretty' -H 'Content-Type: application/json' -d'
+{
+    &quot;persistent&quot;: {
+        &quot;cluster.routing.allocation.enable&quot;: &quot;all&quot;
+    }
+}'
+</code></pre></li>
+
+<li><p>等待集群状态变为green</p></li>
+</ol>
+
+<h4 id="升级kibana">升级Kibana</h4>
+
+<ol>
+<li><p>停止kibana服务</p>
+
+<pre><code>/etc/init.d/kibana stop 
+</code></pre></li>
+
+<li><p>使用rpm、apt-get安装新的kibana</p>
+
+<pre><code>apt-get purge kibana (保证配置文件删除)
+apt-get install kibana=5.6.5
+</code></pre></li>
+
+<li><p>更新插件</p>
+
+<pre><code>/usr/share/kibana/bin/kibana install x-pack
+</code></pre></li>
+
+<li><p>启动kibana</p>
+
+<pre><code>/etc/init.d/kibana start    
+</code></pre></li>
+</ol>
+
+<h4 id="升级logstash">升级logstash</h4>
+
+<ol>
+<li><p>停止logstash</p>
+
+<pre><code>/etc/init.d/logstash stop
+</code></pre></li>
+
+<li><p>使用rpm、apt-get安装新的logstash</p>
+
+<pre><code>apt-get purge logstash (保证配置文件删除)
+apt-get install logstash=5.6.5-1
+</code></pre></li>
+
+<li><p>更新配置文件，并测试配置文件，2.3.2版本配置文件与5.6.5配置文件改动较大</p>
+
+<pre><code>logstash --config.test_and_exit -f logstash.conf
+</code></pre></li>
+
+<li><p>启动logstash</p>
+
+<pre><code>/etc/init.d/logstash start
+</code></pre></li>
+</ol>
+
+<h4 id="升级filebeat">升级filebeat</h4>
+
+<ol>
+<li><p>停止filebeat</p>
+
+<pre><code>/etc/init.d/filebeat stop
+</code></pre></li>
+
+<li><p>安装filebeat 5.6.5</p>
+
+<pre><code>apt-get purge filebeat (保证配置文件删除)
+apt-get install filebeat=5.6.5
+</code></pre></li>
+
+<li><p>更新配置文件，配置文件改动较大</p>
+
+<pre><code>/usr/share/packetbeat/scripts/migrate_beat_config_1_x_to_5_0.py filebeat.yml
+</code></pre></li>
+
+<li><p>启动</p>
+
+<pre><code>/etc/init.d/filebeat start
+</code></pre></li>
+</ol>
+
+<h4 id="tips">Tips：</h4>
+
+<pre><code>filebeat-1.2.3\logstash-2.3.2\kibana-5.6.5\elasticsearch-5.6.5兼容
 </code></pre>
 
-<h4 id="django发送内嵌图片的email">django发送内嵌图片的email</h4>
+<p><a href="https://www.elastic.co/support/matrix#matrix_compatibility">兼容性</a></p>
 
-<pre><code># email_with_picture.html
-
-{% for item in data %}
-&lt;p&gt;item title&lt;/p&gt;
-&lt;div&gt;
-    &lt;img src=&quot;cid:{{item}}&quot;/&gt;
-&lt;/div&gt;
-{% endfor %}
-
-# python代码片段
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-
-subject = u&quot;邮件title&quot;
-files = {'picturea': 'a.png', 'pictureb': 'b.png'}
-render_data = files.keys()
-html = render_to_string('email_with_picture.html', {&quot;data&quot;: render_data})  # 渲染模版
-msg = EmailMultiAlternatives(subject, html, 'tryit0714@gmail.com', ['a@126.com', 'b@yahoo.com'])
-msg.content_subtype = 'html'
-msg.mixed_subtype = 'related'
-# 增加图片内容到邮件内容
-for key, filename in files.iteritems():
-    fp = open(filename, 'rb')
-    msg_img = MIMEImage(fp.read())
-    fp.close()
-    content_id = u'&lt;{}&gt;'.format(key.name)
-    msg_img.add_header('Content-ID', content_id.encode('utf8'))
-    msg.attach(msg_img)
-msg.send()
-</code></pre>
+<p><a href="https://www.elastic.co/guide/en/elastic-stack/5.6/upgrading-elastic-stack.html">参考链接</a></p>
 
               
             </div>
@@ -373,7 +422,7 @@ msg.send()
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/" data-tooltip="认识Linux内核网络参数">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -381,7 +430,7 @@ msg.send()
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/" data-tooltip="C语言结构体封装">
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/" data-tooltip="ElasticSearch索引类型映射">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -434,7 +483,7 @@ msg.send()
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/" data-tooltip="认识Linux内核网络参数">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -442,7 +491,7 @@ msg.send()
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/" data-tooltip="C语言结构体封装">
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/" data-tooltip="ElasticSearch索引类型映射">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -796,9 +845,9 @@ Group 2 &hellip;</div>
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'http:\/\/www.itech.red\/2016\/05\/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93\/';
+          this.page.url = 'http:\/\/www.itech.red\/2018\/04\/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95\/';
           
-            this.page.identifier = '16526127_python_project';
+            this.page.identifier = 'elk_update';
           
         };
         (function() {
