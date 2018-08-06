@@ -203,6 +203,65 @@ ga('send', 'pageview');
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="http://www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/">
+          认识sk_buff结构体
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2017-04-04T19:07:48&#43;08:00">
+        
+  
+  
+  
+  
+    2017-04-04 19:07:48
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="http://www.itech.red/categories/network">network</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff *next; struct sk_buff *prev; /* sk_buff双向链表 */ ktime_t tstamp; /* 报文接收时间戳，是个偏移量 */ struct sock *sk; /* 拥有此skb的socket */ struct net_device *dev; /* SKB收发的网络设备 */ /* * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.
+      <p>
+        <a href="http://www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="http://www.itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/">
           Linux磁盘使用率100%异常排查
         </a>
@@ -563,70 +622,6 @@ net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network 
 </article>
 
           
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="http://www.itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/">
-          C语言结构体封装
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2016-05-11T10:23:54&#43;08:00">
-        
-  
-  
-  
-  
-    2016-05-11 10:23:54
-  
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="http://www.itech.red/categories/c">C</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      C语言结构体封装 源自：http://www.catb.org/esr/structure-packing/
-1、简介 通过手动填充、封装C语言结构体以减少C程序的内存使用，在嵌入式系统、操作系统内核模块等内存使用有限制的场景，这种知识非常有效。当你对程序的高速缓存行命中率非常在意时，理解这部分知识也是至关重要的。
-2、对齐 在X86与ARM处理器上，C语言基本类型并不是随意地存储在内存地址上的。除了char，每一个类型都有对齐要求。char可以存储在任何起始地址，2字节short存储的起始地址应为奇数，4字节的int、float起始地址应为4的倍数，8字节long、double起始地址应为8的倍数。C语言的基本类型是自动对齐的。字节对齐使得访问更快速，因为通过单个指令就可以对数据进行读写。如果没有对齐要求，数据可能存储在多个机器字节内，造成访问次数增加。字符是个特例。
-3、填充 如果你不知道数据对齐的知识，你可能认为下面的3个变量会占据连续的内存空间，在32位机器上时，4字节指针、1字节字符和4字节整型。
-char *p; 实际 char *p; /* 4 or 8 bytes */ char c; ======&gt; char c; /* 1 byte */ int x; char pad[3]; /* 3 byte */ int x; /* 4 byte */  实际上的存储如右所示，pad[3]字符数组为了对齐而浪费的存储空间。看看其他两种情况。
-char *p; char *p; /* 4 or 8 bytes */ char c; =======&gt; char c; /* 1 byte */ short x; char pad[1]; /* 1 byte */ short x; /* 2 byte */  char *p; char *p; /* 4 or 8 byte */ char c; =======&gt; char c; /* 1 byte */ long x; char pad[7]; /* 7 byte */ long x; /* 8 byte */  char c; char c; char *p; =======&gt; char pad1[M]; int x; char *p; char pad2[N]; int x;  N肯定是0，M可能为0-7（大端、小端字符位置决定），为了节省内存空间使用，可以交换x与c的定义位置。
-      <p>
-        <a href="http://www.itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
           
   <div class="pagination-bar">
     <ul class="pagination">
@@ -710,6 +705,25 @@ char *p; char *p; /* 4 or 8 bytes */ char c; =======&gt; char c; /* 1 byte */ sh
       <div class="no-result text-color-light text-center"></div>
       <div class="results">
         
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/">
+                <h3 class="media-heading">ElasticSearch配置滚动更新</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">起因 最近Logstash经常打印如下日志内容，虽然只是INFO级别的错误但还是引起了我的注意，大概意思是ES的bulk thread pool大小为32已经满负荷，队列也满了，所以拒绝了Logstash的bulk请求
+[2018-06-23T08:00:47,281][INFO ][logstash.outputs.elasticsearch] retrying failed action with response code: 429 ({&quot;type&quot;=&gt;&quot;es_rejected_execution_exception&quot;, &quot;reason&quot;=&gt;&quot;rejected execution of org.elasticsearch.transport.TransportService$7@177d229b on EsThreadPoolExecutor[bulk, queue capacity = 1000, org.elasticsearch.common.util.concurrent.EsThreadPoolExecutor@66a1a8c3[Running, pool size = 32, active threads = 32, queued tasks = 1019, completed tasks = 832616617]]&quot;})  解决思路  扩大处理bulk的thread pool线程数量  当前使用的服务器CPU核数为176(cat /proc/cpuinfo)，而在ES源码中为了避免引起Java oom线程数会取min(32, 核数)，所以造成默认的thread_pool.bulk.size为32，为了扩大线程容量需在ES中添加以下配置 processors: 96 thread_pool.bulk.size: 96   增加等待队列长度  thread_pool.bulk.queue_size: 3000  更新配置 这些配置不能通过ES Setting API来更改，只能通过滚动重启的方式，下面简单记录下过程
+ 禁止分配分片  curl -X PUT &quot;ES_HOST:9200/_cluster/settings&quot; -H 'Content-Type: application/json' -d' { &quot;transient&quot;: { &quot;cluster.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
         
           <div class="media">
             
@@ -921,29 +935,6 @@ Group 2 &hellip;</div>
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="http://www.itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/">
-                <h3 class="media-heading">Spring＋Mybatis＋Velocity项目搭建</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Sep 9, 2016
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Spring＋Mybatis＋Velocity项目搭建
-一、开发工具
- JDK 1.8.0_91 Intellij IDEA 15.0.6 Mysql 5.5.44 Maven 3  二、新建工程
- 新建Maven工程，不选Create from archtype提供的工程模版，为了学习从头开始配置工程，点击next设置工程坐标，然后一路到finish。 &lt;groupId&gt;red.itech&lt;/groupId&gt; &lt;artifactId&gt;blogDemo&lt;/artifactId&gt; &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;  如果使用git开发，可以新建.gitignore文件，使git忽略idea自动生成的文件（.ignore插件可以帮助生成.gitignore），项目git初始化
-# Created by .ignore support plugin (hsz.mobi) .gitignore ### OSX template *.DS_Store # IntelliJ project files .idea *.iml out target gen### Java template *.class # Package Files # *.jar *.war *.ear  三、Spring MVC
- 编辑pom.xml添加Spring MVC、servlet依赖如下：
-&lt;dependencies&gt; &lt;!-- spring --&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework&lt;/groupId&gt; &lt;artifactId&gt;spring-core&lt;/artifactId&gt; &lt;version&gt;4.3.3.RELEASE&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -951,7 +942,7 @@ Group 2 &hellip;</div>
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         15 posts found
+         16 posts found
       </p>
     </div>
   </div>

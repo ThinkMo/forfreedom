@@ -422,7 +422,7 @@ apt-get install filebeat=5.6.5
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/" data-tooltip="ElasticSearch配置滚动更新">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -483,7 +483,7 @@ apt-get install filebeat=5.6.5
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/" data-tooltip="ElasticSearch配置滚动更新">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -577,6 +577,25 @@ apt-get install filebeat=5.6.5
       <div class="no-result text-color-light text-center"></div>
       <div class="results">
         
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/">
+                <h3 class="media-heading">ElasticSearch配置滚动更新</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">起因 最近Logstash经常打印如下日志内容，虽然只是INFO级别的错误但还是引起了我的注意，大概意思是ES的bulk thread pool大小为32已经满负荷，队列也满了，所以拒绝了Logstash的bulk请求
+[2018-06-23T08:00:47,281][INFO ][logstash.outputs.elasticsearch] retrying failed action with response code: 429 ({&quot;type&quot;=&gt;&quot;es_rejected_execution_exception&quot;, &quot;reason&quot;=&gt;&quot;rejected execution of org.elasticsearch.transport.TransportService$7@177d229b on EsThreadPoolExecutor[bulk, queue capacity = 1000, org.elasticsearch.common.util.concurrent.EsThreadPoolExecutor@66a1a8c3[Running, pool size = 32, active threads = 32, queued tasks = 1019, completed tasks = 832616617]]&quot;})  解决思路  扩大处理bulk的thread pool线程数量  当前使用的服务器CPU核数为176(cat /proc/cpuinfo)，而在ES源码中为了避免引起Java oom线程数会取min(32, 核数)，所以造成默认的thread_pool.bulk.size为32，为了扩大线程容量需在ES中添加以下配置 processors: 96 thread_pool.bulk.size: 96   增加等待队列长度  thread_pool.bulk.queue_size: 3000  更新配置 这些配置不能通过ES Setting API来更改，只能通过滚动重启的方式，下面简单记录下过程
+ 禁止分配分片  curl -X PUT &quot;ES_HOST:9200/_cluster/settings&quot; -H 'Content-Type: application/json' -d' { &quot;transient&quot;: { &quot;cluster.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
         
           <div class="media">
             
@@ -788,29 +807,6 @@ Group 2 &hellip;</div>
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="http://www.itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/">
-                <h3 class="media-heading">Spring＋Mybatis＋Velocity项目搭建</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Sep 9, 2016
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Spring＋Mybatis＋Velocity项目搭建
-一、开发工具
- JDK 1.8.0_91 Intellij IDEA 15.0.6 Mysql 5.5.44 Maven 3  二、新建工程
- 新建Maven工程，不选Create from archtype提供的工程模版，为了学习从头开始配置工程，点击next设置工程坐标，然后一路到finish。 &lt;groupId&gt;red.itech&lt;/groupId&gt; &lt;artifactId&gt;blogDemo&lt;/artifactId&gt; &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;  如果使用git开发，可以新建.gitignore文件，使git忽略idea自动生成的文件（.ignore插件可以帮助生成.gitignore），项目git初始化
-# Created by .ignore support plugin (hsz.mobi) .gitignore ### OSX template *.DS_Store # IntelliJ project files .idea *.iml out target gen### Java template *.class # Package Files # *.jar *.war *.ear  三、Spring MVC
- 编辑pom.xml添加Spring MVC、servlet依赖如下：
-&lt;dependencies&gt; &lt;!-- spring --&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework&lt;/groupId&gt; &lt;artifactId&gt;spring-core&lt;/artifactId&gt; &lt;version&gt;4.3.3.RELEASE&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -818,7 +814,7 @@ Group 2 &hellip;</div>
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         15 posts found
+         16 posts found
       </p>
     </div>
   </div>
