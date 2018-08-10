@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://www.itech.red/2018/08/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2018-08-10T15:17:59+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://www.itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/</loc>
     <lastmod>2018-08-06T19:47:59+08:00</lastmod>
   </url>
@@ -134,13 +139,13 @@
   
   <url>
     <loc>http://www.itech.red/post/</loc>
-    <lastmod>2018-08-06T19:47:59+08:00</lastmod>
+    <lastmod>2018-08-10T15:17:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://www.itech.red/categories/python/</loc>
-    <lastmod>2016-05-27T13:27:04+08:00</lastmod>
+    <lastmod>2018-08-10T15:17:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -152,7 +157,7 @@
   
   <url>
     <loc>http://www.itech.red/</loc>
-    <lastmod>2018-08-06T19:47:59+08:00</lastmod>
+    <lastmod>2018-08-10T15:17:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   

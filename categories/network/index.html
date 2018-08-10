@@ -312,6 +312,25 @@ ga('send', 'pageview');
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2018/08/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">
+                <h3 class="media-heading">Python GIL与线程安全</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">python GIL与多线程  GIL: Global Interpreter Lock(全局解释器锁)，python虚拟机一级的互斥机制，用来保护资源的互斥访问，尤其是python对象的引用计数。 python代码执行  获得GIL 执行代码直到被阻塞或N条指令执行之后(py3:超时时间)被python 虚拟机调度 释放GIL 何时挂起当前线程：被阻塞或N条指令执行之后(py3:超时时间15ms) 如何选择等待的线程进行调度：由底层操作系统决定   python多线程机制是在GIL基础上实现的 python的多线程机制建立在操作系统的原生线程的基础之上  Thread safe in python Python线程安全与传统的java、c有很大不同，python的很多操作都是原子的，例如sort函数本身是原子操作，不会被其他线程看到排序一半的list；而有一些操作不是原子的，例如+=
+n=0 def add(): global n n += 1 import dis #将python byte code转为助记符号 dis.dis(add) dis.dis(foo) 3 0 LOAD_GLOBAL 0 (n) 3 LOAD_CONST 1 (1) 6 INPLACE_ADD 7 STORE_GLOBAL 0 (n) 10 LOAD_CONST 0 (None) 13 RETURN_VALUE  操作步骤为：
+ 加载n到栈 加载常量n到栈 将两者相加 将结果付给n  由于操作不是原子的，python解释器可能在某一步被抢占，造成不一致的情况，执行以下代码，将不一定会得到100</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="http://www.itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/">
                 <h3 class="media-heading">ElasticSearch配置滚动更新</h3>
               </a>
@@ -519,25 +538,6 @@ Group 2 &hellip;</div>
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="http://www.itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/">
-                <h3 class="media-heading">springmvc实现导出数据excel</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Nov 11, 2016
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">springmvc实现导出数据excel
-最近在项目中要实现将数据导出为excel的功能，研究了下目前springmvc框架下excel导出的方式，在spring 4.3中使用AbstractXlsView来实现，AbstractExcelView已被弃用；但这里介绍的是直接用apache poi实现的一种方式。
- model如下  package red.itech.blog.dao.model; import java.util.Date; /** * Created by you on 16/10/28. */ public class Blog { private String author; private Date createdAt; private String title; private long count; public Blog(){} public Blog(String author, Date createdAt, String title, long count){ this.author = author; this.count = count; this.createdAt = createdAt; this.title =title; } public void setAuthor(String author) { this.author = author; } public void setCreatedAt(Date createdAt) { this.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -545,7 +545,7 @@ Group 2 &hellip;</div>
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         16 posts found
+         17 posts found
       </p>
     </div>
   </div>
