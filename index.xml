@@ -49,12 +49,11 @@ curl -XPOST &#39;localhost:9200/_flush/synced?pretty&#39;  停止并升级各个
     
     <item>
       <title></title>
-      <link>http://www.itech.red/2018plan/</link>
+      <link>http://www.itech.red/2018/</link>
       <pubDate>Tue, 30 Jan 2018 21:33:54 +0800</pubDate>
       
-      <guid>http://www.itech.red/2018plan/</guid>
-      <description> 2018小目标 给自己定的2018小目标，希望2018能有所收获
-小目标 2月小目标(未完成)  泛读openstack设计与实现，了解openstack nova、neutron、cinder架构(未完成) 精读阅读Go编程实战(未完成) 了解luence(未完成) 总结python django开发问题输出文章(完成)  3月小目标  泛读openstack设计与实现，了解openstack nova、neutron、cinder架构(未完成) 精读阅读Go编程实战(未完成)  </description>
+      <guid>http://www.itech.red/2018/</guid>
+      <description> 2018 Roadmap 2月  泛读openstack设计与实现，了解openstack nova、neutron、cinder架构(doing) 精读阅读Go编程实战(doing) 了解luence(done) 总结python django开发问题输出文章(done)  3月  泛读openstack设计与实现，了解openstack nova、neutron、cinder架构(done) 精读阅读Go编程实战(doing)  </description>
     </item>
     
     <item>
