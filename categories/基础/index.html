@@ -321,6 +321,27 @@ import Page; public class Book{ private List&lt;Page&gt; pages; publilc List&lt;
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="http://www.itech.red/2018/12/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D/">
+                <h3 class="media-heading">构建ElasticSearch集群之前</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">摘自designing the perfect elasticsearch cluster 
+ 本文包含了设计elasticsearch cluster需要了解的方方面面，本文不会告诉你如何设计一个完美的es集群。
+ elasticsearch是一个搜索引擎，不是数据库，不会替代mysql elasticsearch是一个弹性搜索引擎，弹性体现在水平扩展、索引分片；elastic将索引拆分成多个分片存储在不同的host上，分片数量默认为5，需要根据实际workload调整以达到最优性能
+ 高可用设计
+  elasticsearch集群包含一下4种节点类型： master nodes: 主节点 data node: 数据节点 http node: 查询节点 coordinating node: 协作节点 最小高可用集群设计： 1. 3数据中心 2. 3主节点，奇数个主节点防止脑裂，将3个主机点分散在各个数据中心 3. 2查询节点，在主节点数据中心各一个 4. 任意数量的数据节点 ES的分片分配算法允许分片分配在不同区域内，根据rack配置将主分片、备份分片分配在不同的区域中 cluster.routing.allocation.awareness.attributes: &quot;rack_id&quot; node.attr.rack_id: &quot;dontsmokecrack&quot;   理解luence: elasticsearch使用了luence库  1. 每个elasticsearch分片是一个luence索引，一个luence索引最大可包含2,147,483,519条记录。 2. luence将索引划分为多个段，luence顺序搜索这些段；当新写请求来时会创建段，写提交或关闭时， 段即不可变，有新记录添加到elasticsearch index时，luence会创建新的段，luence会不断的将小的段 合并成大的段。luence搜索段是串行的，所以段越多延迟越大。当luence合并时会占用CPU与I/O进而降 低index速度。 3. 当更新或删除文档时luence执行copy on write操作，删除只将文档标记为已删除，索引磁盘占用会 一直增长，除非整个索引删除。 4. luence执行merge时，会将两个段合并成一个新的段后再删除旧的段，merge要确保磁盘空间足够   硬件  CPU: 复杂查询 ElasticSearch主要通过thread_pools使用CPU资源，主要的thread_pool有generic、index、get、bulk、 search等，可用通过GET _nodes/thread_pool?</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="http://www.itech.red/2018/12/12%E6%9C%885%E6%97%A5%E6%99%9A%E9%9A%8F%E7%AC%94/">
                 <h3 class="media-heading">12月5日晚随笔</h3>
               </a>
@@ -537,23 +558,6 @@ Group 2 &hellip;</div>
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="http://www.itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/">
-                <h3 class="media-heading">认识sk_buff结构体</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Apr 4, 2017
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff *next; struct sk_buff *prev; /* sk_buff双向链表 */ ktime_t tstamp; /* 报文接收时间戳，是个偏移量 */ struct sock *sk; /* 拥有此skb的socket */ struct net_device *dev; /* SKB收发的网络设备 */ /* * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -561,7 +565,7 @@ Group 2 &hellip;</div>
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         18 posts found
+         19 posts found
       </p>
     </div>
   </div>

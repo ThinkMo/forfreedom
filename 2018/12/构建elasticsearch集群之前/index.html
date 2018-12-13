@@ -20,23 +20,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.33 with theme Tranquilpeak 0.4.3-BETA">
-    <title>认识sk_buff结构体</title>
+    <title>构建ElasticSearch集群之前</title>
     <meta name="author" content="游">
-    <meta name="keywords" content="linux, network">
+    <meta name="keywords" content="elasticsearch">
 
     <link rel="icon" href="http://www.itech.red/favicon.png">
     
 
     
-    <meta name="description" content="sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff *next; struct sk_buff *prev; /* sk_buff双向链表 */ ktime_t tstamp; /* 报文接收时间戳，是个偏移量 */ struct sock *sk; /* 拥有此skb的socket */ struct net_device *dev; /* SKB收发的网络设备 */ /* * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.">
-    <meta property="og:description" content="sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff *next; struct sk_buff *prev; /* sk_buff双向链表 */ ktime_t tstamp; /* 报文接收时间戳，是个偏移量 */ struct sock *sk; /* 拥有此skb的socket */ struct net_device *dev; /* SKB收发的网络设备 */ /* * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.">
+    <meta name="description" content="摘自designing the perfect elasticsearch cluster 
+ 本文包含了设计elasticsearch cluster需要了解的方方面面，本文不会告诉你如何设计一个完美的es集群。
+ elasticsearch是一个搜索引擎，不是数据库，不会替代mysql elasticsearch是一个弹性搜索引擎，弹性体现在水平扩展、索引分片；elastic将索引拆分成多个分片存储在不同的host上，分片数量默认为5，需要根据实际workload调整以达到最优性能
+ 高可用设计
+  elasticsearch集群包含一下4种节点类型： master nodes: 主节点 data node: 数据节点 http node: 查询节点 coordinating node: 协作节点 最小高可用集群设计： 1. 3数据中心 2. 3主节点，奇数个主节点防止脑裂，将3个主机点分散在各个数据中心 3. 2查询节点，在主节点数据中心各一个 4. 任意数量的数据节点 ES的分片分配算法允许分片分配在不同区域内，根据rack配置将主分片、备份分片分配在不同的区域中 cluster.routing.allocation.awareness.attributes: &quot;rack_id&quot; node.attr.rack_id: &quot;dontsmokecrack&quot;   理解luence: elasticsearch使用了luence库  1. 每个elasticsearch分片是一个luence索引，一个luence索引最大可包含2,147,483,519条记录。 2. luence将索引划分为多个段，luence顺序搜索这些段；当新写请求来时会创建段，写提交或关闭时， 段即不可变，有新记录添加到elasticsearch index时，luence会创建新的段，luence会不断的将小的段 合并成大的段。luence搜索段是串行的，所以段越多延迟越大。当luence合并时会占用CPU与I/O进而降 低index速度。 3. 当更新或删除文档时luence执行copy on write操作，删除只将文档标记为已删除，索引磁盘占用会 一直增长，除非整个索引删除。 4. luence执行merge时，会将两个段合并成一个新的段后再删除旧的段，merge要确保磁盘空间足够   硬件  CPU: 复杂查询 ElasticSearch主要通过thread_pools使用CPU资源，主要的thread_pool有generic、index、get、bulk、 search等，可用通过GET _nodes/thread_pool?">
+    <meta property="og:description" content="摘自designing the perfect elasticsearch cluster 
+ 本文包含了设计elasticsearch cluster需要了解的方方面面，本文不会告诉你如何设计一个完美的es集群。
+ elasticsearch是一个搜索引擎，不是数据库，不会替代mysql elasticsearch是一个弹性搜索引擎，弹性体现在水平扩展、索引分片；elastic将索引拆分成多个分片存储在不同的host上，分片数量默认为5，需要根据实际workload调整以达到最优性能
+ 高可用设计
+  elasticsearch集群包含一下4种节点类型： master nodes: 主节点 data node: 数据节点 http node: 查询节点 coordinating node: 协作节点 最小高可用集群设计： 1. 3数据中心 2. 3主节点，奇数个主节点防止脑裂，将3个主机点分散在各个数据中心 3. 2查询节点，在主节点数据中心各一个 4. 任意数量的数据节点 ES的分片分配算法允许分片分配在不同区域内，根据rack配置将主分片、备份分片分配在不同的区域中 cluster.routing.allocation.awareness.attributes: &quot;rack_id&quot; node.attr.rack_id: &quot;dontsmokecrack&quot;   理解luence: elasticsearch使用了luence库  1. 每个elasticsearch分片是一个luence索引，一个luence索引最大可包含2,147,483,519条记录。 2. luence将索引划分为多个段，luence顺序搜索这些段；当新写请求来时会创建段，写提交或关闭时， 段即不可变，有新记录添加到elasticsearch index时，luence会创建新的段，luence会不断的将小的段 合并成大的段。luence搜索段是串行的，所以段越多延迟越大。当luence合并时会占用CPU与I/O进而降 低index速度。 3. 当更新或删除文档时luence执行copy on write操作，删除只将文档标记为已删除，索引磁盘占用会 一直增长，除非整个索引删除。 4. luence执行merge时，会将两个段合并成一个新的段后再删除旧的段，merge要确保磁盘空间足够   硬件  CPU: 复杂查询 ElasticSearch主要通过thread_pools使用CPU资源，主要的thread_pool有generic、index、get、bulk、 search等，可用通过GET _nodes/thread_pool?">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="认识sk_buff结构体">
-    <meta property="og:url" content="/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/">
+    <meta property="og:title" content="构建ElasticSearch集群之前">
+    <meta property="og:url" content="/2018/12/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D/">
     <meta property="og:site_name" content="平凡世界">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="平凡世界">
-    <meta name="twitter:description" content="sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff *next; struct sk_buff *prev; /* sk_buff双向链表 */ ktime_t tstamp; /* 报文接收时间戳，是个偏移量 */ struct sock *sk; /* 拥有此skb的socket */ struct net_device *dev; /* SKB收发的网络设备 */ /* * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.">
+    <meta name="twitter:description" content="摘自designing the perfect elasticsearch cluster 
+ 本文包含了设计elasticsearch cluster需要了解的方方面面，本文不会告诉你如何设计一个完美的es集群。
+ elasticsearch是一个搜索引擎，不是数据库，不会替代mysql elasticsearch是一个弹性搜索引擎，弹性体现在水平扩展、索引分片；elastic将索引拆分成多个分片存储在不同的host上，分片数量默认为5，需要根据实际workload调整以达到最优性能
+ 高可用设计
+  elasticsearch集群包含一下4种节点类型： master nodes: 主节点 data node: 数据节点 http node: 查询节点 coordinating node: 协作节点 最小高可用集群设计： 1. 3数据中心 2. 3主节点，奇数个主节点防止脑裂，将3个主机点分散在各个数据中心 3. 2查询节点，在主节点数据中心各一个 4. 任意数量的数据节点 ES的分片分配算法允许分片分配在不同区域内，根据rack配置将主分片、备份分片分配在不同的区域中 cluster.routing.allocation.awareness.attributes: &quot;rack_id&quot; node.attr.rack_id: &quot;dontsmokecrack&quot;   理解luence: elasticsearch使用了luence库  1. 每个elasticsearch分片是一个luence索引，一个luence索引最大可包含2,147,483,519条记录。 2. luence将索引划分为多个段，luence顺序搜索这些段；当新写请求来时会创建段，写提交或关闭时， 段即不可变，有新记录添加到elasticsearch index时，luence会创建新的段，luence会不断的将小的段 合并成大的段。luence搜索段是串行的，所以段越多延迟越大。当luence合并时会占用CPU与I/O进而降 低index速度。 3. 当更新或删除文档时luence执行copy on write操作，删除只将文档标记为已删除，索引磁盘占用会 一直增长，除非整个索引删除。 4. luence执行merge时，会将两个段合并成一个新的段后再删除旧的段，merge要确保磁盘空间足够   硬件  CPU: 复杂查询 ElasticSearch主要通过thread_pools使用CPU资源，主要的thread_pool有generic、index、get、bulk、 search等，可用通过GET _nodes/thread_pool?">
     
     
 
@@ -184,28 +196,26 @@ ga('send', 'pageview');
       <div id="main" data-behavior="5"
         class="
                hasCoverMetaIn
-               hasCoverCaption">
+               ">
         <article class="post" itemscope itemType="http://schema.org/BlogPosting">
-          
-            <span class="post-header-cover-caption caption">A beautiful sunrise</span>
           
           
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      认识sk_buff结构体
+      构建ElasticSearch集群之前
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2017-04-04T19:07:48&#43;08:00">
+      <time itemprop="datePublished" datetime="2018-12-12T17:03:30&#43;08:00">
         
   
   
   
   
-    2017-04-04 19:07:48
+    2018-12-12 17:03:30
   
 
       </time>
@@ -215,7 +225,7 @@ ga('send', 'pageview');
   
     <span>发布在</span>
     
-      <a class="category-link" href="http://www.itech.red/categories/network">network</a>
+      <a class="category-link" href="http://www.itech.red/categories/elk">ELK</a>
     
   
 
@@ -225,139 +235,103 @@ ga('send', 'pageview');
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              
+              <blockquote>
+<p>摘自<a href="https://thoughts.t37.net/designing-the-perfect-elasticsearch-cluster-the-almost-definitive-guide-e614eabc1a87">designing the perfect elasticsearch cluster </a></p>
+</blockquote>
 
-<h2 id="sk-buff结构体">sk_buff结构体</h2>
+<p>本文包含了设计elasticsearch cluster需要了解的方方面面，本文不会告诉你如何设计一个完美的es集群。</p>
 
-<pre><code>struct sk_buff {
-/* These two members must be first. */
-struct sk_buff      *next;
-struct sk_buff      *prev;
-/* sk_buff双向链表 */
-ktime_t         tstamp;
-/* 报文接收时间戳，是个偏移量 */
-struct sock     *sk;
-/* 拥有此skb的socket */
-struct net_device   *dev;
-/* SKB收发的网络设备 */
+<ul>
+<li>elasticsearch是一个搜索引擎，不是数据库，不会替代mysql</li>
 
-/*
- * This is the control buffer. It is free to use for every
- * layer. Please put your private variables there. If you
- * want to keep them across layers you have to do a skb_clone()
- * first. This is owned by whoever has the skb queued ATM.
- */
-char            cb[48] __aligned(8);
-/* 控制缓存区，TCP、buletooth协议都有用到 */
+<li><p>elasticsearch是一个弹性搜索引擎，弹性体现在水平扩展、索引分片；elastic将索引拆分成多个分片存储在不同的host上，分片数量默认为5，需要根据实际workload调整以达到最优性能</p></li>
 
-unsigned long       _skb_refdst;
-/* 指向dst_entry地址 */
-unsigned int        len,
-            data_len;
-/* len:报文总长度，data_len:数据长度，仅当非线性存储报文时使用 */
-__u16           mac_len,
-            hdr_len;
-/* mac_len:2层头长度，hdr_len:3层头长度*/
-union {
-    __wsum      csum;
-    struct {
-        __u16   csum_start;
-        __u16   csum_offset;
-    };
-};
-/* 校验和 */
-__u32           priority;
-/* 报文队列优先级 */
-kmemcheck_bitfield_begin(flags1);
-/* 位域开始指针 */
-__u8            local_df:1,   //分片标志
-            cloned:1,         //克隆标志，仅克隆SKB数据共享
-            ip_summed:2,      //IP层校验和标志位 CHECKSUM_NONE需软件计算校验和 
-            nohdr:1,          //报文头标志位，不需要头时置位
-            nfctinfo:3;       //连接追踪，NAT中使用
-__u8            pkt_type:3,   //报文类型：多播、广播、单播、非本地
-            fclone:2,         //克隆状态
-            ipvs_property:1,  //ip virtual server标志，4层负载均衡
-            peeked:1,         //是否被查看标志
-            nf_trace:1;       //netfilter trace标志
-kmemcheck_bitfield_end(flags1);
-__be16          protocol;     //协议
+<li><p>高可用设计</p></li>
+</ul>
 
-void            (*destructor)(struct sk_buff *skb);   //释放skb的回调函数
+<pre><code>elasticsearch集群包含一下4种节点类型：
+master nodes: 主节点
+data node: 数据节点
+http node: 查询节点
+coordinating node: 协作节点
 
-int         skb_iif;
-//接收skb的接口索引
-__u32           rxhash;
-//源目的IP地址＋port计算hash值，保证SMP下相同flow被同一CPU处理，提高Cache命中率
-__be16          vlan_proto;
-//vlan协议 802.1q 、802.1ad
-__u16           vlan_tci;
-//vlan tag:包括低12位id，1位标志位，高3位优先级
-__u16           queue_mapping;
-//多队列网卡队列映射
-kmemcheck_bitfield_begin(flags2);
-__u8            pfmemalloc:1;    //标志位，pfmemalloc分配的skb
-__u8            ooo_okay:1;      //out of order
-__u8            l4_rxhash:1;     //4元组hash
-__u8            wifi_acked_valid:1;  
-__u8            wifi_acked:1;
-__u8            no_fcs:1;        //使网卡SKB最后4字节为帧间序
-__u8            head_frag:1;
-/* Encapsulation protocol and NIC drivers should use
- * this flag to indicate to each other if the skb contains
- * encapsulated packet or not and maybe use the inner packet
- * headers if needed
- */
-__u8            encapsulation:1;   //是否为封装报文，如vxlan
-/* 7/9 bit hole (depending on ndisc_nodetype presence) */
-kmemcheck_bitfield_end(flags2);
-union {
-    __u32       mark;            //标记skb，用于netfilter
-    __u32       dropcount;          
-    __u32       reserved_tailroom;
-};
+最小高可用集群设计：
+1. 3数据中心
+2. 3主节点，奇数个主节点防止脑裂，将3个主机点分散在各个数据中心
+3. 2查询节点，在主节点数据中心各一个
+4. 任意数量的数据节点
 
-sk_buff_data_t      inner_transport_header;
-sk_buff_data_t      inner_network_header;
-sk_buff_data_t      inner_mac_header;
-sk_buff_data_t      transport_header;
-sk_buff_data_t      network_header;
-sk_buff_data_t      mac_header;
-/* These elements must be at the end, see alloc_skb() for details.  */
-sk_buff_data_t      tail;       //指向数据尾  skb_put
-sk_buff_data_t      end;        //指向缓存区尾
-unsigned char       *head,      //指向缓存区头  
-            *data;              //指向数据开头  skb_push skb_pull
-unsigned int        truesize;   //总大小 包括skb结构体与block
-atomic_t        users;  //引用计数
-};
+ES的分片分配算法允许分片分配在不同区域内，根据rack配置将主分片、备份分片分配在不同的区域中
+cluster.routing.allocation.awareness.attributes: &quot;rack_id&quot;
+node.attr.rack_id: &quot;dontsmokecrack&quot;
 </code></pre>
 
-<h2 id="skb-shared-info结构体-位于block后-skb-end">skb_shared_info结构体(位于block后，skb-&gt;end)</h2>
+<ul>
+<li>理解luence: elasticsearch使用了luence库</li>
+</ul>
 
-<pre><code>260 struct skb_shared_info {
-261     unsigned char   nr_frags;   //数组frags大小
-262     __u8        tx_flags;       //tx标志位
-263     unsigned short  gso_size;           
-264     /* Warning: this field is not always filled in (UFO)! */
-265     unsigned short  gso_segs;
-266     unsigned short  gso_type;
-267     struct sk_buff  *frag_list;      //分片
-268     struct skb_shared_hwtstamps hwtstamps;
-269     __be32          ip6_frag_id;
-270
-271     /*
-272      * Warning : all fields before dataref are cleared in __alloc_skb()
-273      */
-274     atomic_t    dataref;    //引用计数
-275
-276     /* Intermediate layers must ensure that destructor_arg
-277      * remains valid until skb destructor */
-278     void *      destructor_arg;
-279
-280     /* must be last field, see pskb_expand_head() */
-281     skb_frag_t  frags[MAX_SKB_FRAGS];
-282 };
+<pre><code>1. 每个elasticsearch分片是一个luence索引，一个luence索引最大可包含2,147,483,519条记录。
+
+2. luence将索引划分为多个段，luence顺序搜索这些段；当新写请求来时会创建段，写提交或关闭时，
+段即不可变，有新记录添加到elasticsearch index时，luence会创建新的段，luence会不断的将小的段
+合并成大的段。luence搜索段是串行的，所以段越多延迟越大。当luence合并时会占用CPU与I/O进而降
+低index速度。
+
+3. 当更新或删除文档时luence执行copy on write操作，删除只将文档标记为已删除，索引磁盘占用会
+一直增长，除非整个索引删除。
+
+4. luence执行merge时，会将两个段合并成一个新的段后再删除旧的段，merge要确保磁盘空间足够
+</code></pre>
+
+<ul>
+<li>硬件</li>
+</ul>
+
+<pre><code>CPU: 复杂查询
+
+ElasticSearch主要通过thread_pools使用CPU资源，主要的thread_pool有generic、index、get、bulk、
+search等，可用通过GET _nodes/thread_pool?pretty查看当前集群各个节点的thread_pool情况；
+thread_pool的线程数、队列数可以通过配置设置，默认不会超过32；当队列满时请求会被ES拒绝，可以
+适当调整queue的数值。
+
+Memory：
+
+ElasticSearch作为Java应用程序，内存分配与回收非常关键；ES使用CMS作为默认的垃圾收集器，而CMS
+的最大问题是会导致JVM停止，在堆内存大于4G不推荐；Java8推出了新的垃圾收集器G1，专门针对堆大于
+4G的情况，G1GC将堆划分为1-32M的区，然后利用后台线程先扫描含垃圾最多的区，不会造成stop the world
+的情况；另外由于指针大小的原因不要将堆设置超过31G；禁止swap。
+-XX:+UseG1GC -XX:MaxGCPauseMillis=400
+
+Network：
+
+带宽越大越好；可以增加mtu值，以减少网络延时
+
+Storage
+
+存储往往是ES的瓶颈；尽量不要使用机械磁盘，SSD是最好的选择。
+在对数据完整性要求不高时，raid0是最佳选择；裸磁盘成本低，故障只会丢失一块盘的数据，但读写速率低；raid10成本高。
+</code></pre>
+
+<ul>
+<li>Software</li>
+</ul>
+
+<pre><code>kernel: 4.9.x
+JVM: 8
+FS: EXT4，但节点数据大于1TB XFS更佳
+</code></pre>
+
+<ul>
+<li>索引设计</li>
+</ul>
+
+<pre><code>1. 分片
+索引一旦创建，分片数量即不可改变，除非通过reindex；然而在一开始很难确定索引数据量的大小，应该设置多少分片。
+&lt; 300万documents    1分片
+300万之间500万      2分片
+&gt; 500万             int (总数/5000000 +1)
+2. 备份
+可用利用elasticsearch zones来优化数据备份，将数据分布在不同的机柜
 </code></pre>
 
               
@@ -374,7 +348,7 @@ atomic_t        users;  //引用计数
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/" data-tooltip="Ext2设计与实现(译)">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -382,7 +356,7 @@ atomic_t        users;  //引用计数
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/" data-tooltip="Linux磁盘使用率100%异常排查">
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2018/12/12%E6%9C%885%E6%97%A5%E6%99%9A%E9%9A%8F%E7%AC%94/" data-tooltip="12月5日晚随笔">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -435,7 +409,7 @@ atomic_t        users;  //引用计数
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/" data-tooltip="Ext2设计与实现(译)">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -443,7 +417,7 @@ atomic_t        users;  //引用计数
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/" data-tooltip="Linux磁盘使用率100%异常排查">
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://www.itech.red/2018/12/12%E6%9C%885%E6%97%A5%E6%99%9A%E9%9A%8F%E7%AC%94/" data-tooltip="12月5日晚随笔">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -804,9 +778,9 @@ Group 2 &hellip;</div>
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'http:\/\/www.itech.red\/2017\/04\/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93\/';
+          this.page.url = 'http:\/\/www.itech.red\/2018\/12\/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D\/';
           
-            this.page.identifier = 'fdsF342234';
+            this.page.identifier = 'elasticsearch';
           
         };
         (function() {
