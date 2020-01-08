@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ELK on 平凡世界</title>
-    <link>https://itech.red/categories/elk/</link>
+    <link>http://itech.red/categories/elk/</link>
     <description>Recent content in ELK on 平凡世界</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 12 Dec 2018 17:03:30 +0800</lastBuildDate>
     
-	<atom:link href="https://itech.red/categories/elk/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://itech.red/categories/elk/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>构建ElasticSearch集群之前</title>
-      <link>https://itech.red/2018/12/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D/</link>
+      <link>http://itech.red/2018/12/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D/</link>
       <pubDate>Wed, 12 Dec 2018 17:03:30 +0800</pubDate>
       
-      <guid>https://itech.red/2018/12/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D/</guid>
+      <guid>http://itech.red/2018/12/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D/</guid>
       <description>摘自designing the perfect elasticsearch cluster 
  本文包含了设计elasticsearch cluster需要了解的方方面面，本文不会告诉你如何设计一个完美的es集群。
   elasticsearch是一个搜索引擎，不是数据库，不会替代mysql
@@ -27,10 +27,10 @@
     
     <item>
       <title>ElasticSearch配置滚动更新</title>
-      <link>https://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/</link>
+      <link>http://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/</link>
       <pubDate>Mon, 06 Aug 2018 19:47:59 +0800</pubDate>
       
-      <guid>https://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/</guid>
+      <guid>http://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/</guid>
       <description>起因 最近Logstash经常打印如下日志内容，虽然只是INFO级别的错误但还是引起了我的注意，大概意思是ES的bulk thread pool大小为32已经满负荷，队列也满了，所以拒绝了Logstash的bulk请求
 [2018-06-23T08:00:47,281][INFO ][logstash.outputs.elasticsearch] retrying failed action with response code: 429 ({&amp;quot;type&amp;quot;=&amp;gt;&amp;quot;es_rejected_execution_exception&amp;quot;, &amp;quot;reason&amp;quot;=&amp;gt;&amp;quot;rejected execution of org.elasticsearch.transport.TransportService$7@177d229b on EsThreadPoolExecutor[bulk, queue capacity = 1000, org.elasticsearch.common.util.concurrent.EsThreadPoolExecutor@66a1a8c3[Running, pool size = 32, active threads = 32, queued tasks = 1019, completed tasks = 832616617]]&amp;quot;}) 解决思路  扩大处理bulk的thread pool线程数量  当前使用的服务器CPU核数为176(cat /proc/cpuinfo)，而在ES源码中为了避免引起Java oom线程数会取min(32, 核数)，所以造成默认的thread_pool.bulk.size为32，为了扩大线程容量需在ES中添加以下配置 processors: 96 thread_pool.bulk.size: 96  增加等待队列长度  thread_pool.bulk.queue_size: 3000 更新配置 这些配置不能通过ES Setting API来更改，只能通过滚动重启的方式，下面简单记录下过程
  禁止分配分片  curl -X PUT &amp;quot;ES_HOST:9200/_cluster/settings&amp;quot; -H &#39;Content-Type: application/json&#39; -d&#39; { &amp;quot;transient&amp;quot;: { &amp;quot;cluster.</description>
@@ -38,10 +38,10 @@
     
     <item>
       <title>ELK集群2.x到5.6升级记录</title>
-      <link>https://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/</link>
+      <link>http://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/</link>
       <pubDate>Mon, 02 Apr 2018 20:10:59 +0800</pubDate>
       
-      <guid>https://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/</guid>
+      <guid>http://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/</guid>
       <description>考虑到目前使用的ELK集群版本与开源版本的版本差距有点大，而ELK5.6相较2.3版本性能有较大提升，尤其是Logstash grok插件，最近对测试环境的两个ELK集群进行了升级，对升级过程进行一个记录；升级主要参考了官方文档
 当前系统运行版本  filebeat：1.2.3 kibana：4.5.1 logstash：2.3.2 elasticsearch：2.3.3 JVM: 1.7  升级顺序  jvm(略) elasticsearch kibana logstash beats  升级Elasticsearch 升级之前  升级前使用Elasticsearch Migration Plugin查看潜在问题 最好先在测试环境升级ELK 在升级之前先备份数据  升级（跨大版本整个集群需重启）   禁止自动分配分片，在停止elasticsearch时减少不必要的I/O
 curl -XPUT &#39;localhost:9200/_cluster/settings?pretty&#39; -H &#39;Content-Type: application/json&#39; -d&#39;{ &amp;quot;persistent&amp;quot;: {&amp;quot;cluster.routing.allocation.enable&amp;quot;: &amp;quot;none&amp;quot;} }&#39;   同步刷新以加快分片恢复
@@ -52,10 +52,10 @@ curl -XPOST &#39;localhost:9200/_flush/synced?pretty&#39;  停止并升级各�
     
     <item>
       <title>ElasticSearch索引类型映射</title>
-      <link>https://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/</link>
+      <link>http://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/</link>
       <pubDate>Fri, 19 Jan 2018 18:10:59 +0800</pubDate>
       
-      <guid>https://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/</guid>
+      <guid>http://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/</guid>
       <description>最近接手维护了几个ELK集群，对接的是IaaS、PaaS服务日志，简单的ELK架构，通过filebeat采集日志，发送到logstash结构化日志然后发送到ElasticSearch，用户可以通过Kibana查看服务日志定位问题、做一些性能分析图表等，同时利用elastalert做日志报警。
 在ElasticSearch须要对用户的索引建立合适的类型映射(尤其是int类型)，才可以在kibana中对数据进行分析，关于ES的映射类型可以看这里，需指出的是一旦某个field字段类型确定就很难更改该字段的类型(需reindex)。
 Logstash将非结构化数据转化为结构化数据，通过JSON将数据发送给ElasticSearch，所有字段都会被当作string来处理，而ElasticSearch在自动判断字段类型建立映射这方面做的不足，与我们需求不符，那么如何正确建立索引类型映射呢？
@@ -73,10 +73,10 @@ filter { mutate { convert =&amp;gt; { &amp;quot;num&amp;quot; =&amp;gt; &amp;quo
     
     <item>
       <title>Logstash过滤插件grok正则解析</title>
-      <link>https://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/</link>
+      <link>http://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/</link>
       <pubDate>Tue, 10 Oct 2017 21:31:09 +0800</pubDate>
       
-      <guid>https://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/</guid>
+      <guid>http://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/</guid>
       <description>Logstash过滤插件grok正则解析 一、grok介绍 grok是Logstash中用来解析非结构化日志数据，将日志转化为可查询的结构化数据的最佳方法，可以用来处理syslog日志、apache等webserver日志、mysql日志以及用户自定义日志。
 Logstash自带有120多种预定义好的正则表达式方便用户使用，你可以在这里查看这些正则表达式，你也可以添加自己的匹配规则。
 有两个网站可以帮助我们来构建正则表达式去匹配我们的日志：

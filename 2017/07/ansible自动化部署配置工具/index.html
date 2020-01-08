@@ -18,7 +18,7 @@ ansible执行ad-hoc 命令的基本格式如下：
 ansible &lt;pattern_goes_here&gt; -m &lt;module_name&gt; -a &lt;arguments&gt; ansible中的模式patterns决定了inventory中哪些主机将执行指定命令，默认是all(*)所有机器，可以指定多个组的集合如other:localhost(并集) other:!localhost(差集)、other:&amp;localhost(交集)等
   ad-hoc命令
 ad-hoc命令是指执行简单短小的、无需保存结果的任务
-# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &#34;/usr/bin/uptime&#34; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &#34;/usr/bin/uptime&#34; -u sa # 文件传输 ansible jumpserver -m copy -a &#34;src=https://itech.red/etc/hosts dest=/tmp/hosts mode=600&#34; # 包管理 ansible jumpserver -m yum -a &#34;name=vim state=present&#34; #确保vim包已安装 ansible jumpserver -m yum -a &#34;name=vim state=absent&#34; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &#34;name=xiao password=xxx&#34; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &#34;name=httpd state=restarted&#34; # 信息收集 ansible jumpserver -m setup   常用配置项">
+# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &#34;/usr/bin/uptime&#34; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &#34;/usr/bin/uptime&#34; -u sa # 文件传输 ansible jumpserver -m copy -a &#34;src=http://itech.red/etc/hosts dest=/tmp/hosts mode=600&#34; # 包管理 ansible jumpserver -m yum -a &#34;name=vim state=present&#34; #确保vim包已安装 ansible jumpserver -m yum -a &#34;name=vim state=absent&#34; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &#34;name=xiao password=xxx&#34; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &#34;name=httpd state=restarted&#34; # 信息收集 ansible jumpserver -m setup   常用配置项">
 
 
 <meta property="og:description" content="ansible自动化部署配置工具 初识ansible   简介
@@ -31,12 +31,12 @@ ansible执行ad-hoc 命令的基本格式如下：
 ansible &lt;pattern_goes_here&gt; -m &lt;module_name&gt; -a &lt;arguments&gt; ansible中的模式patterns决定了inventory中哪些主机将执行指定命令，默认是all(*)所有机器，可以指定多个组的集合如other:localhost(并集) other:!localhost(差集)、other:&amp;localhost(交集)等
   ad-hoc命令
 ad-hoc命令是指执行简单短小的、无需保存结果的任务
-# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &#34;/usr/bin/uptime&#34; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &#34;/usr/bin/uptime&#34; -u sa # 文件传输 ansible jumpserver -m copy -a &#34;src=https://itech.red/etc/hosts dest=/tmp/hosts mode=600&#34; # 包管理 ansible jumpserver -m yum -a &#34;name=vim state=present&#34; #确保vim包已安装 ansible jumpserver -m yum -a &#34;name=vim state=absent&#34; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &#34;name=xiao password=xxx&#34; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &#34;name=httpd state=restarted&#34; # 信息收集 ansible jumpserver -m setup   常用配置项">
+# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &#34;/usr/bin/uptime&#34; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &#34;/usr/bin/uptime&#34; -u sa # 文件传输 ansible jumpserver -m copy -a &#34;src=http://itech.red/etc/hosts dest=/tmp/hosts mode=600&#34; # 包管理 ansible jumpserver -m yum -a &#34;name=vim state=present&#34; #确保vim包已安装 ansible jumpserver -m yum -a &#34;name=vim state=absent&#34; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &#34;name=xiao password=xxx&#34; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &#34;name=httpd state=restarted&#34; # 信息收集 ansible jumpserver -m setup   常用配置项">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ansible自动化部署配置工具">
 <meta name="twitter:title" content="ansible自动化部署配置工具">
-<meta property="og:url" content="https://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/">
-<meta property="twitter:url" content="https://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/">
+<meta property="og:url" content="http://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/">
+<meta property="twitter:url" content="http://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/">
 <meta property="og:site_name" content="平凡世界">
 <meta property="og:description" content="ansible自动化部署配置工具 初识ansible   简介
 ansible是运维自动化工具，可以实现系统配置、软件部署，可以通过编排实现更高级的功能如持续集成、热更新等；ansible具有简单易用、安全、agentless等特点，通过ssh来完成与管理节点的交互。
@@ -48,7 +48,7 @@ ansible执行ad-hoc 命令的基本格式如下：
 ansible &lt;pattern_goes_here&gt; -m &lt;module_name&gt; -a &lt;arguments&gt; ansible中的模式patterns决定了inventory中哪些主机将执行指定命令，默认是all(*)所有机器，可以指定多个组的集合如other:localhost(并集) other:!localhost(差集)、other:&amp;localhost(交集)等
   ad-hoc命令
 ad-hoc命令是指执行简单短小的、无需保存结果的任务
-# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &#34;/usr/bin/uptime&#34; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &#34;/usr/bin/uptime&#34; -u sa # 文件传输 ansible jumpserver -m copy -a &#34;src=https://itech.red/etc/hosts dest=/tmp/hosts mode=600&#34; # 包管理 ansible jumpserver -m yum -a &#34;name=vim state=present&#34; #确保vim包已安装 ansible jumpserver -m yum -a &#34;name=vim state=absent&#34; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &#34;name=xiao password=xxx&#34; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &#34;name=httpd state=restarted&#34; # 信息收集 ansible jumpserver -m setup   常用配置项">
+# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &#34;/usr/bin/uptime&#34; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &#34;/usr/bin/uptime&#34; -u sa # 文件传输 ansible jumpserver -m copy -a &#34;src=http://itech.red/etc/hosts dest=/tmp/hosts mode=600&#34; # 包管理 ansible jumpserver -m yum -a &#34;name=vim state=present&#34; #确保vim包已安装 ansible jumpserver -m yum -a &#34;name=vim state=absent&#34; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &#34;name=xiao password=xxx&#34; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &#34;name=httpd state=restarted&#34; # 信息收集 ansible jumpserver -m setup   常用配置项">
 <meta name="twitter:description" content="ansible自动化部署配置工具 初识ansible   简介
 ansible是运维自动化工具，可以实现系统配置、软件部署，可以通过编排实现更高级的功能如持续集成、热更新等；ansible具有简单易用、安全、agentless等特点，通过ssh来完成与管理节点的交互。
   inventory
@@ -59,7 +59,7 @@ ansible执行ad-hoc 命令的基本格式如下：
 ansible &lt;pattern_goes_here&gt; -m &lt;module_name&gt; -a &lt;arguments&gt; ansible中的模式patterns决定了inventory中哪些主机将执行指定命令，默认是all(*)所有机器，可以指定多个组的集合如other:localhost(并集) other:!localhost(差集)、other:&amp;localhost(交集)等
   ad-hoc命令
 ad-hoc命令是指执行简单短小的、无需保存结果的任务
-# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &#34;/usr/bin/uptime&#34; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &#34;/usr/bin/uptime&#34; -u sa # 文件传输 ansible jumpserver -m copy -a &#34;src=https://itech.red/etc/hosts dest=/tmp/hosts mode=600&#34; # 包管理 ansible jumpserver -m yum -a &#34;name=vim state=present&#34; #确保vim包已安装 ansible jumpserver -m yum -a &#34;name=vim state=absent&#34; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &#34;name=xiao password=xxx&#34; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &#34;name=httpd state=restarted&#34; # 信息收集 ansible jumpserver -m setup   常用配置项">
+# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &#34;/usr/bin/uptime&#34; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &#34;/usr/bin/uptime&#34; -u sa # 文件传输 ansible jumpserver -m copy -a &#34;src=http://itech.red/etc/hosts dest=/tmp/hosts mode=600&#34; # 包管理 ansible jumpserver -m yum -a &#34;name=vim state=present&#34; #确保vim包已安装 ansible jumpserver -m yum -a &#34;name=vim state=absent&#34; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &#34;name=xiao password=xxx&#34; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &#34;name=httpd state=restarted&#34; # 信息收集 ansible jumpserver -m setup   常用配置项">
 <meta property="og:locale" content="zh-cn">
 
   
@@ -95,12 +95,12 @@ ad-hoc命令是指执行简单短小的、无需保存结果的任务
 
     <title>ansible自动化部署配置工具</title>
 
-    <link rel="icon" href="https://itech.red/favicon.png">
+    <link rel="icon" href="http://itech.red/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/">
+    <link rel="canonical" href="http://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -108,7 +108,7 @@ ad-hoc命令是指执行简单短小的、无需保存结果的任务
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
     
     
-    <link rel="stylesheet" href="https://itech.red/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    <link rel="stylesheet" href="http://itech.red/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
     
     
 
@@ -136,12 +136,12 @@ if (!doNotTrack) {
       <header id="header" data-behavior="5">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="https://itech.red/">平凡世界</a>
+    <a class="header-title-link" href="http://itech.red/">平凡世界</a>
   </div>
   
     
       <a class="header-right-picture "
-         href="https://itech.red/#about">
+         href="http://itech.red/#about">
     
     
     
@@ -157,7 +157,7 @@ if (!doNotTrack) {
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
-        <a href="https://itech.red/#about">
+        <a href="http://itech.red/#about">
           <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/6330242?v=3&amp;s=460" alt="作者的图片" />
         </a>
         <h4 class="sidebar-profile-name">游</h4>
@@ -170,7 +170,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://itech.red/">
+      <a class="sidebar-button-link " href="http://itech.red/">
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
@@ -180,7 +180,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://itech.red/categories">
+      <a class="sidebar-button-link " href="http://itech.red/categories">
     
       <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
       
@@ -190,7 +190,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://itech.red/#about">
+      <a class="sidebar-button-link " href="http://itech.red/#about">
     
       <i class="sidebar-button-icon fa fa-lg fa-question"></i>
       
@@ -208,7 +208,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://itech.red/index.xml">
+      <a class="sidebar-button-link " href="http://itech.red/index.xml">
     
       <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
       
@@ -255,7 +255,7 @@ if (!doNotTrack) {
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://itech.red/categories/linux">linux</a>
+      <a class="category-link" href="http://itech.red/categories/linux">linux</a>
     
   
 
@@ -297,7 +297,7 @@ ansible localhost -m command -a <span style="color:#e6db74">&#34;/usr/bin/uptime
 <span style="color:#75715e"># -u username切换登录用户   --become 切换到root执行 --become-user otheruser 切换到其他用户执行</span>
 ansible localhost -a <span style="color:#e6db74">&#34;/usr/bin/uptime&#34;</span> -u sa
 <span style="color:#75715e"># 文件传输</span>
-ansible jumpserver -m copy 	-a <span style="color:#e6db74">&#34;src=https://itech.red/etc/hosts dest=/tmp/hosts mode=600&#34;</span>
+ansible jumpserver -m copy 	-a <span style="color:#e6db74">&#34;src=http://itech.red/etc/hosts dest=/tmp/hosts mode=600&#34;</span>
 <span style="color:#75715e"># 包管理</span>
 ansible jumpserver -m yum -a <span style="color:#e6db74">&#34;name=vim state=present&#34;</span>   <span style="color:#75715e">#确保vim包已安装</span>
 ansible jumpserver -m yum -a <span style="color:#e6db74">&#34;name=vim state=absent&#34;</span>    <span style="color:#75715e">#vim包卸载</span>
@@ -448,7 +448,7 @@ notify: &ldquo;restart web services&rdquo;</p>
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/" data-tooltip="Logstash过滤插件grok正则解析">
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/" data-tooltip="Logstash过滤插件grok正则解析">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -456,7 +456,7 @@ notify: &ldquo;restart web services&rdquo;</p>
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/" data-tooltip="shell条件测试总结">
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/" data-tooltip="shell条件测试总结">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -519,7 +519,7 @@ notify: &ldquo;restart web services&rdquo;</p>
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/" data-tooltip="Logstash过滤插件grok正则解析">
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/" data-tooltip="Logstash过滤插件grok正则解析">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -527,7 +527,7 @@ notify: &ldquo;restart web services&rdquo;</p>
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/" data-tooltip="shell条件测试总结">
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/" data-tooltip="shell条件测试总结">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -609,7 +609,7 @@ notify: &ldquo;restart web services&rdquo;</p>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
 
 
-<script src="https://itech.red/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+<script src="http://itech.red/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
 
 
   
@@ -636,7 +636,7 @@ function updateMinWidth() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/itech.red\/2017\/07\/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7\/';
+          this.page.url = 'http:\/\/itech.red\/2017\/07\/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7\/';
           
             this.page.identifier = 'ansible_0721';
           
