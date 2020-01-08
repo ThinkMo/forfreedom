@@ -1,85 +1,76 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on 平凡世界</title>
-    <link>http://www.itech.red/categories/</link>
+    <link>https://itech.red/categories/</link>
     <description>Recent content in Categories on 平凡世界</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 11 May 2016 10:23:54 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 12 Dec 2018 17:03:30 +0800</lastBuildDate>
     
-	<atom:link href="http://www.itech.red/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://itech.red/categories/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>C</title>
-      <link>http://www.itech.red/categories/c/</link>
-      <pubDate>Wed, 11 May 2016 10:23:54 +0800</pubDate>
-      
-      <guid>http://www.itech.red/categories/c/</guid>
-      <description></description>
-    </item>
     
     <item>
-      <title>Elk</title>
-      <link>http://www.itech.red/categories/elk/</link>
+      <title>ELK</title>
+      <link>https://itech.red/categories/elk/</link>
       <pubDate>Wed, 12 Dec 2018 17:03:30 +0800</pubDate>
       
-      <guid>http://www.itech.red/categories/elk/</guid>
+      <guid>https://itech.red/categories/elk/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Java</title>
-      <link>http://www.itech.red/categories/java/</link>
-      <pubDate>Wed, 23 Nov 2016 18:47:34 +0800</pubDate>
-      
-      <guid>http://www.itech.red/categories/java/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Linux</title>
-      <link>http://www.itech.red/categories/linux/</link>
-      <pubDate>Fri, 21 Jul 2017 16:18:29 +0800</pubDate>
-      
-      <guid>http://www.itech.red/categories/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Network</title>
-      <link>http://www.itech.red/categories/network/</link>
-      <pubDate>Tue, 04 Apr 2017 19:07:48 +0800</pubDate>
-      
-      <guid>http://www.itech.red/categories/network/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python</title>
-      <link>http://www.itech.red/categories/python/</link>
+      <title>python</title>
+      <link>https://itech.red/categories/python/</link>
       <pubDate>Fri, 10 Aug 2018 15:17:59 +0800</pubDate>
       
-      <guid>http://www.itech.red/categories/python/</guid>
+      <guid>https://itech.red/categories/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://itech.red/categories/linux/</link>
+      <pubDate>Fri, 21 Jul 2017 16:18:29 +0800</pubDate>
+      
+      <guid>https://itech.red/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>network</title>
+      <link>https://itech.red/categories/network/</link>
+      <pubDate>Tue, 04 Apr 2017 19:07:48 +0800</pubDate>
+      
+      <guid>https://itech.red/categories/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>java</title>
+      <link>https://itech.red/categories/java/</link>
+      <pubDate>Wed, 23 Nov 2016 18:47:34 +0800</pubDate>
+      
+      <guid>https://itech.red/categories/java/</guid>
       <description></description>
     </item>
     
     <item>
       <title>基础</title>
-      <link>http://www.itech.red/categories/%E5%9F%BA%E7%A1%80/</link>
+      <link>https://itech.red/categories/%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Fri, 26 Aug 2016 16:51:34 +0800</pubDate>
       
-      <guid>http://www.itech.red/categories/%E5%9F%BA%E7%A1%80/</guid>
+      <guid>https://itech.red/categories/%E5%9F%BA%E7%A1%80/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>随笔</title>
-      <link>http://www.itech.red/categories/%E9%9A%8F%E7%AC%94/</link>
-      <pubDate>Wed, 05 Dec 2018 10:51:59 +0800</pubDate>
+      <title>C</title>
+      <link>https://itech.red/categories/c/</link>
+      <pubDate>Wed, 11 May 2016 10:23:54 +0800</pubDate>
       
-      <guid>http://www.itech.red/categories/%E9%9A%8F%E7%AC%94/</guid>
+      <guid>https://itech.red/categories/c/</guid>
       <description></description>
     </item>
     

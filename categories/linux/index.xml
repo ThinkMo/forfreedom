@@ -1,52 +1,56 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Linux on 平凡世界</title>
-    <link>http://www.itech.red/categories/linux/</link>
-    <description>Recent content in Linux on 平凡世界</description>
+    <title>linux on 平凡世界</title>
+    <link>https://itech.red/categories/linux/</link>
+    <description>Recent content in linux on 平凡世界</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 21 Jul 2017 16:18:29 +0800</lastBuildDate>
     
-	<atom:link href="http://www.itech.red/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://itech.red/categories/linux/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ansible自动化部署配置工具</title>
-      <link>http://www.itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</link>
+      <link>https://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</link>
       <pubDate>Fri, 21 Jul 2017 16:18:29 +0800</pubDate>
       
-      <guid>http://www.itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</guid>
-      <description>ansible自动化部署配置工具 初识ansible  简介  ansible是运维自动化工具，可以实现系统配置、软件部署，可以通过编排实现更高级的功能如持续集成、热更新等；ansible具有简单易用、安全、agentless等特点，通过ssh来完成与管理节点的交互。
- inventory  ansible管理的主机信息称为inventory，默认存储在/etc/ansible/hosts，也可以在运行时通过-i 指定inventory文件位置，通常为ini格式，如下：
- [jumpserver] 44.33.22.11:1024	ansible_ssh_user=xxx # xxx用户ssh端口1024，2.0后参数变为ansible_user [other] 192.168.1.[2:255] # 范围2-255 [localhost] localhost	ansible_connection=local  处于[]中的为组名，一个节点可以在多个组下，组下为机器名可指定端口与参数，支持的参数详情见文档。
- patterns:  ansible执行ad-hoc 命令的基本格式如下：
- ansible &amp;lt;pattern_goes_here&amp;gt; -m &amp;lt;module_name&amp;gt; -a &amp;lt;arguments&amp;gt;  ansible中的模式patterns决定了inventory中哪些主机将执行指定命令，默认是all(*)所有机器，可以指定多个组的集合如other:localhost(并集) other:!localhost(差集)、other:&amp;amp;localhost(交集)等
- ad-hoc命令  ad-hoc命令是指执行简单短小的、无需保存结果的任务
-# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &amp;quot;/usr/bin/uptime&amp;quot; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &amp;quot;/usr/bin/uptime&amp;quot; -u sa # 文件传输 ansible jumpserver -m copy -a &amp;quot;src=/etc/hosts dest=/tmp/hosts mode=600&amp;quot; # 包管理 ansible jumpserver -m yum -a &amp;quot;name=vim state=present&amp;quot; #确保vim包已安装 ansible jumpserver -m yum -a &amp;quot;name=vim state=absent&amp;quot; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &amp;quot;name=xiao password=xxx&amp;quot; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &amp;quot;name=httpd state=restarted&amp;quot; # 信息收集 ansible jumpserver -m setup   常用配置项   配置项读取顺序如下： * ANSIBLE_CONFIG (一个环境变量) * ansible.</description>
+      <guid>https://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</guid>
+      <description>ansible自动化部署配置工具 初识ansible   简介
+ansible是运维自动化工具，可以实现系统配置、软件部署，可以通过编排实现更高级的功能如持续集成、热更新等；ansible具有简单易用、安全、agentless等特点，通过ssh来完成与管理节点的交互。
+  inventory
+ansible管理的主机信息称为inventory，默认存储在/etc/ansible/hosts，也可以在运行时通过-i 指定inventory文件位置，通常为ini格式，如下：
+[jumpserver] 44.33.22.11:1024	ansible_ssh_user=xxx # xxx用户ssh端口1024，2.0后参数变为ansible_user [other] 192.168.1.[2:255] # 范围2-255 [localhost] localhost	ansible_connection=local 处于[]中的为组名，一个节点可以在多个组下，组下为机器名可指定端口与参数，支持的参数详情见文档。
+  patterns:
+ansible执行ad-hoc 命令的基本格式如下：
+ansible &amp;lt;pattern_goes_here&amp;gt; -m &amp;lt;module_name&amp;gt; -a &amp;lt;arguments&amp;gt; ansible中的模式patterns决定了inventory中哪些主机将执行指定命令，默认是all(*)所有机器，可以指定多个组的集合如other:localhost(并集) other:!localhost(差集)、other:&amp;amp;localhost(交集)等
+  ad-hoc命令
+ad-hoc命令是指执行简单短小的、无需保存结果的任务
+# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &amp;#34;/usr/bin/uptime&amp;#34; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &amp;#34;/usr/bin/uptime&amp;#34; -u sa # 文件传输 ansible jumpserver -m copy -a &amp;#34;src=https://itech.red/etc/hosts dest=/tmp/hosts mode=600&amp;#34; # 包管理 ansible jumpserver -m yum -a &amp;#34;name=vim state=present&amp;#34; #确保vim包已安装 ansible jumpserver -m yum -a &amp;#34;name=vim state=absent&amp;#34; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &amp;#34;name=xiao password=xxx&amp;#34; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &amp;#34;name=httpd state=restarted&amp;#34; # 信息收集 ansible jumpserver -m setup   常用配置项</description>
     </item>
     
     <item>
       <title>shell条件测试总结</title>
-      <link>http://www.itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</link>
+      <link>https://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</link>
       <pubDate>Thu, 27 Apr 2017 18:55:34 +0800</pubDate>
       
-      <guid>http://www.itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
+      <guid>https://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
       <description>在编写shell脚本时，条件测试与判断必不可少，基于测试结果才能做进一步的处理，此文用来回顾下shell脚本中的条件测试。
 test([) test有两种格式，即test condition 或 [ condition ](注意条件两边空格)， test主要用来测试文件、字符串及数字。
- 逻辑操作符
+  逻辑操作符
 -a 逻辑与 -o 逻辑或 ! 逻辑非(不是短路求值)
 best practise：使用多个[，而不是-a与-o
- good : [ &amp;ldquo;$a&amp;rdquo; = &amp;ldquo;$b&amp;rdquo; ] &amp;amp;&amp;amp; [ &amp;ldquo;$b&amp;rdquo; = &amp;ldquo;$c&amp;rdquo; ] bad : [ &amp;ldquo;$a&amp;rdquo; = &amp;ldquo;$b&amp;rdquo; -a &amp;ldquo;$b&amp;rdquo; = &amp;ldquo;$c&amp;rdquo; ]  文件测试
+ good : [ &amp;ldquo;$a&amp;rdquo; = &amp;ldquo;$b&amp;rdquo; ] &amp;amp;&amp;amp; [ &amp;ldquo;$b&amp;rdquo; = &amp;ldquo;$c&amp;rdquo; ] bad : [ &amp;ldquo;$a&amp;rdquo; = &amp;ldquo;$b&amp;rdquo; -a &amp;ldquo;$b&amp;rdquo; = &amp;ldquo;$c&amp;rdquo; ]    文件测试
      参数 含义 参数 含义     -d 目录 -s 文件长度大于0、非空   -f 普通文件 -w 可写   -L 符号链接 -u 文件有suid置位   -r 可读 -x 可执行    例如:</description>
     </item>
     
     <item>
       <title>Ext2设计与实现(译)</title>
-      <link>http://www.itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/</link>
+      <link>https://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/</link>
       <pubDate>Thu, 06 Apr 2017 19:10:59 +0800</pubDate>
       
-      <guid>http://www.itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/</guid>
+      <guid>https://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/</guid>
       <description>Ext2设计与实现 1、介绍 Linux第一版只支持Minix文件系统，Minix文件系统有两大亟待解决的限制：块地址存储在16位整型，最大文件大小为64MB；另外目录和文件名长度最大支持14个字符。
 我们设计与实现了两种新的文件系统:EXT 、 EXT2
 在这篇论文中，我们将简述Linux文件系统的历史，简单介绍Unix文件系统的基础概念；介绍Linux VFS层的实现并详细介绍EXT2内核代码与用户工具；最后，是Linux、BSD下EXT2性能测试对比。
@@ -61,40 +65,41 @@ best practise：使用多个[，而不是-a与-o
 有两类特殊文件：字符设备、块设备。主设备号决定类型，次设备号决定哪一个设备。
 4 VFS VFS是一个文件系统抽象层，定义了一个文件系统应该实现的操作，对上层屏蔽了底层不同文件系统的实现，一图概之： 5 EXT2 5.1 起因 修复EXT文件系统问题，提供一个强大的文件系统，实现unix文件语义并提供高级特性
 5.2 标准 ext2fs特性  支持标准Unix文件类型：普通文件、目录、设备文件、符号链接 支持最大4TB文件系统 长文件名：255字节，可扩展至1012 为root保留空间以便修复  5.3 高级 ext2fs特性  属性继承 软链接：目标名存储在inode中 创建文件系统时可选择逻辑块大小 fsck mount options Append-only files  5.4 物理结构 受BSD文件系统的影响，文件系统由块组构成，但块组并没有与磁盘的物理结构块绑定，因为现代驱动趋势是优化顺序访问和对操作系统隐藏物理结构。
-文件系统物理结构：  Boot
-Sector Block
-Group 1 Block
-Group 2 &amp;hellip;</description>
+文件系统物理结构：
+每一个块组包含一份冗余的文件系统控制信息（超级块和文件系统描述信息），并包含一部分文件系统（块位图、inode位图、inode表、数据块）：
+使用block group提高系统可靠性，冗余超级块信息可以简化文件系统恢复；inode表与数据块一起存储提高寻道时间，提高性能。
+在ext2fs中，目录使用链表管理变长目录项，每一项包含inode号、记录项长度、文件名和文件名长度。通过变长目录项可以实现长文件名同时减少磁盘空间浪费，目录项结构如下：
+5.5 性能优化  预读：当读取一个块时，内核会请求连续的若干块，当读取下一个块时会从buffer cache读取 分配优化： 块组的inode、data分配会在当前组中以减少寻道时间 写时预分配  6 Ext2fs library （略） 译自：http://e2fsprogs.</description>
     </item>
     
     <item>
       <title>Linux磁盘使用率100%异常排查</title>
-      <link>http://www.itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</link>
+      <link>https://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</link>
       <pubDate>Sat, 01 Apr 2017 18:00:54 +0800</pubDate>
       
-      <guid>http://www.itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <guid>https://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>认识Linux内核网络参数</title>
-      <link>http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</link>
+      <link>https://itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</link>
       <pubDate>Fri, 17 Jun 2016 21:03:24 +0800</pubDate>
       
-      <guid>http://www.itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</guid>
-      <description>认识Linux内核网络参数  本地端口
+      <guid>https://itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</guid>
+      <description>认识Linux内核网络参数   本地端口
 TCP、UDP使用的本地端口范围
 net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network restart）
- 优化短链接
-     选项 含义     net.ipv4.tcp_fin_timeout = 15 处于FIN-WAIT-2状态的时间，建议10   net.ipv4.tcp_tw_reuse = 1 允许将 TIME-WAIT sockets重新用于新的TCP连接   net.ipv4.tcp_tw_recycle = 1 表示开启TCP连接中TIME-WAIT sockets的快速回收(建议关闭)   net.ipv4.tcp_syncookies 防止syn flood攻击，当syn backlog满时发送syncookies(建议关闭)   net.ipv4.tcp_syn_retries 初始SYN重传次数，默认5   net.ipv4.tcp_keepalive_intvl tcp keepalive探测间隔时间，默认75s，可减小   net.ipv4.tcp_keepalive_probes 最大探测次数，默认9，可减小   net.ipv4.tcp_keepalive_time 只有在SO_KEEPALIVE设置时才启用，链接空闲多久发送keepalive，默认7200s，空闲后大概11min关闭连接，可减小     缓冲区大小</description>
+  优化短链接
+     选项 含义     net.ipv4.tcp_fin_timeout = 15 处于FIN-WAIT-2状态的时间，建议10   net.ipv4.tcp_tw_reuse = 1 允许将 TIME-WAIT sockets重新用于新的TCP连接   net.ipv4.tcp_tw_recycle = 1 表示开启TCP连接中TIME-WAIT sockets的快速回收(建议关闭)   net.ipv4.tcp_syncookies 防止syn flood攻击，当syn backlog满时发送syncookies(建议关闭)   net.ipv4.tcp_syn_retries 初始SYN重传次数，默认5   net.ipv4.tcp_keepalive_intvl tcp keepalive探测间隔时间，默认75s，可减小   net.ipv4.tcp_keepalive_probes 最大探测次数，默认9，可减小   net.ipv4.tcp_keepalive_time 只有在SO_KEEPALIVE设置时才启用，链接空闲多久发送keepalive，默认7200s，空闲后大概11min关闭连接，可减小      缓冲区大小</description>
     </item>
     
     <item>
       <title>进程监视</title>
-      <link>http://www.itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</link>
+      <link>https://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</link>
       <pubDate>Thu, 10 Sep 2015 10:07:34 +0800</pubDate>
       
-      <guid>http://www.itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</guid>
+      <guid>https://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</guid>
       <description>进程监视 1、ps监视进程的主要工具 ps -ef 查看每一个进程 ps aux 可以展示系统进程的全貌 ps lax 更快，省去了将uid转换为用户名 ps -ejH or ps axjf 进程树 ps -eLf or ps axms 线程信息  字段含义    字段 内容     USER 进程属主用户名   PID 进程ID   CPU 进程使用CPU百分比   MEM 进程使用内存百分比   VSZ 进程虚拟内存大小KiB   RSS 驻留集大小，非swap中的内存大小   STAT 进程状态 S:可中断睡眠 D:不可中断睡眠 R:running s会话头   TIME 运行时间   COMMAND 命令行   NI nice值   WCHAN 等待的资源    2、top动态查看 top对活动进程及所使用的资源情况提供了汇总信息  3、proc文件系统 proc文件系统提供了内核产生的所有状态信息与数据系统，包括进程相关的信息，linux的ps、top都是从/proc目录读取进程的状态信息。进程特有的信息存储在/proc/pid下。  4、strace strace -p pid可以追踪进程的系统调用及信号，在调试进程、理解程序执行过程非常有帮助。  5、vmstat vmstat提供了关于进程、内存、内存页、块IO、陷阱、磁盘及CPU的活动信息。  ###字段含义 字段 | 内容 &amp;mdash;- | &amp;mdash;- r|等待执行的进程数 b|不可中断睡眠的进程数 swpd|使用虚拟内存大小 free|空闲内存 cache|用作cache的内存大小 si|swap in so|swap out bi|block in从块设备收到数据块数 bo|block out in|每秒中断数 cs|每秒上下文切换数 us|user time sy|system time id|idle time wa|wait for io</description>
     </item>
     
