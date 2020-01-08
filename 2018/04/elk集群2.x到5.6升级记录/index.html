@@ -25,8 +25,8 @@ curl -XPOST &#39;localhost:9200/_flush/synced?pretty&#39;  停止并升级各�
 <meta property="og:type" content="article">
 <meta property="og:title" content="ELK集群2.x到5.6升级记录">
 <meta name="twitter:title" content="ELK集群2.x到5.6升级记录">
-<meta property="og:url" content="http://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/">
-<meta property="twitter:url" content="http://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/">
+<meta property="og:url" content="https://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/">
+<meta property="twitter:url" content="https://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/">
 <meta property="og:site_name" content="平凡世界">
 <meta property="og:description" content="考虑到目前使用的ELK集群版本与开源版本的版本差距有点大，而ELK5.6相较2.3版本性能有较大提升，尤其是Logstash grok插件，最近对测试环境的两个ELK集群进行了升级，对升级过程进行一个记录；升级主要参考了官方文档
 当前系统运行版本  filebeat：1.2.3 kibana：4.5.1 logstash：2.3.2 elasticsearch：2.3.3 JVM: 1.7  升级顺序  jvm(略) elasticsearch kibana logstash beats  升级Elasticsearch 升级之前  升级前使用Elasticsearch Migration Plugin查看潜在问题 最好先在测试环境升级ELK 在升级之前先备份数据  升级（跨大版本整个集群需重启）   禁止自动分配分片，在停止elasticsearch时减少不必要的I/O
@@ -75,12 +75,12 @@ curl -XPOST &#39;localhost:9200/_flush/synced?pretty&#39;  停止并升级各�
 
     <title>ELK集群2.x到5.6升级记录</title>
 
-    <link rel="icon" href="http://itech.red/favicon.png">
+    <link rel="icon" href="https://itech.red/favicon.png">
     
 
     
 
-    <link rel="canonical" href="http://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/">
+    <link rel="canonical" href="https://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -88,7 +88,7 @@ curl -XPOST &#39;localhost:9200/_flush/synced?pretty&#39;  停止并升级各�
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
     
     
-    <link rel="stylesheet" href="http://itech.red/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    <link rel="stylesheet" href="https://itech.red/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
     
     
 
@@ -116,12 +116,12 @@ if (!doNotTrack) {
       <header id="header" data-behavior="5">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="http://itech.red/">平凡世界</a>
+    <a class="header-title-link" href="https://itech.red/">平凡世界</a>
   </div>
   
     
       <a class="header-right-picture "
-         href="http://itech.red/#about">
+         href="https://itech.red/#about">
     
     
     
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
-        <a href="http://itech.red/#about">
+        <a href="https://itech.red/#about">
           <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/6330242?v=3&amp;s=460" alt="作者的图片" />
         </a>
         <h4 class="sidebar-profile-name">游</h4>
@@ -150,7 +150,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/">
+      <a class="sidebar-button-link " href="https://itech.red/">
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
@@ -160,7 +160,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/categories">
+      <a class="sidebar-button-link " href="https://itech.red/categories">
     
       <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
       
@@ -170,7 +170,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/#about">
+      <a class="sidebar-button-link " href="https://itech.red/#about">
     
       <i class="sidebar-button-icon fa fa-lg fa-question"></i>
       
@@ -188,7 +188,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/index.xml">
+      <a class="sidebar-button-link " href="https://itech.red/index.xml">
     
       <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
       
@@ -235,7 +235,7 @@ if (!doNotTrack) {
   
     <span>发布在</span>
     
-      <a class="category-link" href="http://itech.red/categories/elk">ELK</a>
+      <a class="category-link" href="https://itech.red/categories/elk">ELK</a>
     
   
 
@@ -408,7 +408,7 @@ apt-get install filebeat=5.6.5
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/" data-tooltip="ElasticSearch配置滚动更新">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/" data-tooltip="ElasticSearch配置滚动更新">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -416,7 +416,7 @@ apt-get install filebeat=5.6.5
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/" data-tooltip="ElasticSearch索引类型映射">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/" data-tooltip="ElasticSearch索引类型映射">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -479,7 +479,7 @@ apt-get install filebeat=5.6.5
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/" data-tooltip="ElasticSearch配置滚动更新">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/" data-tooltip="ElasticSearch配置滚动更新">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -487,7 +487,7 @@ apt-get install filebeat=5.6.5
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/" data-tooltip="ElasticSearch索引类型映射">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/" data-tooltip="ElasticSearch索引类型映射">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -569,7 +569,7 @@ apt-get install filebeat=5.6.5
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
 
 
-<script src="http://itech.red/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+<script src="https://itech.red/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
 
 
   
@@ -596,7 +596,7 @@ function updateMinWidth() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'http:\/\/itech.red\/2018\/04\/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95\/';
+          this.page.url = 'https:\/\/itech.red\/2018\/04\/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95\/';
           
             this.page.identifier = 'elk_update';
           

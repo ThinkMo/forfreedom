@@ -25,8 +25,8 @@ char *p; char *p; /* 4 or 8 bytes */ char c; =======&gt; char c; /* 1 byte */ sh
 <meta property="og:type" content="article">
 <meta property="og:title" content="C语言结构体封装">
 <meta name="twitter:title" content="C语言结构体封装">
-<meta property="og:url" content="http://itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/">
-<meta property="twitter:url" content="http://itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/">
+<meta property="og:url" content="https://itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/">
+<meta property="twitter:url" content="https://itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/">
 <meta property="og:site_name" content="平凡世界">
 <meta property="og:description" content="C语言结构体封装 源自：http://www.catb.org/esr/structure-packing/
 1、简介 通过手动填充、封装C语言结构体以减少C程序的内存使用，在嵌入式系统、操作系统内核模块等内存使用有限制的场景，这种知识非常有效。当你对程序的高速缓存行命中率非常在意时，理解这部分知识也是至关重要的。
@@ -75,12 +75,12 @@ char *p; char *p; /* 4 or 8 bytes */ char c; =======&gt; char c; /* 1 byte */ sh
 
     <title>C语言结构体封装</title>
 
-    <link rel="icon" href="http://itech.red/favicon.png">
+    <link rel="icon" href="https://itech.red/favicon.png">
     
 
     
 
-    <link rel="canonical" href="http://itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/">
+    <link rel="canonical" href="https://itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -88,7 +88,7 @@ char *p; char *p; /* 4 or 8 bytes */ char c; =======&gt; char c; /* 1 byte */ sh
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
     
     
-    <link rel="stylesheet" href="http://itech.red/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    <link rel="stylesheet" href="https://itech.red/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
     
     
 
@@ -116,12 +116,12 @@ if (!doNotTrack) {
       <header id="header" data-behavior="5">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="http://itech.red/">平凡世界</a>
+    <a class="header-title-link" href="https://itech.red/">平凡世界</a>
   </div>
   
     
       <a class="header-right-picture "
-         href="http://itech.red/#about">
+         href="https://itech.red/#about">
     
     
     
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
-        <a href="http://itech.red/#about">
+        <a href="https://itech.red/#about">
           <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/6330242?v=3&amp;s=460" alt="作者的图片" />
         </a>
         <h4 class="sidebar-profile-name">游</h4>
@@ -150,7 +150,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/">
+      <a class="sidebar-button-link " href="https://itech.red/">
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
@@ -160,7 +160,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/categories">
+      <a class="sidebar-button-link " href="https://itech.red/categories">
     
       <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
       
@@ -170,7 +170,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/#about">
+      <a class="sidebar-button-link " href="https://itech.red/#about">
     
       <i class="sidebar-button-icon fa fa-lg fa-question"></i>
       
@@ -188,7 +188,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/index.xml">
+      <a class="sidebar-button-link " href="https://itech.red/index.xml">
     
       <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
       
@@ -235,7 +235,7 @@ if (!doNotTrack) {
   
     <span>发布在</span>
     
-      <a class="category-link" href="http://itech.red/categories/c">C</a>
+      <a class="category-link" href="https://itech.red/categories/c">C</a>
     
   
 
@@ -363,7 +363,7 @@ struct foo9 {
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/" data-tooltip="python项目开发总结">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/" data-tooltip="python项目开发总结">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -371,7 +371,7 @@ struct foo9 {
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/" data-tooltip="进程监视">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/" data-tooltip="进程监视">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -434,7 +434,7 @@ struct foo9 {
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/" data-tooltip="python项目开发总结">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/" data-tooltip="python项目开发总结">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -442,7 +442,7 @@ struct foo9 {
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/" data-tooltip="进程监视">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/" data-tooltip="进程监视">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -524,7 +524,7 @@ struct foo9 {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
 
 
-<script src="http://itech.red/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+<script src="https://itech.red/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
 
 
   
@@ -551,7 +551,7 @@ function updateMinWidth() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'http:\/\/itech.red\/2016\/05\/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85\/';
+          this.page.url = 'https:\/\/itech.red\/2016\/05\/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85\/';
           
             this.page.identifier = '23213942C_struct';
           

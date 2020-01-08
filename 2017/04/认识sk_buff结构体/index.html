@@ -15,8 +15,8 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="认识sk_buff结构体">
 <meta name="twitter:title" content="认识sk_buff结构体">
-<meta property="og:url" content="http://itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/">
-<meta property="twitter:url" content="http://itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/">
+<meta property="og:url" content="https://itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/">
+<meta property="twitter:url" content="https://itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/">
 <meta property="og:site_name" content="平凡世界">
 <meta property="og:description" content="sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff	*next; struct sk_buff	*prev; /* sk_buff双向链表 */ ktime_t	tstamp; /* 报文接收时间戳，是个偏移量 */ struct sock	*sk; /* 拥有此skb的socket */ struct net_device	*dev; /* SKB收发的网络设备 */ /* * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.">
 <meta name="twitter:description" content="sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff	*next; struct sk_buff	*prev; /* sk_buff双向链表 */ ktime_t	tstamp; /* 报文接收时间戳，是个偏移量 */ struct sock	*sk; /* 拥有此skb的socket */ struct net_device	*dev; /* SKB收发的网络设备 */ /* * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.">
@@ -55,12 +55,12 @@
 
     <title>认识sk_buff结构体</title>
 
-    <link rel="icon" href="http://itech.red/favicon.png">
+    <link rel="icon" href="https://itech.red/favicon.png">
     
 
     
 
-    <link rel="canonical" href="http://itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/">
+    <link rel="canonical" href="https://itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -68,7 +68,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
     
     
-    <link rel="stylesheet" href="http://itech.red/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    <link rel="stylesheet" href="https://itech.red/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
     
     
 
@@ -96,12 +96,12 @@ if (!doNotTrack) {
       <header id="header" data-behavior="5">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="http://itech.red/">平凡世界</a>
+    <a class="header-title-link" href="https://itech.red/">平凡世界</a>
   </div>
   
     
       <a class="header-right-picture "
-         href="http://itech.red/#about">
+         href="https://itech.red/#about">
     
     
     
@@ -117,7 +117,7 @@ if (!doNotTrack) {
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
-        <a href="http://itech.red/#about">
+        <a href="https://itech.red/#about">
           <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/6330242?v=3&amp;s=460" alt="作者的图片" />
         </a>
         <h4 class="sidebar-profile-name">游</h4>
@@ -130,7 +130,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/">
+      <a class="sidebar-button-link " href="https://itech.red/">
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
@@ -140,7 +140,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/categories">
+      <a class="sidebar-button-link " href="https://itech.red/categories">
     
       <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
       
@@ -150,7 +150,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/#about">
+      <a class="sidebar-button-link " href="https://itech.red/#about">
     
       <i class="sidebar-button-icon fa fa-lg fa-question"></i>
       
@@ -168,7 +168,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/index.xml">
+      <a class="sidebar-button-link " href="https://itech.red/index.xml">
     
       <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
       
@@ -217,7 +217,7 @@ if (!doNotTrack) {
   
     <span>发布在</span>
     
-      <a class="category-link" href="http://itech.red/categories/network">network</a>
+      <a class="category-link" href="https://itech.red/categories/network">network</a>
     
   
 
@@ -371,7 +371,7 @@ atomic_t		users;  //引用计数
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/" data-tooltip="Ext2设计与实现(译)">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/" data-tooltip="Ext2设计与实现(译)">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -379,7 +379,7 @@ atomic_t		users;  //引用计数
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/" data-tooltip="Linux磁盘使用率100%异常排查">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/" data-tooltip="Linux磁盘使用率100%异常排查">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -442,7 +442,7 @@ atomic_t		users;  //引用计数
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/" data-tooltip="Ext2设计与实现(译)">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/" data-tooltip="Ext2设计与实现(译)">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -450,7 +450,7 @@ atomic_t		users;  //引用计数
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/" data-tooltip="Linux磁盘使用率100%异常排查">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/" data-tooltip="Linux磁盘使用率100%异常排查">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -532,7 +532,7 @@ atomic_t		users;  //引用计数
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
 
 
-<script src="http://itech.red/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+<script src="https://itech.red/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
 
 
   
@@ -559,7 +559,7 @@ function updateMinWidth() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'http:\/\/itech.red\/2017\/04\/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93\/';
+          this.page.url = 'https:\/\/itech.red\/2017\/04\/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93\/';
           
             this.page.identifier = 'fdsF342234';
           

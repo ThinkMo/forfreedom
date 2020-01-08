@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>平凡世界</title>
-    <link>http://itech.red/</link>
+    <link>https://itech.red/</link>
     <description>Recent content on 平凡世界</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 12 Dec 2018 17:03:30 +0800</lastBuildDate>
     
-	<atom:link href="http://itech.red/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://itech.red/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>构建ElasticSearch集群之前</title>
-      <link>http://itech.red/2018/12/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D/</link>
+      <link>https://itech.red/2018/12/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D/</link>
       <pubDate>Wed, 12 Dec 2018 17:03:30 +0800</pubDate>
       
-      <guid>http://itech.red/2018/12/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D/</guid>
+      <guid>https://itech.red/2018/12/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D/</guid>
       <description>摘自designing the perfect elasticsearch cluster 
  本文包含了设计elasticsearch cluster需要了解的方方面面，本文不会告诉你如何设计一个完美的es集群。
   elasticsearch是一个搜索引擎，不是数据库，不会替代mysql
@@ -27,10 +27,10 @@
     
     <item>
       <title>Python GIL与线程安全</title>
-      <link>http://itech.red/2018/08/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/</link>
+      <link>https://itech.red/2018/08/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/</link>
       <pubDate>Fri, 10 Aug 2018 15:17:59 +0800</pubDate>
       
-      <guid>http://itech.red/2018/08/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/</guid>
+      <guid>https://itech.red/2018/08/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/</guid>
       <description>python GIL与多线程  GIL: Global Interpreter Lock(全局解释器锁)，python虚拟机一级的互斥机制，用来保护资源的互斥访问，尤其是python对象的引用计数。 python代码执行  获得GIL 执行代码直到被阻塞或N条指令执行之后(py3:超时时间)被python 虚拟机调度 释放GIL 何时挂起当前线程：被阻塞或N条指令执行之后(py3:超时时间15ms) 如何选择等待的线程进行调度：由底层操作系统决定  python多线程机制是在GIL基础上实现的 python的多线程机制建立在操作系统的原生线程的基础之上  Thread safe in python Python线程安全与传统的java、c有很大不同，python的很多操作都是原子的，例如sort函数本身是原子操作，不会被其他线程看到排序一半的list；而有一些操作不是原子的，例如+=
 n=0 def add(): global n n += 1 import dis #将python byte code转为助记符号 dis.dis(add) 3 0 LOAD_GLOBAL 0 (n) 3 LOAD_CONST 1 (1) 6 INPLACE_ADD 7 STORE_GLOBAL 0 (n) 10 LOAD_CONST 0 (None) 13 RETURN_VALUE 操作步骤为：
  加载n到栈 加载常量n到栈 将两者相加 将结果付给n  由于操作不是原子的，python解释器可能在某一步被抢占，造成不一致的情况，执行以下代码，将不一定会得到100
@@ -39,10 +39,10 @@ threads = [] for i in range(100): t = threading.</description>
     
     <item>
       <title>ElasticSearch配置滚动更新</title>
-      <link>http://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/</link>
+      <link>https://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/</link>
       <pubDate>Mon, 06 Aug 2018 19:47:59 +0800</pubDate>
       
-      <guid>http://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/</guid>
+      <guid>https://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/</guid>
       <description>起因 最近Logstash经常打印如下日志内容，虽然只是INFO级别的错误但还是引起了我的注意，大概意思是ES的bulk thread pool大小为32已经满负荷，队列也满了，所以拒绝了Logstash的bulk请求
 [2018-06-23T08:00:47,281][INFO ][logstash.outputs.elasticsearch] retrying failed action with response code: 429 ({&amp;quot;type&amp;quot;=&amp;gt;&amp;quot;es_rejected_execution_exception&amp;quot;, &amp;quot;reason&amp;quot;=&amp;gt;&amp;quot;rejected execution of org.elasticsearch.transport.TransportService$7@177d229b on EsThreadPoolExecutor[bulk, queue capacity = 1000, org.elasticsearch.common.util.concurrent.EsThreadPoolExecutor@66a1a8c3[Running, pool size = 32, active threads = 32, queued tasks = 1019, completed tasks = 832616617]]&amp;quot;}) 解决思路  扩大处理bulk的thread pool线程数量  当前使用的服务器CPU核数为176(cat /proc/cpuinfo)，而在ES源码中为了避免引起Java oom线程数会取min(32, 核数)，所以造成默认的thread_pool.bulk.size为32，为了扩大线程容量需在ES中添加以下配置 processors: 96 thread_pool.bulk.size: 96  增加等待队列长度  thread_pool.bulk.queue_size: 3000 更新配置 这些配置不能通过ES Setting API来更改，只能通过滚动重启的方式，下面简单记录下过程
  禁止分配分片  curl -X PUT &amp;quot;ES_HOST:9200/_cluster/settings&amp;quot; -H &#39;Content-Type: application/json&#39; -d&#39; { &amp;quot;transient&amp;quot;: { &amp;quot;cluster.</description>
@@ -50,10 +50,10 @@ threads = [] for i in range(100): t = threading.</description>
     
     <item>
       <title>ELK集群2.x到5.6升级记录</title>
-      <link>http://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/</link>
+      <link>https://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/</link>
       <pubDate>Mon, 02 Apr 2018 20:10:59 +0800</pubDate>
       
-      <guid>http://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/</guid>
+      <guid>https://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/</guid>
       <description>考虑到目前使用的ELK集群版本与开源版本的版本差距有点大，而ELK5.6相较2.3版本性能有较大提升，尤其是Logstash grok插件，最近对测试环境的两个ELK集群进行了升级，对升级过程进行一个记录；升级主要参考了官方文档
 当前系统运行版本  filebeat：1.2.3 kibana：4.5.1 logstash：2.3.2 elasticsearch：2.3.3 JVM: 1.7  升级顺序  jvm(略) elasticsearch kibana logstash beats  升级Elasticsearch 升级之前  升级前使用Elasticsearch Migration Plugin查看潜在问题 最好先在测试环境升级ELK 在升级之前先备份数据  升级（跨大版本整个集群需重启）   禁止自动分配分片，在停止elasticsearch时减少不必要的I/O
 curl -XPUT &#39;localhost:9200/_cluster/settings?pretty&#39; -H &#39;Content-Type: application/json&#39; -d&#39;{ &amp;quot;persistent&amp;quot;: {&amp;quot;cluster.routing.allocation.enable&amp;quot;: &amp;quot;none&amp;quot;} }&#39;   同步刷新以加快分片恢复
@@ -64,10 +64,10 @@ curl -XPOST &#39;localhost:9200/_flush/synced?pretty&#39;  停止并升级各�
     
     <item>
       <title>ElasticSearch索引类型映射</title>
-      <link>http://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/</link>
+      <link>https://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/</link>
       <pubDate>Fri, 19 Jan 2018 18:10:59 +0800</pubDate>
       
-      <guid>http://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/</guid>
+      <guid>https://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/</guid>
       <description>最近接手维护了几个ELK集群，对接的是IaaS、PaaS服务日志，简单的ELK架构，通过filebeat采集日志，发送到logstash结构化日志然后发送到ElasticSearch，用户可以通过Kibana查看服务日志定位问题、做一些性能分析图表等，同时利用elastalert做日志报警。
 在ElasticSearch须要对用户的索引建立合适的类型映射(尤其是int类型)，才可以在kibana中对数据进行分析，关于ES的映射类型可以看这里，需指出的是一旦某个field字段类型确定就很难更改该字段的类型(需reindex)。
 Logstash将非结构化数据转化为结构化数据，通过JSON将数据发送给ElasticSearch，所有字段都会被当作string来处理，而ElasticSearch在自动判断字段类型建立映射这方面做的不足，与我们需求不符，那么如何正确建立索引类型映射呢？
@@ -85,10 +85,10 @@ filter { mutate { convert =&amp;gt; { &amp;quot;num&amp;quot; =&amp;gt; &amp;quo
     
     <item>
       <title>Logstash过滤插件grok正则解析</title>
-      <link>http://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/</link>
+      <link>https://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/</link>
       <pubDate>Tue, 10 Oct 2017 21:31:09 +0800</pubDate>
       
-      <guid>http://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/</guid>
+      <guid>https://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/</guid>
       <description>Logstash过滤插件grok正则解析 一、grok介绍 grok是Logstash中用来解析非结构化日志数据，将日志转化为可查询的结构化数据的最佳方法，可以用来处理syslog日志、apache等webserver日志、mysql日志以及用户自定义日志。
 Logstash自带有120多种预定义好的正则表达式方便用户使用，你可以在这里查看这些正则表达式，你也可以添加自己的匹配规则。
 有两个网站可以帮助我们来构建正则表达式去匹配我们的日志：
@@ -106,10 +106,10 @@ client: 192.168.21.2 method: GET request: /index.html bytes: 15823 duration: 0.0
     
     <item>
       <title>ansible自动化部署配置工具</title>
-      <link>http://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</link>
+      <link>https://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</link>
       <pubDate>Fri, 21 Jul 2017 16:18:29 +0800</pubDate>
       
-      <guid>http://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</guid>
+      <guid>https://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</guid>
       <description>ansible自动化部署配置工具 初识ansible   简介
 ansible是运维自动化工具，可以实现系统配置、软件部署，可以通过编排实现更高级的功能如持续集成、热更新等；ansible具有简单易用、安全、agentless等特点，通过ssh来完成与管理节点的交互。
   inventory
@@ -120,15 +120,15 @@ ansible执行ad-hoc 命令的基本格式如下：
 ansible &amp;lt;pattern_goes_here&amp;gt; -m &amp;lt;module_name&amp;gt; -a &amp;lt;arguments&amp;gt; ansible中的模式patterns决定了inventory中哪些主机将执行指定命令，默认是all(*)所有机器，可以指定多个组的集合如other:localhost(并集) other:!localhost(差集)、other:&amp;amp;localhost(交集)等
   ad-hoc命令
 ad-hoc命令是指执行简单短小的、无需保存结果的任务
-# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &amp;#34;/usr/bin/uptime&amp;#34; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &amp;#34;/usr/bin/uptime&amp;#34; -u sa # 文件传输 ansible jumpserver -m copy -a &amp;#34;src=http://itech.red/etc/hosts dest=/tmp/hosts mode=600&amp;#34; # 包管理 ansible jumpserver -m yum -a &amp;#34;name=vim state=present&amp;#34; #确保vim包已安装 ansible jumpserver -m yum -a &amp;#34;name=vim state=absent&amp;#34; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &amp;#34;name=xiao password=xxx&amp;#34; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &amp;#34;name=httpd state=restarted&amp;#34; # 信息收集 ansible jumpserver -m setup   常用配置项</description>
+# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &amp;#34;/usr/bin/uptime&amp;#34; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &amp;#34;/usr/bin/uptime&amp;#34; -u sa # 文件传输 ansible jumpserver -m copy -a &amp;#34;src=https://itech.red/etc/hosts dest=/tmp/hosts mode=600&amp;#34; # 包管理 ansible jumpserver -m yum -a &amp;#34;name=vim state=present&amp;#34; #确保vim包已安装 ansible jumpserver -m yum -a &amp;#34;name=vim state=absent&amp;#34; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &amp;#34;name=xiao password=xxx&amp;#34; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &amp;#34;name=httpd state=restarted&amp;#34; # 信息收集 ansible jumpserver -m setup   常用配置项</description>
     </item>
     
     <item>
       <title>shell条件测试总结</title>
-      <link>http://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</link>
+      <link>https://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</link>
       <pubDate>Thu, 27 Apr 2017 18:55:34 +0800</pubDate>
       
-      <guid>http://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
+      <guid>https://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
       <description>在编写shell脚本时，条件测试与判断必不可少，基于测试结果才能做进一步的处理，此文用来回顾下shell脚本中的条件测试。
 test([) test有两种格式，即test condition 或 [ condition ](注意条件两边空格)， test主要用来测试文件、字符串及数字。
   逻辑操作符
@@ -140,10 +140,10 @@ best practise：使用多个[，而不是-a与-o
     
     <item>
       <title>Ext2设计与实现(译)</title>
-      <link>http://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/</link>
+      <link>https://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/</link>
       <pubDate>Thu, 06 Apr 2017 19:10:59 +0800</pubDate>
       
-      <guid>http://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/</guid>
+      <guid>https://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/</guid>
       <description>Ext2设计与实现 1、介绍 Linux第一版只支持Minix文件系统，Minix文件系统有两大亟待解决的限制：块地址存储在16位整型，最大文件大小为64MB；另外目录和文件名长度最大支持14个字符。
 我们设计与实现了两种新的文件系统:EXT 、 EXT2
 在这篇论文中，我们将简述Linux文件系统的历史，简单介绍Unix文件系统的基础概念；介绍Linux VFS层的实现并详细介绍EXT2内核代码与用户工具；最后，是Linux、BSD下EXT2性能测试对比。
@@ -167,19 +167,19 @@ best practise：使用多个[，而不是-a与-o
     
     <item>
       <title>认识sk_buff结构体</title>
-      <link>http://itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/</link>
+      <link>https://itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/</link>
       <pubDate>Tue, 04 Apr 2017 19:07:48 +0800</pubDate>
       
-      <guid>http://itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/</guid>
+      <guid>https://itech.red/2017/04/%E8%AE%A4%E8%AF%86sk_buff%E7%BB%93%E6%9E%84%E4%BD%93/</guid>
       <description>sk_buff结构体 struct sk_buff { /* These two members must be first. */ struct sk_buff	*next; struct sk_buff	*prev; /* sk_buff双向链表 */ ktime_t	tstamp; /* 报文接收时间戳，是个偏移量 */ struct sock	*sk; /* 拥有此skb的socket */ struct net_device	*dev; /* SKB收发的网络设备 */ /* * This is the control buffer. It is free to use for every * layer. Please put your private variables there. If you * want to keep them across layers you have to do a skb_clone() * first.</description>
     </item>
     
     <item>
       <title></title>
-      <link>http://itech.red/resume/</link>
+      <link>https://itech.red/resume/</link>
       <pubDate>Sat, 01 Apr 2017 18:00:54 +0800</pubDate>
       
-      <guid>http://itech.red/resume/</guid>
+      <guid>https://itech.red/resume/</guid>
       <description>个人信息  游/男/1988 硕士/电子科技大学计算机与工程学院 英语能力:CET-6 邮箱:tryit0714@gmail.com  工作经历 淘宝(中国)软件软件有限公司（2015年7月～至今） 系统工程师
 Kernel/OS自动化测试平台 (2016.11~至今)
 集团跳板机系统、大盘与高危审计项目 (2016.4-2016.9)
@@ -190,19 +190,19 @@ Linux进程级网络流量监控（2015.7）
     
     <item>
       <title>Linux磁盘使用率100%异常排查</title>
-      <link>http://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</link>
+      <link>https://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</link>
       <pubDate>Sat, 01 Apr 2017 18:00:54 +0800</pubDate>
       
-      <guid>http://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</guid>
+      <guid>https://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</guid>
       <description></description>
     </item>
     
     <item>
       <title>springmvc实现导出数据excel</title>
-      <link>http://itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/</link>
+      <link>https://itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/</link>
       <pubDate>Wed, 23 Nov 2016 18:47:34 +0800</pubDate>
       
-      <guid>http://itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/</guid>
+      <guid>https://itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/</guid>
       <description>springmvc实现导出数据excel
 最近在项目中要实现将数据导出为excel的功能，研究了下目前springmvc框架下excel导出的方式，在spring 4.3中使用AbstractXlsView来实现，AbstractExcelView已被弃用；但这里介绍的是直接用apache poi实现的一种方式。
  model如下  package red.itech.blog.dao.model; import java.util.Date; /** * Created by you on 16/10/28. */ public class Blog { private String author; private Date createdAt; private String title; private long count; public Blog(){} public Blog(String author, Date createdAt, String title, long count){ this.author = author; this.count = count; this.createdAt = createdAt; this.title =title; } public void setAuthor(String author) { this.author = author; } public void setCreatedAt(Date createdAt) { this.</description>
@@ -210,10 +210,10 @@ Linux进程级网络流量监控（2015.7）
     
     <item>
       <title>Spring＋Mybatis＋Velocity项目搭建</title>
-      <link>http://itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</link>
+      <link>https://itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</link>
       <pubDate>Wed, 28 Sep 2016 15:43:54 +0800</pubDate>
       
-      <guid>http://itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</guid>
+      <guid>https://itech.red/2016/09/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</guid>
       <description>Spring＋Mybatis＋Velocity项目搭建
 一、开发工具
  JDK 1.8.0_91 Intellij IDEA 15.0.6 Mysql 5.5.44 Maven 3  二、新建工程
@@ -225,10 +225,10 @@ Linux进程级网络流量监控（2015.7）
     
     <item>
       <title>理解UML类图关系</title>
-      <link>http://itech.red/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/</link>
+      <link>https://itech.red/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/</link>
       <pubDate>Fri, 26 Aug 2016 16:51:34 +0800</pubDate>
       
-      <guid>http://itech.red/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/</guid>
+      <guid>https://itech.red/2016/08/%E7%90%86%E8%A7%A3uml%E7%B1%BB%E5%9B%BE%E5%85%B3%E7%B3%BB/</guid>
       <description>理解UML类图关系
 1、依赖(Dependency)
   关系：uses temporarily，使用关系，作为局部变量、方法参数或者对静态方法的调用
@@ -242,10 +242,10 @@ Linux进程级网络流量监控（2015.7）
     
     <item>
       <title>认识Linux内核网络参数</title>
-      <link>http://itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</link>
+      <link>https://itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</link>
       <pubDate>Fri, 17 Jun 2016 21:03:24 +0800</pubDate>
       
-      <guid>http://itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</guid>
+      <guid>https://itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</guid>
       <description>认识Linux内核网络参数   本地端口
 TCP、UDP使用的本地端口范围
 net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network restart）
@@ -255,10 +255,10 @@ net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network 
     
     <item>
       <title>python项目开发总结</title>
-      <link>http://itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/</link>
+      <link>https://itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/</link>
       <pubDate>Fri, 27 May 2016 13:27:04 +0800</pubDate>
       
-      <guid>http://itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/</guid>
+      <guid>https://itech.red/2016/05/python%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%80%BB%E7%BB%93/</guid>
       <description>python项目开发总结 编码规范flake8   安装 pip install flake8 或 brew install flake8
   安装vim插件 syntastic，语法检测插件，很方便
  由于使用vundle管理插件，只需在.vimrc中添加 Plugin &#39;scrooloose/syntastic&#39; 打开vim，在命令行模式输入 PluginInstall 最后在.vimrc中添加set lcs=extends:&amp;gt;,precedes:&amp;lt;,tab:&amp;gt;-,trail:· vundle相关：https://github.com/VundleVim/Vundle.vim    使用virtualenv，独立的开发环境 新建project virtualenv project 环境使能 cd project source bin/activate 退出virtualenv环境 deactive 获得当前环境依赖 pip freeze  python单例   metaclass元类就是用来创建这些类（对象）的，元类就是类的类,type就是Python的内建元类,用来创建类
@@ -267,10 +267,10 @@ net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network 
     
     <item>
       <title>C语言结构体封装</title>
-      <link>http://itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/</link>
+      <link>https://itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/</link>
       <pubDate>Wed, 11 May 2016 10:23:54 +0800</pubDate>
       
-      <guid>http://itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/</guid>
+      <guid>https://itech.red/2016/05/c%E8%AF%AD%E8%A8%80%E7%BB%93%E6%9E%84%E4%BD%93%E5%B0%81%E8%A3%85/</guid>
       <description>C语言结构体封装 源自：http://www.catb.org/esr/structure-packing/
 1、简介 通过手动填充、封装C语言结构体以减少C程序的内存使用，在嵌入式系统、操作系统内核模块等内存使用有限制的场景，这种知识非常有效。当你对程序的高速缓存行命中率非常在意时，理解这部分知识也是至关重要的。
 2、对齐 在X86与ARM处理器上，C语言基本类型并不是随意地存储在内存地址上的。除了char，每一个类型都有对齐要求。char可以存储在任何起始地址，2字节short存储的起始地址应为奇数，4字节的int、float起始地址应为4的倍数，8字节long、double起始地址应为8的倍数。C语言的基本类型是自动对齐的。字节对齐使得访问更快速，因为通过单个指令就可以对数据进行读写。如果没有对齐要求，数据可能存储在多个机器字节内，造成访问次数增加。字符是个特例。
@@ -281,19 +281,19 @@ char *p; char *p; /* 4 or 8 bytes */ char c; =======&amp;gt; char c; /* 1 byte *
     
     <item>
       <title>进程监视</title>
-      <link>http://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</link>
+      <link>https://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</link>
       <pubDate>Thu, 10 Sep 2015 10:07:34 +0800</pubDate>
       
-      <guid>http://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</guid>
+      <guid>https://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</guid>
       <description>进程监视 1、ps监视进程的主要工具 ps -ef 查看每一个进程 ps aux 可以展示系统进程的全貌 ps lax 更快，省去了将uid转换为用户名 ps -ejH or ps axjf 进程树 ps -eLf or ps axms 线程信息  字段含义    字段 内容     USER 进程属主用户名   PID 进程ID   CPU 进程使用CPU百分比   MEM 进程使用内存百分比   VSZ 进程虚拟内存大小KiB   RSS 驻留集大小，非swap中的内存大小   STAT 进程状态 S:可中断睡眠 D:不可中断睡眠 R:running s会话头   TIME 运行时间   COMMAND 命令行   NI nice值   WCHAN 等待的资源    2、top动态查看 top对活动进程及所使用的资源情况提供了汇总信息  3、proc文件系统 proc文件系统提供了内核产生的所有状态信息与数据系统，包括进程相关的信息，linux的ps、top都是从/proc目录读取进程的状态信息。进程特有的信息存储在/proc/pid下。  4、strace strace -p pid可以追踪进程的系统调用及信号，在调试进程、理解程序执行过程非常有帮助。  5、vmstat vmstat提供了关于进程、内存、内存页、块IO、陷阱、磁盘及CPU的活动信息。  ###字段含义 字段 | 内容 &amp;mdash;- | &amp;mdash;- r|等待执行的进程数 b|不可中断睡眠的进程数 swpd|使用虚拟内存大小 free|空闲内存 cache|用作cache的内存大小 si|swap in so|swap out bi|block in从块设备收到数据块数 bo|block out in|每秒中断数 cs|每秒上下文切换数 us|user time sy|system time id|idle time wa|wait for io</description>
     </item>
     
     <item>
       <title></title>
-      <link>http://itech.red/base/</link>
+      <link>https://itech.red/base/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://itech.red/base/</guid>
+      <guid>https://itech.red/base/</guid>
       <description>##　知识整理
 基础知识 网络  四层网络模型     链路层 处理与传输媒介有关的细节 6smac｜6dmac｜2type｜46-1500｜4crc     网络层 处理分组在网络中的活动 IP协议 20字节   传输层 提供端到端的通信 UDP 8字节 TCP 20字节   应用层 特定应用程序细节 HTTP DNS      HTTP1.0与1.1的区别
  缓存处理，在HTTP1.0中主要使用header里的If-Modified-Since,Expires来做为缓存判断的标准，HTTP1.1则引入了更多的缓存控制策略例如Entity tag，If-Unmodified-Since, If-Match, If-None-Match等更多可供选择的缓存头来控制缓存策略。 带宽优化及网络连接的使用，HTTP1.0中，存在一些浪费带宽的现象，例如客户端只是需要某个对象的一部分，而服务器却将整个对象送过来了，并且不支持断点续传功能，HTTP1.1则在请求头引入了range头域，它允许只请求资源的某个部分，即返回码是206（Partial Content），这样就方便了开发者自由的选择以便于充分利用带宽和连接。 错误通知的管理，在HTTP1.1中新增了24个错误状态响应码，如409（Conflict）表示请求的资源与资源的当前状态发生冲突；410（Gone）表示服务器上的某个资源被永久性的删除。 Host头处理，在HTTP1.0中认为每台服务器都绑定一个唯一的IP地址，因此，请求消息中的URL并没有传递主机名（hostname）。但随着虚拟主机技术的发展，在一台物理服务器上可以存在多个虚拟主机（Multi-homed Web Servers），并且它们共享一个IP地址。HTTP1.1的请求消息和响应消息都应支持Host头域，且请求消息中如果没有Host头域会报告一个错误（400 Bad Request）。 长连接，HTTP 1.1支持长连接（PersistentConnection）和请求的流水线（Pipelining）处理，在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟，在HTTP1.1中默认开启Connection： keep-alive，一定程度上弥补了HTTP1.0每次请求都要创建连接的缺点    HTTP与HTTPS区别

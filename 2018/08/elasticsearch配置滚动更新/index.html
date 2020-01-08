@@ -19,8 +19,8 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="ElasticSearch配置滚动更新">
 <meta name="twitter:title" content="ElasticSearch配置滚动更新">
-<meta property="og:url" content="http://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/">
-<meta property="twitter:url" content="http://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/">
+<meta property="og:url" content="https://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/">
+<meta property="twitter:url" content="https://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/">
 <meta property="og:site_name" content="平凡世界">
 <meta property="og:description" content="起因 最近Logstash经常打印如下日志内容，虽然只是INFO级别的错误但还是引起了我的注意，大概意思是ES的bulk thread pool大小为32已经满负荷，队列也满了，所以拒绝了Logstash的bulk请求
 [2018-06-23T08:00:47,281][INFO ][logstash.outputs.elasticsearch] retrying failed action with response code: 429 ({&quot;type&quot;=&gt;&quot;es_rejected_execution_exception&quot;, &quot;reason&quot;=&gt;&quot;rejected execution of org.elasticsearch.transport.TransportService$7@177d229b on EsThreadPoolExecutor[bulk, queue capacity = 1000, org.elasticsearch.common.util.concurrent.EsThreadPoolExecutor@66a1a8c3[Running, pool size = 32, active threads = 32, queued tasks = 1019, completed tasks = 832616617]]&quot;}) 解决思路  扩大处理bulk的thread pool线程数量  当前使用的服务器CPU核数为176(cat /proc/cpuinfo)，而在ES源码中为了避免引起Java oom线程数会取min(32, 核数)，所以造成默认的thread_pool.bulk.size为32，为了扩大线程容量需在ES中添加以下配置 processors: 96 thread_pool.bulk.size: 96  增加等待队列长度  thread_pool.bulk.queue_size: 3000 更新配置 这些配置不能通过ES Setting API来更改，只能通过滚动重启的方式，下面简单记录下过程
@@ -63,12 +63,12 @@
 
     <title>ElasticSearch配置滚动更新</title>
 
-    <link rel="icon" href="http://itech.red/favicon.png">
+    <link rel="icon" href="https://itech.red/favicon.png">
     
 
     
 
-    <link rel="canonical" href="http://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/">
+    <link rel="canonical" href="https://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -76,7 +76,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
     
     
-    <link rel="stylesheet" href="http://itech.red/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    <link rel="stylesheet" href="https://itech.red/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
     
     
 
@@ -104,12 +104,12 @@ if (!doNotTrack) {
       <header id="header" data-behavior="5">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="http://itech.red/">平凡世界</a>
+    <a class="header-title-link" href="https://itech.red/">平凡世界</a>
   </div>
   
     
       <a class="header-right-picture "
-         href="http://itech.red/#about">
+         href="https://itech.red/#about">
     
     
     
@@ -125,7 +125,7 @@ if (!doNotTrack) {
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
-        <a href="http://itech.red/#about">
+        <a href="https://itech.red/#about">
           <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/6330242?v=3&amp;s=460" alt="作者的图片" />
         </a>
         <h4 class="sidebar-profile-name">游</h4>
@@ -138,7 +138,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/">
+      <a class="sidebar-button-link " href="https://itech.red/">
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
@@ -148,7 +148,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/categories">
+      <a class="sidebar-button-link " href="https://itech.red/categories">
     
       <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
       
@@ -158,7 +158,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/#about">
+      <a class="sidebar-button-link " href="https://itech.red/#about">
     
       <i class="sidebar-button-icon fa fa-lg fa-question"></i>
       
@@ -176,7 +176,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="http://itech.red/index.xml">
+      <a class="sidebar-button-link " href="https://itech.red/index.xml">
     
       <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
       
@@ -223,7 +223,7 @@ if (!doNotTrack) {
   
     <span>发布在</span>
     
-      <a class="category-link" href="http://itech.red/categories/elk">ELK</a>
+      <a class="category-link" href="https://itech.red/categories/elk">ELK</a>
     
   
 
@@ -320,7 +320,7 @@ bootstrap.mlockall: true
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2018/08/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" data-tooltip="Python GIL与线程安全">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2018/08/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" data-tooltip="Python GIL与线程安全">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -328,7 +328,7 @@ bootstrap.mlockall: true
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/" data-tooltip="ELK集群2.x到5.6升级记录">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/" data-tooltip="ELK集群2.x到5.6升级记录">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -391,7 +391,7 @@ bootstrap.mlockall: true
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2018/08/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" data-tooltip="Python GIL与线程安全">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2018/08/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" data-tooltip="Python GIL与线程安全">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -399,7 +399,7 @@ bootstrap.mlockall: true
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="http://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/" data-tooltip="ELK集群2.x到5.6升级记录">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/" data-tooltip="ELK集群2.x到5.6升级记录">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -481,7 +481,7 @@ bootstrap.mlockall: true
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
 
 
-<script src="http://itech.red/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+<script src="https://itech.red/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
 
 
   
@@ -508,7 +508,7 @@ function updateMinWidth() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'http:\/\/itech.red\/2018\/08\/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0\/';
+          this.page.url = 'https:\/\/itech.red\/2018\/08\/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0\/';
           
             this.page.identifier = 'elk_0806';
           

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>linux on 平凡世界</title>
-    <link>http://itech.red/categories/linux/</link>
+    <link>https://itech.red/categories/linux/</link>
     <description>Recent content in linux on 平凡世界</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 21 Jul 2017 16:18:29 +0800</lastBuildDate>
     
-	<atom:link href="http://itech.red/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://itech.red/categories/linux/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ansible自动化部署配置工具</title>
-      <link>http://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</link>
+      <link>https://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</link>
       <pubDate>Fri, 21 Jul 2017 16:18:29 +0800</pubDate>
       
-      <guid>http://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</guid>
+      <guid>https://itech.red/2017/07/ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7/</guid>
       <description>ansible自动化部署配置工具 初识ansible   简介
 ansible是运维自动化工具，可以实现系统配置、软件部署，可以通过编排实现更高级的功能如持续集成、热更新等；ansible具有简单易用、安全、agentless等特点，通过ssh来完成与管理节点的交互。
   inventory
@@ -27,15 +27,15 @@ ansible执行ad-hoc 命令的基本格式如下：
 ansible &amp;lt;pattern_goes_here&amp;gt; -m &amp;lt;module_name&amp;gt; -a &amp;lt;arguments&amp;gt; ansible中的模式patterns决定了inventory中哪些主机将执行指定命令，默认是all(*)所有机器，可以指定多个组的集合如other:localhost(并集) other:!localhost(差集)、other:&amp;amp;localhost(交集)等
   ad-hoc命令
 ad-hoc命令是指执行简单短小的、无需保存结果的任务
-# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &amp;#34;/usr/bin/uptime&amp;#34; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &amp;#34;/usr/bin/uptime&amp;#34; -u sa # 文件传输 ansible jumpserver -m copy -a &amp;#34;src=http://itech.red/etc/hosts dest=/tmp/hosts mode=600&amp;#34; # 包管理 ansible jumpserver -m yum -a &amp;#34;name=vim state=present&amp;#34; #确保vim包已安装 ansible jumpserver -m yum -a &amp;#34;name=vim state=absent&amp;#34; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &amp;#34;name=xiao password=xxx&amp;#34; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &amp;#34;name=httpd state=restarted&amp;#34; # 信息收集 ansible jumpserver -m setup   常用配置项</description>
+# 查看localhost组的uptime，-m指定模块，默认为command, -a指定参数, -f并发数	ansible localhost -m command -a &amp;#34;/usr/bin/uptime&amp;#34; # -u username切换登录用户 --become 切换到root执行 --become-user otheruser 切换到其他用户执行 ansible localhost -a &amp;#34;/usr/bin/uptime&amp;#34; -u sa # 文件传输 ansible jumpserver -m copy -a &amp;#34;src=https://itech.red/etc/hosts dest=/tmp/hosts mode=600&amp;#34; # 包管理 ansible jumpserver -m yum -a &amp;#34;name=vim state=present&amp;#34; #确保vim包已安装 ansible jumpserver -m yum -a &amp;#34;name=vim state=absent&amp;#34; #vim包卸载 # 用户管理 ansible jumpserver -m user -a &amp;#34;name=xiao password=xxx&amp;#34; #增加用户xiao	# 服务管理 ansible jumpserver -m service -a &amp;#34;name=httpd state=restarted&amp;#34; # 信息收集 ansible jumpserver -m setup   常用配置项</description>
     </item>
     
     <item>
       <title>shell条件测试总结</title>
-      <link>http://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</link>
+      <link>https://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</link>
       <pubDate>Thu, 27 Apr 2017 18:55:34 +0800</pubDate>
       
-      <guid>http://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
+      <guid>https://itech.red/2017/04/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
       <description>在编写shell脚本时，条件测试与判断必不可少，基于测试结果才能做进一步的处理，此文用来回顾下shell脚本中的条件测试。
 test([) test有两种格式，即test condition 或 [ condition ](注意条件两边空格)， test主要用来测试文件、字符串及数字。
   逻辑操作符
@@ -47,10 +47,10 @@ best practise：使用多个[，而不是-a与-o
     
     <item>
       <title>Ext2设计与实现(译)</title>
-      <link>http://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/</link>
+      <link>https://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/</link>
       <pubDate>Thu, 06 Apr 2017 19:10:59 +0800</pubDate>
       
-      <guid>http://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/</guid>
+      <guid>https://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/</guid>
       <description>Ext2设计与实现 1、介绍 Linux第一版只支持Minix文件系统，Minix文件系统有两大亟待解决的限制：块地址存储在16位整型，最大文件大小为64MB；另外目录和文件名长度最大支持14个字符。
 我们设计与实现了两种新的文件系统:EXT 、 EXT2
 在这篇论文中，我们将简述Linux文件系统的历史，简单介绍Unix文件系统的基础概念；介绍Linux VFS层的实现并详细介绍EXT2内核代码与用户工具；最后，是Linux、BSD下EXT2性能测试对比。
@@ -74,19 +74,19 @@ best practise：使用多个[，而不是-a与-o
     
     <item>
       <title>Linux磁盘使用率100%异常排查</title>
-      <link>http://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</link>
+      <link>https://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</link>
       <pubDate>Sat, 01 Apr 2017 18:00:54 +0800</pubDate>
       
-      <guid>http://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</guid>
+      <guid>https://itech.red/2017/04/linux%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87100%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</guid>
       <description></description>
     </item>
     
     <item>
       <title>认识Linux内核网络参数</title>
-      <link>http://itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</link>
+      <link>https://itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</link>
       <pubDate>Fri, 17 Jun 2016 21:03:24 +0800</pubDate>
       
-      <guid>http://itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</guid>
+      <guid>https://itech.red/2016/06/%E8%AE%A4%E8%AF%86linux%E5%86%85%E6%A0%B8%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0/</guid>
       <description>认识Linux内核网络参数   本地端口
 TCP、UDP使用的本地端口范围
 net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network restart）
@@ -96,10 +96,10 @@ net.ipv4.ip_local_port_range = 1024 65535 （/etc/sysctl.conf，service network 
     
     <item>
       <title>进程监视</title>
-      <link>http://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</link>
+      <link>https://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</link>
       <pubDate>Thu, 10 Sep 2015 10:07:34 +0800</pubDate>
       
-      <guid>http://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</guid>
+      <guid>https://itech.red/2015/09/%E8%BF%9B%E7%A8%8B%E7%9B%91%E8%A7%86/</guid>
       <description>进程监视 1、ps监视进程的主要工具 ps -ef 查看每一个进程 ps aux 可以展示系统进程的全貌 ps lax 更快，省去了将uid转换为用户名 ps -ejH or ps axjf 进程树 ps -eLf or ps axms 线程信息  字段含义    字段 内容     USER 进程属主用户名   PID 进程ID   CPU 进程使用CPU百分比   MEM 进程使用内存百分比   VSZ 进程虚拟内存大小KiB   RSS 驻留集大小，非swap中的内存大小   STAT 进程状态 S:可中断睡眠 D:不可中断睡眠 R:running s会话头   TIME 运行时间   COMMAND 命令行   NI nice值   WCHAN 等待的资源    2、top动态查看 top对活动进程及所使用的资源情况提供了汇总信息  3、proc文件系统 proc文件系统提供了内核产生的所有状态信息与数据系统，包括进程相关的信息，linux的ps、top都是从/proc目录读取进程的状态信息。进程特有的信息存储在/proc/pid下。  4、strace strace -p pid可以追踪进程的系统调用及信号，在调试进程、理解程序执行过程非常有帮助。  5、vmstat vmstat提供了关于进程、内存、内存页、块IO、陷阱、磁盘及CPU的活动信息。  ###字段含义 字段 | 内容 &amp;mdash;- | &amp;mdash;- r|等待执行的进程数 b|不可中断睡眠的进程数 swpd|使用虚拟内存大小 free|空闲内存 cache|用作cache的内存大小 si|swap in so|swap out bi|block in从块设备收到数据块数 bo|block out in|每秒中断数 cs|每秒上下文切换数 us|user time sy|system time id|idle time wa|wait for io</description>
     </item>
     
