@@ -6,10 +6,19 @@
     <description>Recent content on 平凡世界</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 12 Dec 2018 17:03:30 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://itech.red/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>友情链接</title>
+      <link>https://itech.red/external_link/</link>
+      <pubDate>Thu, 09 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://itech.red/external_link/</guid>
+      <description>michael Java中间件、分布式、微服务 </description>
+    </item>
     
     <item>
       <title>构建ElasticSearch集群之前</title>

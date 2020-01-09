@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://itech.red/external_link/</loc>
+    <lastmod>2020-01-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://itech.red/</loc>
+    <lastmod>2020-01-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://itech.red/categories/</loc>
     <lastmod>2018-12-12T17:03:30+08:00</lastmod>
   </url>
@@ -14,11 +24,6 @@
   
   <url>
     <loc>https://itech.red/post/</loc>
-    <lastmod>2018-12-12T17:03:30+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://itech.red/</loc>
     <lastmod>2018-12-12T17:03:30+08:00</lastmod>
   </url>
   
