@@ -636,7 +636,7 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
       
       
         <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <a class="post-action-btn btn btn--default" href="#livere_thread">
             <i class="fa fa-comment-o"></i>
           </a>
         </li>
@@ -654,9 +654,12 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 
             
               
-                <div id="disqus_thread">
-  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              <div id="lv-container" data-id="city" data-uid="MTAyMC80ODIxMS8yNDcwNw==">
+                <div id="livere_thread">
+    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
 </div>
+
+              </div>
               
             
           </div>
@@ -707,7 +710,7 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
       
       
         <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <a class="post-action-btn btn btn--default" href="#livere_thread">
             <i class="fa fa-comment-o"></i>
           </a>
         </li>
@@ -801,27 +804,19 @@ function updateMinWidth() {
 
   
     
-      <script>
-        var disqus_config = function () {
-          this.page.url = 'https:\/\/itech.red\/2016\/09\/springmybatisvelocity%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA\/';
-          
-            this.page.identifier = '20161028spring_test';
-          
-        };
-        (function() {
-          
-          
-          if (window.location.hostname == "localhost") {
-            return;
-          }
-          var d = document, s = d.createElement('script');
-          var disqus_shortname = 'itech-1';
-          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
 
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
     
   
 

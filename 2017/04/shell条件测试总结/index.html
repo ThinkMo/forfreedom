@@ -453,7 +453,7 @@ world
       
       
         <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <a class="post-action-btn btn btn--default" href="#livere_thread">
             <i class="fa fa-comment-o"></i>
           </a>
         </li>
@@ -471,9 +471,12 @@ world
 
             
               
-                <div id="disqus_thread">
-  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              <div id="lv-container" data-id="city" data-uid="MTAyMC80ODIxMS8yNDcwNw==">
+                <div id="livere_thread">
+    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
 </div>
+
+              </div>
               
             
           </div>
@@ -524,7 +527,7 @@ world
       
       
         <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <a class="post-action-btn btn btn--default" href="#livere_thread">
             <i class="fa fa-comment-o"></i>
           </a>
         </li>
@@ -618,27 +621,19 @@ function updateMinWidth() {
 
   
     
-      <script>
-        var disqus_config = function () {
-          this.page.url = 'https:\/\/itech.red\/2017\/04\/shell%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93\/';
-          
-            this.page.identifier = '20170427655_shell';
-          
-        };
-        (function() {
-          
-          
-          if (window.location.hostname == "localhost") {
-            return;
-          }
-          var d = document, s = d.createElement('script');
-          var disqus_shortname = 'itech-1';
-          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
 
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
     
   
 

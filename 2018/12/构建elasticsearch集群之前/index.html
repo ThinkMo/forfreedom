@@ -367,7 +367,7 @@ FS: EXT4，但节点数据大于1TB XFS更佳
       
       
         <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <a class="post-action-btn btn btn--default" href="#livere_thread">
             <i class="fa fa-comment-o"></i>
           </a>
         </li>
@@ -385,9 +385,12 @@ FS: EXT4，但节点数据大于1TB XFS更佳
 
             
               
-                <div id="disqus_thread">
-  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              <div id="lv-container" data-id="city" data-uid="MTAyMC80ODIxMS8yNDcwNw==">
+                <div id="livere_thread">
+    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
 </div>
+
+              </div>
               
             
           </div>
@@ -438,7 +441,7 @@ FS: EXT4，但节点数据大于1TB XFS更佳
       
       
         <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <a class="post-action-btn btn btn--default" href="#livere_thread">
             <i class="fa fa-comment-o"></i>
           </a>
         </li>
@@ -532,27 +535,19 @@ function updateMinWidth() {
 
   
     
-      <script>
-        var disqus_config = function () {
-          this.page.url = 'https:\/\/itech.red\/2018\/12\/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D\/';
-          
-            this.page.identifier = 'elasticsearch';
-          
-        };
-        (function() {
-          
-          
-          if (window.location.hostname == "localhost") {
-            return;
-          }
-          var d = document, s = d.createElement('script');
-          var disqus_shortname = 'itech-1';
-          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
 
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
     
   
 
