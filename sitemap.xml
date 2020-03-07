@@ -157,4 +157,9 @@
     <priority>0</priority>
   </url>
   
+  <url>
+    <loc>https://itech.red/papare/</loc>
+    <priority>0</priority>
+  </url>
+  
 </urlset>

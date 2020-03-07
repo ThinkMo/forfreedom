@@ -309,5 +309,14 @@ char *p; char *p; /* 4 or 8 bytes */ char c; =======&amp;gt; char c; /* 1 byte *
  HTTPS协议需要到CA申请证书，一般免费证书很少，需要交费。 HTTP协议运行在TCP之上，所有传输的内容都是明文，HTTPS运行在SSL/TLS之上，SSL/TLS运行在TCP之上，所有传输的内容都经过加密的。 HTTP和HTTPS使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。 HTTPS可以有效的防止运营商劫持，解决了防劫持的一个大问题。    TCP协议</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>https://itech.red/papare/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://itech.red/papare/</guid>
+      <description>基础 算法与数据结构 数据结构  数组与链表 栈与队列 优先队列 树 哈希表 并差集 Trie树 布隆过滤器 LRU cache 图  算法  贪心 哈夫曼编码、最短生成树prim and cruskarl 递归 遍历 深度优先与广度优先搜索 分治法 动态规划  数组与链表  基本操作时间复杂度     op 数组array 链表linked lsit     access O(1) O(n)   insert O(n) O(1)   delete O(n) O(1)     常见题目   翻转链表 判断链表是否有环 (快慢指针)  栈与队列  栈 FILO 队列 FIFO 常见题目   括号匹配 队列实现栈(写直接入队列，读数据入另一队列剩1个即为栈顶)，栈实现队列(写入数据直接压栈，读时排空一个栈，取栈顶)  优先队列（heap）  正常入，按优先级出 操作时间复杂度 斐波那契堆是一系列无序树的集合，每棵树是一个最小堆，满足最小堆的性质     op binary fibonacci     find-min Θ(1) Θ(1)   delete-min Θ(log n) O(log n)   insert O(log n) Θ(1)   merge Θ(n) Θ(1)     常见题目   kth largest in stream 滑动窗口  哈希表  2sum 3sum  树与二叉树  binary search tree 验证: 带上下界递归遍历 最小公共祖先  递归与分治  Pow(x, n) 一组数的大多数  贪心算法 问题能够分解成子问题，子问题的最优解能递推到最终问题的最优解</description>
+    </item>
+    
   </channel>
 </rss>
