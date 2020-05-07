@@ -8,18 +8,34 @@
 <meta name="generator" content="Hugo 0.62.2 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="游">
 <meta name="keywords" content="">
-<meta name="description" content="基础 算法与数据结构 数据结构  数组与链表 栈与队列 优先队列 树 哈希表 并差集 Trie树 布隆过滤器 LRU cache 图  算法  贪心 哈夫曼编码、最短生成树prim and cruskarl 递归 遍历 深度优先与广度优先搜索 分治法 动态规划  数组与链表  基本操作时间复杂度     op 数组array 链表linked lsit     access O(1) O(n)   insert O(n) O(1)   delete O(n) O(1)     常见题目   翻转链表 判断链表是否有环 (快慢指针)  栈与队列  栈 FILO 队列 FIFO 常见题目   括号匹配 队列实现栈(写直接入队列，读数据入另一队列剩1个即为栈顶)，栈实现队列(写入数据直接压栈，读时排空一个栈，取栈顶)  优先队列（heap）  正常入，按优先级出 操作时间复杂度 斐波那契堆是一系列无序树的集合，每棵树是一个最小堆，满足最小堆的性质     op binary fibonacci     find-min Θ(1) Θ(1)   delete-min Θ(log n) O(log n)   insert O(log n) Θ(1)   merge Θ(n) Θ(1)     常见题目   kth largest in stream 滑动窗口  哈希表  2sum 3sum  树与二叉树  binary search tree 验证: 带上下界递归遍历 最小公共祖先  递归与分治  Pow(x, n) 一组数的大多数  贪心算法 问题能够分解成子问题，子问题的最优解能递推到最终问题的最优解">
+<meta name="description" content="基础 算法与数据结构 数据结构  数组与链表 栈与队列 优先队列 树 哈希表 并差集 Trie树 布隆过滤器: 可以确定不存在 LRU cache 图  skiplist 随机化数据结构log(n)
+插入：插入时先查找到当前插入节点的前缀，随机生产新节点的level，从level到底层逐步更新前缀指针
+若干年前的实现
+rbtree  每个节点要么是黑色，要么是红色。 根节点是黑色。 每个叶子节点（NIL）是黑色。 每个红色结点的两个子结点一定都是黑色。 任意一结点到每个叶子结点的路径都包含数量相同的黑结点。  若干年前的实现
+算法  贪心 哈夫曼编码、最短生成树prim and cruskarl 递归 遍历 深度优先与广度优先搜索 分治法 动态规划  数组与链表  基本操作时间复杂度     op 数组array 链表linked lsit     access O(1) O(n)   insert O(n) O(1)   delete O(n) O(1)     常见题目   翻转链表 判断链表是否有环 (快慢指针)  栈与队列  栈 FILO 队列 FIFO 常见题目   括号匹配 队列实现栈(写直接入队列，读数据入另一队列剩1个即为栈顶)，栈实现队列(写入数据直接压栈，读时排空一个栈，取栈顶)  优先队列（heap）  正常入，按优先级出 操作时间复杂度 斐波那契堆是一系列无序树的集合，每棵树是一个最小堆，满足最小堆的性质     op binary fibonacci     find-min Θ(1) Θ(1)   delete-min Θ(log n) O(log n)   insert O(log n) Θ(1)   merge Θ(n) Θ(1)     常见题目   kth largest in stream 滑动窗口  哈希表  2sum 3sum  树与二叉树  binary search tree 验证: 带上下界递归遍历 最小公共祖先  递归与分治  Pow(x, n) 一组数的大多数  贪心算法 问题能够分解成子问题，子问题的最优解能递推到最终问题的最优解">
 
 
-<meta property="og:description" content="基础 算法与数据结构 数据结构  数组与链表 栈与队列 优先队列 树 哈希表 并差集 Trie树 布隆过滤器 LRU cache 图  算法  贪心 哈夫曼编码、最短生成树prim and cruskarl 递归 遍历 深度优先与广度优先搜索 分治法 动态规划  数组与链表  基本操作时间复杂度     op 数组array 链表linked lsit     access O(1) O(n)   insert O(n) O(1)   delete O(n) O(1)     常见题目   翻转链表 判断链表是否有环 (快慢指针)  栈与队列  栈 FILO 队列 FIFO 常见题目   括号匹配 队列实现栈(写直接入队列，读数据入另一队列剩1个即为栈顶)，栈实现队列(写入数据直接压栈，读时排空一个栈，取栈顶)  优先队列（heap）  正常入，按优先级出 操作时间复杂度 斐波那契堆是一系列无序树的集合，每棵树是一个最小堆，满足最小堆的性质     op binary fibonacci     find-min Θ(1) Θ(1)   delete-min Θ(log n) O(log n)   insert O(log n) Θ(1)   merge Θ(n) Θ(1)     常见题目   kth largest in stream 滑动窗口  哈希表  2sum 3sum  树与二叉树  binary search tree 验证: 带上下界递归遍历 最小公共祖先  递归与分治  Pow(x, n) 一组数的大多数  贪心算法 问题能够分解成子问题，子问题的最优解能递推到最终问题的最优解">
+<meta property="og:description" content="基础 算法与数据结构 数据结构  数组与链表 栈与队列 优先队列 树 哈希表 并差集 Trie树 布隆过滤器: 可以确定不存在 LRU cache 图  skiplist 随机化数据结构log(n)
+插入：插入时先查找到当前插入节点的前缀，随机生产新节点的level，从level到底层逐步更新前缀指针
+若干年前的实现
+rbtree  每个节点要么是黑色，要么是红色。 根节点是黑色。 每个叶子节点（NIL）是黑色。 每个红色结点的两个子结点一定都是黑色。 任意一结点到每个叶子结点的路径都包含数量相同的黑结点。  若干年前的实现
+算法  贪心 哈夫曼编码、最短生成树prim and cruskarl 递归 遍历 深度优先与广度优先搜索 分治法 动态规划  数组与链表  基本操作时间复杂度     op 数组array 链表linked lsit     access O(1) O(n)   insert O(n) O(1)   delete O(n) O(1)     常见题目   翻转链表 判断链表是否有环 (快慢指针)  栈与队列  栈 FILO 队列 FIFO 常见题目   括号匹配 队列实现栈(写直接入队列，读数据入另一队列剩1个即为栈顶)，栈实现队列(写入数据直接压栈，读时排空一个栈，取栈顶)  优先队列（heap）  正常入，按优先级出 操作时间复杂度 斐波那契堆是一系列无序树的集合，每棵树是一个最小堆，满足最小堆的性质     op binary fibonacci     find-min Θ(1) Θ(1)   delete-min Θ(log n) O(log n)   insert O(log n) Θ(1)   merge Θ(n) Θ(1)     常见题目   kth largest in stream 滑动窗口  哈希表  2sum 3sum  树与二叉树  binary search tree 验证: 带上下界递归遍历 最小公共祖先  递归与分治  Pow(x, n) 一组数的大多数  贪心算法 问题能够分解成子问题，子问题的最优解能递推到最终问题的最优解">
 <meta property="og:type" content="article">
 <meta property="og:title" content="平凡世界">
 <meta name="twitter:title" content="平凡世界">
 <meta property="og:url" content="https://itech.red/papare/">
 <meta property="twitter:url" content="https://itech.red/papare/">
 <meta property="og:site_name" content="平凡世界">
-<meta property="og:description" content="基础 算法与数据结构 数据结构  数组与链表 栈与队列 优先队列 树 哈希表 并差集 Trie树 布隆过滤器 LRU cache 图  算法  贪心 哈夫曼编码、最短生成树prim and cruskarl 递归 遍历 深度优先与广度优先搜索 分治法 动态规划  数组与链表  基本操作时间复杂度     op 数组array 链表linked lsit     access O(1) O(n)   insert O(n) O(1)   delete O(n) O(1)     常见题目   翻转链表 判断链表是否有环 (快慢指针)  栈与队列  栈 FILO 队列 FIFO 常见题目   括号匹配 队列实现栈(写直接入队列，读数据入另一队列剩1个即为栈顶)，栈实现队列(写入数据直接压栈，读时排空一个栈，取栈顶)  优先队列（heap）  正常入，按优先级出 操作时间复杂度 斐波那契堆是一系列无序树的集合，每棵树是一个最小堆，满足最小堆的性质     op binary fibonacci     find-min Θ(1) Θ(1)   delete-min Θ(log n) O(log n)   insert O(log n) Θ(1)   merge Θ(n) Θ(1)     常见题目   kth largest in stream 滑动窗口  哈希表  2sum 3sum  树与二叉树  binary search tree 验证: 带上下界递归遍历 最小公共祖先  递归与分治  Pow(x, n) 一组数的大多数  贪心算法 问题能够分解成子问题，子问题的最优解能递推到最终问题的最优解">
-<meta name="twitter:description" content="基础 算法与数据结构 数据结构  数组与链表 栈与队列 优先队列 树 哈希表 并差集 Trie树 布隆过滤器 LRU cache 图  算法  贪心 哈夫曼编码、最短生成树prim and cruskarl 递归 遍历 深度优先与广度优先搜索 分治法 动态规划  数组与链表  基本操作时间复杂度     op 数组array 链表linked lsit     access O(1) O(n)   insert O(n) O(1)   delete O(n) O(1)     常见题目   翻转链表 判断链表是否有环 (快慢指针)  栈与队列  栈 FILO 队列 FIFO 常见题目   括号匹配 队列实现栈(写直接入队列，读数据入另一队列剩1个即为栈顶)，栈实现队列(写入数据直接压栈，读时排空一个栈，取栈顶)  优先队列（heap）  正常入，按优先级出 操作时间复杂度 斐波那契堆是一系列无序树的集合，每棵树是一个最小堆，满足最小堆的性质     op binary fibonacci     find-min Θ(1) Θ(1)   delete-min Θ(log n) O(log n)   insert O(log n) Θ(1)   merge Θ(n) Θ(1)     常见题目   kth largest in stream 滑动窗口  哈希表  2sum 3sum  树与二叉树  binary search tree 验证: 带上下界递归遍历 最小公共祖先  递归与分治  Pow(x, n) 一组数的大多数  贪心算法 问题能够分解成子问题，子问题的最优解能递推到最终问题的最优解">
+<meta property="og:description" content="基础 算法与数据结构 数据结构  数组与链表 栈与队列 优先队列 树 哈希表 并差集 Trie树 布隆过滤器: 可以确定不存在 LRU cache 图  skiplist 随机化数据结构log(n)
+插入：插入时先查找到当前插入节点的前缀，随机生产新节点的level，从level到底层逐步更新前缀指针
+若干年前的实现
+rbtree  每个节点要么是黑色，要么是红色。 根节点是黑色。 每个叶子节点（NIL）是黑色。 每个红色结点的两个子结点一定都是黑色。 任意一结点到每个叶子结点的路径都包含数量相同的黑结点。  若干年前的实现
+算法  贪心 哈夫曼编码、最短生成树prim and cruskarl 递归 遍历 深度优先与广度优先搜索 分治法 动态规划  数组与链表  基本操作时间复杂度     op 数组array 链表linked lsit     access O(1) O(n)   insert O(n) O(1)   delete O(n) O(1)     常见题目   翻转链表 判断链表是否有环 (快慢指针)  栈与队列  栈 FILO 队列 FIFO 常见题目   括号匹配 队列实现栈(写直接入队列，读数据入另一队列剩1个即为栈顶)，栈实现队列(写入数据直接压栈，读时排空一个栈，取栈顶)  优先队列（heap）  正常入，按优先级出 操作时间复杂度 斐波那契堆是一系列无序树的集合，每棵树是一个最小堆，满足最小堆的性质     op binary fibonacci     find-min Θ(1) Θ(1)   delete-min Θ(log n) O(log n)   insert O(log n) Θ(1)   merge Θ(n) Θ(1)     常见题目   kth largest in stream 滑动窗口  哈希表  2sum 3sum  树与二叉树  binary search tree 验证: 带上下界递归遍历 最小公共祖先  递归与分治  Pow(x, n) 一组数的大多数  贪心算法 问题能够分解成子问题，子问题的最优解能递推到最终问题的最优解">
+<meta name="twitter:description" content="基础 算法与数据结构 数据结构  数组与链表 栈与队列 优先队列 树 哈希表 并差集 Trie树 布隆过滤器: 可以确定不存在 LRU cache 图  skiplist 随机化数据结构log(n)
+插入：插入时先查找到当前插入节点的前缀，随机生产新节点的level，从level到底层逐步更新前缀指针
+若干年前的实现
+rbtree  每个节点要么是黑色，要么是红色。 根节点是黑色。 每个叶子节点（NIL）是黑色。 每个红色结点的两个子结点一定都是黑色。 任意一结点到每个叶子结点的路径都包含数量相同的黑结点。  若干年前的实现
+算法  贪心 哈夫曼编码、最短生成树prim and cruskarl 递归 遍历 深度优先与广度优先搜索 分治法 动态规划  数组与链表  基本操作时间复杂度     op 数组array 链表linked lsit     access O(1) O(n)   insert O(n) O(1)   delete O(n) O(1)     常见题目   翻转链表 判断链表是否有环 (快慢指针)  栈与队列  栈 FILO 队列 FIFO 常见题目   括号匹配 队列实现栈(写直接入队列，读数据入另一队列剩1个即为栈顶)，栈实现队列(写入数据直接压栈，读时排空一个栈，取栈顶)  优先队列（heap）  正常入，按优先级出 操作时间复杂度 斐波那契堆是一系列无序树的集合，每棵树是一个最小堆，满足最小堆的性质     op binary fibonacci     find-min Θ(1) Θ(1)   delete-min Θ(log n) O(log n)   insert O(log n) Θ(1)   merge Θ(n) Θ(1)     常见题目   kth largest in stream 滑动窗口  哈希表  2sum 3sum  树与二叉树  binary search tree 验证: 带上下界递归遍历 最小公共祖先  递归与分治  Pow(x, n) 一组数的大多数  贪心算法 问题能够分解成子问题，子问题的最优解能递推到最终问题的最优解">
 <meta property="og:locale" content="zh-cn">
 
   
@@ -230,10 +246,23 @@ if (!doNotTrack) {
 <li>哈希表</li>
 <li>并差集</li>
 <li>Trie树</li>
-<li>布隆过滤器</li>
+<li>布隆过滤器: 可以确定不存在</li>
 <li>LRU cache</li>
 <li>图</li>
 </ul>
+<h4 id="skiplist">skiplist</h4>
+<p>随机化数据结构log(n)</p>
+<p>插入：插入时先查找到当前插入节点的前缀，随机生产新节点的level，从level到底层逐步更新前缀指针</p>
+<p><a href="https://github.com/ThinkMo/olddays/blob/master/algoexercise/SkipList.h">若干年前的实现</a></p>
+<h4 id="rbtree">rbtree</h4>
+<ul>
+<li>每个节点要么是黑色，要么是红色。</li>
+<li>根节点是黑色。</li>
+<li>每个叶子节点（NIL）是黑色。</li>
+<li>每个红色结点的两个子结点一定都是黑色。</li>
+<li>任意一结点到每个叶子结点的路径都包含数量相同的黑结点。</li>
+</ul>
+<p><a href="https://github.com/ThinkMo/olddays/blob/master/algoexercise/RedBlackTree.h">若干年前的实现</a></p>
 <h3 id="算法">算法</h3>
 <ul>
 <li>贪心 哈夫曼编码、最短生成树prim and cruskarl</li>
@@ -434,6 +463,18 @@ CFS为每个进程都维护两个重要变量：fair_clock和wait_runtime。这�
 <li>CLOSE_WAIT: 被动收到FIN后进入CLOSE_WAIT，等待应用处理</li>
 <li>TIME_WAIT: 主动发送FIN后进入TIME_WAIT，等待2MSL进入CLOSE状态。主要有两个原因：1）TIME_WAIT确保有足够的时间让对端收到了ACK，如果被动关闭的那方没有收到Ack，就会触发被动端重发Fin，一来一去正好2个MSL，2）有足够的时间让这个连接不会跟后面的连接混在一起。如果在大并发的短链接下，TIME_WAIT 就会太多，这也会消耗很多系统资源，主要避免方法时服务端不要主动关闭。</li>
 </ul>
+<h3 id="https">HTTPS</h3>
+<ul>
+<li>安全</li>
+<li>身份验证</li>
+<li>完整性验证</li>
+</ul>
+<p>既有对称加密又有非对称加密</p>
+<p>非对称加密：a. TLS握手阶段对对称加密密钥沟通时加密 b. 身份验证时使用 区别：a的私钥在服务器端 b的私钥在CA
+对称加密：对传输数据进行加密，密钥在TLS握手时确定</p>
+<p>证书：由CA颁发，包含证书信息、hash算法、签名
+签名：验证，根据公钥解密，对CA证书信息中除签名外的信息进行hash算对比，一样则身份验证通过</p>
+<p><a href="https://mp.weixin.qq.com/s/ibwNtDc2zd2tdhMN7iROJw">HTTPS详解</a></p>
 <h2 id="设计模式">设计模式</h2>
 <h4 id="创建型模式">创建型模式</h4>
 <ul>
@@ -628,6 +669,12 @@ SingleThreadExecutor：相当于大小为 1 的 FixedThreadPool
 <p>IOC容器的工作模式看做是工厂模式的升华，可以把IOC容器看作是一个工厂，这个工厂里要生产的对象都在配置文件中给出定义，然后利用编程语言的的反射编程，根据配置文件中给出的类名生成相应的对象。从实现来看，IOC是把以前在工厂方法里写死的对象生成代码，改变为由配置文件来定义，也就是把工厂和对象生成这两者独立分隔开来，目的就是提高灵活性和可维护性。</p>
 <h3 id="动态代理实现">动态代理实现</h3>
 <h2 id="zookeeper">Zookeeper</h2>
+<h3 id="角色">角色</h3>
+<ul>
+<li>leader：处理客户端的读写请求，及集群内部各服务的调度。只有 leader 能够处理写请求</li>
+<li>follower：处理客户端的读请求，将写请求转发给 leader，参与 leader 选举投票</li>
+<li>observer：处理客户端的读请求，将写请求转发给leader，不参与选举</li>
+</ul>
 <h3 id="zab">ZAB</h3>
 <p>ZAB协议包括两种基本的模式：崩溃恢复和消息广播。当整个 Zookeeper 集群刚刚启动或者Leader服务器宕机、重启或者网络故障导致不存在过半的服务器与 Leader 服务器保持正常通信时，所有服务器进入崩溃恢复模式，首先选举产生新的 Leader 服务器，然后集群中 Follower 服务器开始与新的 Leader 服务器进行数据同步。当集群中超过半数机器与该 Leader 服务器完成数据同步之后，退出恢复模式进入消息广播模式，Leader 服务器开始接收客户端的事务请求生成事物提案来进行事务请求处理。</p>
 <h3 id="选举算法和流程">选举算法和流程</h3>
@@ -643,6 +690,24 @@ SingleThreadExecutor：相当于大小为 1 的 FixedThreadPool
 <p>Producer只将该消息发送到该Partition的Leader。Leader会将该消息写入其本地Log。每个Follower都从Leader pull数据</p>
 <p>为了提高性能，每个Follower在接收到数据后就立马向Leader发送ACK，而非等到数据写入Log中</p>
 <p>topic/consumer group/partition/offset</p>
+<h3 id="kafka写入流程">Kafka写入流程</h3>
+<ol>
+<li>
+<p>producer 先从 zookeeper 的 &ldquo;/brokers/&hellip;/state&rdquo; 节点找到该 partition 的 leader</p>
+</li>
+<li>
+<p>producer 将消息发送给该 leader</p>
+</li>
+<li>
+<p>leader 将消息写入本地 log</p>
+</li>
+<li>
+<p>followers 从 leader pull 消息，写入本地 log 后 向 leader 发送 ACK</p>
+</li>
+<li>
+<p>leader 收到所有 ISR 中的 replica 的 ACK 后，增加 HW（high watermark，最后 commit 的 offset） 并向 producer 发送 ACK</p>
+</li>
+</ol>
 <h3 id="数据存储">数据存储</h3>
 <p>Kafka中消息是以topic进行分类的，生产者通过topic向Kafka broker发送消息，消费者通过topic读取数据。然而topic在物理层面又能以partition为分组，一个topic可以分成若干个partition。partition还可以细分为segment，一个partition物理上由多个segment组成，segment文件由两部分组成，分别为“.index”文件和“.log”文件，分别表示为segment索引文件和数据文件。这两个文件的命令规则为：partition全局的第一个segment从0开始，后续每个segment文件名为上一个segment文件最后一条消息的offset值。</p>
 <h3 id="特点">特点</h3>
@@ -701,9 +766,51 @@ SingleThreadExecutor：相当于大小为 1 的 FixedThreadPool
 <li>实时性：使用定期Refresh Segment到内存，并且Reopen Segment方式保证搜索可以在较短时间（比如1秒）内被搜索到。通过将未刷新到磁盘数据记入TransLog，保证对未提交数据可以通过ID实时访问到。</li>
 <li>性能：性能是一个系统性工程，所有环节都要考虑对性能的影响，在Elasticsearch中，在很多地方的设计都考虑到了性能，一是不需要所有Replica都返回后才能返回给用户，只需要返回特定数目的就行；二是生成的Segment现在内存中提供服务，等一段时间后才刷新到磁盘，Segment在内存这段时间的可靠性由TransLog保证；三是TransLog可以配置为周期性的Flush，但这个会给可靠性带来伤害；四是每个线程持有一个Segment，多线程时相互不影响，相互独立，性能更好；五是系统的写入流程对版本依赖较重，读取频率较高，因此采用了versionMap，减少热点数据的多次磁盘IO开销。Lucene中针对性能做了大量的优化。后面我们也会有文章专门介绍Lucene中的优化思路。</li>
 </ul>
-<p><a href="https://zhuanlan.zhihu.com/p/34669354">https://zhuanlan.zhihu.com/p/34669354</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/35285514">https://zhuanlan.zhihu.com/p/35285514</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/34858035">https://zhuanlan.zhihu.com/p/34858035</a></p>
+<h4 id="分片一致性">分片一致性</h4>
+<p>主备模型(一主多副本): PacificA</p>
+<p>写:</p>
+<ol>
+<li>routing: 根据document ID 选择写目的shard, 请求转发到该shard 主分片上</li>
+<li>primary shard负责将写请求同步(并发)到所有replica shards, es不要求所有副本都写成功, 由primary维护了in-sync-copies</li>
+<li>当in-sync-copies都写成功,返回客户写成功</li>
+<li>当前分片失败,请求给到其他分片</li>
+</ol>
+<p>失败处理:</p>
+<ol>
+<li>primary写入失败, master会在1min后从replica中选择primary, 由新的主完成写入请求</li>
+<li>replica写入失败, 在in-sync-copies的replica写入失败后,primary向master报告问题,将replica移除in-sync-copies, 移除成功后, primary返回写成功; 同时master会选择其他节点重建replica shard</li>
+<li>旧的primary同步replica会被拒绝, primary从master学习新primary将请求转发</li>
+<li>没有副本时, 只写primary, master不会将其他陈旧的shard设置为主</li>
+</ol>
+<p>读:</p>
+<ol>
+<li>读请求来时, 当前节点负责forward请求到分片所在节点, 汇聚结果并返回给用户</li>
+<li>多副本加快读</li>
+</ol>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/master/docs-replication.html">参考</a></p>
+<p><a href="https://www.jianshu.com/p/79b71c6c352e">Elasticsearch分布式一致性原理剖析(一)-节点篇</a></p>
+<p><a href="https://www.jianshu.com/p/8601bc17a270">Elasticsearch分布式一致性原理剖析(二)-Meta篇</a></p>
+<p><a href="https://www.jianshu.com/p/d5e120351704">Elasticsearch分布式一致性原理剖析(三)-Data篇</a></p>
+<h4 id="如何分配分片">如何分配分片</h4>
+<ol>
+<li>负载均衡 : SameShardAllocationDecider ShardsLimitAllocationDecider</li>
+<li>并发数量规则 ConcurrentRebalanceAllocationDecider</li>
+<li>条件限制 FilterAllocationDecider</li>
+</ol>
+<h4 id="怎么使用zookeeper实现es的上述功能">怎么使用Zookeeper实现ES的上述功能</h4>
+<p>节点发现：每个节点的配置文件中配置一下Zookeeper服务器的地址，节点启动后到Zookeeper中某个目录中注册一个临时的znode。当前集群的master监听这个目录的子节点增减的事件，当发现有新节点时，将新节点加入集群。</p>
+<p>master选举：当一个master-eligible node启动时，都尝试到固定位置注册一个名为master的临时znode，如果注册成功，即成为master，如果注册失败则监听这个znode的变化。当master出现故障时，由于是临时znode，会自动删除，这时集群中其他的master-eligible node就会尝试再次注册。使用Zookeeper后其实是把选master变成了抢master。</p>
+<p>错误检测：由于节点的znode和master的znode都是临时znode，如果节点故障，会与Zookeeper断开session，znode自动删除。集群的master只需要监听znode变更事件即可，如果master故障，其他的候选master则会监听到master znode被删除的事件，尝试成为新的master。</p>
+<p>集群扩缩容：扩缩容将不再需要考虑minimum_master_nodes配置的问题，会变得更容易。</p>
+<h4 id="与使用raft相比">与使用raft相比</h4>
+<p>raft算法是近几年很火的一个分布式一致性算法，其实现相比paxos简单，在各种分布式系统中也得到了应用。这里不再描述其算法的细节，我们单从master选举算法角度，比较一下raft与ES目前选举算法的异同点：</p>
+<p>相同点</p>
+<p>多数派原则：必须得到超过半数的选票才能成为master。</p>
+<p>选出的leader一定拥有最新已提交数据：在raft中，数据更新的节点不会给数据旧的节点投选票，而当选需要多数派的选票，则当选人一定有最新已提交数据。在es中，version大的节点排序优先级高，同样用于保证这一点。</p>
+<p>不同点</p>
+<p>正确性论证：raft是一个被论证过正确性的算法，而ES的算法是一个没有经过论证的算法，只能在实践中发现问题，做bug fix，这是我认为最大的不同。</p>
+<p>是否有选举周期term：raft引入了选举周期的概念，每轮选举term加1，保证了在同一个term下每个参与人只能投1票。ES在选举时没有term的概念，不能保证每轮每个节点只投一票。</p>
+<p>选举的倾向性：raft中只要一个节点拥有最新的已提交的数据，则有机会选举成为master。在ES中，version相同时会按照NodeId排序，总是NodeId小的人优先级高。</p>
 <h2 id="redis">Redis</h2>
 <h3 id="数据类型">数据类型</h3>
 <ul>
@@ -931,10 +1038,12 @@ end
 <p>随机的timeout解决冲突</p>
 <p>算法主要包括</p>
 <ul>
-<li>leader选举</li>
+<li>leader选举(term 选举周期)</li>
 <li>日志复制</li>
 </ul>
 <p><a href="http://thesecretlivesofdata.com/raft/">看图说明</a></p>
+<h3 id="pacifica">Pacifica</h3>
+<p>微软2008年提出的日志复制协议，与PaxOS和Raft不同，PacificA并不提供Leader选举，因此需要结合PaxOS或Raft，分布式消息队列Kafka的ISR算法类似于PacificA。小米开源的KV系统Pegasus基于PacificA实现。</p>
 <h2 id="cloud-native">Cloud Native</h2>
 <h3 id="k8s">K8S</h3>
 <h4 id="borgomegak8s差异">borg/omega/k8s差异</h4>
@@ -1173,6 +1282,13 @@ Hook的类型包括两种：</p>
 <li>抢占优先besteffort</li>
 </ul>
 <h4 id="operator-1">operator</h4>
+<p><img src="https://res.cloudinary.com/dqxtn0ick/image/upload/v1555479782/article/code-analysis/informer/client-go-controller-interaction.jpg" alt="infomer"></p>
+<ol>
+<li>创建kubeclient\crdclient</li>
+<li>通过NewSharedInformerFactory创建关注的资源的infomer</li>
+<li>创建controller, 其中包括创建event broadcast, 初始化controller(kubeclientset, informer-&gt;lister, workqueue), 为infomer添加event handler(add update del)</li>
+<li>controller.run, 多个goroutine执行processNextWorkItem, 从workqueue取item处理</li>
+</ol>
 <h3 id="servicemesh-1">ServiceMesh</h3>
 <p>Kubernetes 的本质是通过声明式配置对应用进行生命周期管理，而 Service Mesh 的本质是提供应用间的流量和安全性管理以及可观察性。</p>
 <ul>
@@ -1188,6 +1304,7 @@ Hook的类型包括两种：</p>
 <p>Serverless（无服务器架构）是指服务端逻辑由开发者实现，运行在无状态的计算容器中，由事件触发，完全被第三方管理，其业务层面的状态则存储在数据库或其他介质中。</p>
 <p>核心技术函数计算</p>
 <h3 id="prometheus">prometheus</h3>
+<p><img src="https://prometheus.io/assets/architecture.png" alt="架构图"></p>
 <h3 id="helmk8s应用管理">helm：k8s应用管理</h3>
 <h2 id="spring-cloud了解">Spring Cloud（了解）</h2>
 <p>SpringCloud的基础功能：</p>
@@ -1219,7 +1336,7 @@ Hook的类型包括两种：</p>
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/base/" data-tooltip="">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/resume/" data-tooltip="">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -1300,7 +1417,7 @@ Hook的类型包括两种：</p>
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/base/" data-tooltip="">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/resume/" data-tooltip="">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
