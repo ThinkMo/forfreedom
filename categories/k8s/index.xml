@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>k8s on 平凡世界</title>
+    <link>https://itech.red/categories/k8s/</link>
+    <description>Recent content in k8s on 平凡世界</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 23 Jul 2020 17:03:30 +0800</lastBuildDate>
+    
+	<atom:link href="https://itech.red/categories/k8s/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>k8s 1.17.5高可用部署</title>
+      <link>https://itech.red/2020/07/k8s-1.17.5%E9%AB%98%E5%8F%AF%E7%94%A8%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Thu, 23 Jul 2020 17:03:30 +0800</pubDate>
+      
+      <guid>https://itech.red/2020/07/k8s-1.17.5%E9%AB%98%E5%8F%AF%E7%94%A8%E9%83%A8%E7%BD%B2/</guid>
+      <description>k8s 1.17.5高可用部署 环境准备 K8S版本: 1.17.5
+   IP 操作系统 主机配置 备注     192.168.0.2 debian9.5 4核8G control plane(apiserver/scheduler/controller/etcd)   192.168.0.3 debian9.5 4核8G control plane(apiserver/scheduler/controller/etcd)   192.168.0.4 debian9.5 4核8G control plane(apiserver/scheduler/controller/etcd)   192.168.0.5 debian9.5 4核8G node   192.168.0.6 debian9.5 4核8G node   192.168.0.7 debian9.5 4核8G node   59.111.230.7 LB X 负载均衡, 后端为控制节点(可换为keepalived VIP)    机器初始化(所有节点操作)  使用aliyun debian源 部署docker 18.09.9 (https://docs.</description>
+    </item>
+    
+  </channel>
+</rss>
