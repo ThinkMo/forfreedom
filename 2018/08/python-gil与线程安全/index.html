@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.62.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.79.0 with theme Tranquilpeak 0.4.8-BETA">
 <meta name="author" content="游">
 <meta name="keywords" content="python, GIL, thread safe">
 <meta name="description" content="python GIL与多线程  GIL: Global Interpreter Lock(全局解释器锁)，python虚拟机一级的互斥机制，用来保护资源的互斥访问，尤其是python对象的引用计数。 python代码执行  获得GIL 执行代码直到被阻塞或N条指令执行之后(py3:超时时间)被python 虚拟机调度 释放GIL 何时挂起当前线程：被阻塞或N条指令执行之后(py3:超时时间15ms) 如何选择等待的线程进行调度：由底层操作系统决定  python多线程机制是在GIL基础上实现的 python的多线程机制建立在操作系统的原生线程的基础之上  Thread safe in python Python线程安全与传统的java、c有很大不同，python的很多操作都是原子的，例如sort函数本身是原子操作，不会被其他线程看到排序一半的list；而有一些操作不是原子的，例如&#43;=
@@ -362,7 +362,7 @@ def add():
       
       
         <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#livere_thread">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
             <i class="fa fa-comment-o"></i>
           </a>
         </li>
@@ -380,12 +380,25 @@ def add():
 
             
               
-              <div id="lv-container" data-id="city" data-uid="MTAyMC80ODIxMS8yNDcwNw==">
-                <div id="livere_thread">
-    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODIxMS8yNDcwNw==">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
 </div>
 
-              </div>
+
               
             
           </div>
@@ -397,11 +410,11 @@ def add():
   <div class="busuanzi-count">
     <span class="site-uv">
       <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv">25475</span>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
     </span>
     <span class="site-pv">
       <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv">40083</span>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
     </span>
   </div>
 </footer>
@@ -436,7 +449,7 @@ def add():
       
       
         <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#livere_thread">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
             <i class="fa fa-comment-o"></i>
           </a>
         </li>
@@ -478,7 +491,7 @@ def add():
       <div id="about-card-job">
         <i class="fa fa-briefcase"></i>
         <br/>
-        系统工程师
+        SRE
       </div>
     
     
@@ -530,19 +543,27 @@ function updateMinWidth() {
 
   
     
-    <script type="text/javascript">
-   (function(d, s) {
-       var j, e = d.getElementsByTagName(s)[0];
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/itech.red\/2018\/08\/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8\/';
+          
+            this.page.identifier = 'python_0002';
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'MTAyMC80ODIxMS8yNDcwNw==';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
 
-       if (typeof LivereTower === 'function') { return; }
-
-       j = d.createElement(s);
-       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-       j.async = true;
-
-       e.parentNode.insertBefore(j, e);
-   })(document, 'script');
-	</script>
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
     
   
 

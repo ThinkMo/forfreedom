@@ -6,11 +6,7 @@
     <description>Recent content in java on 平凡世界</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 23 Nov 2016 18:47:34 +0800</lastBuildDate>
-    
-	<atom:link href="https://itech.red/categories/java/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 23 Nov 2016 18:47:34 +0800</lastBuildDate><atom:link href="https://itech.red/categories/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>springmvc实现导出数据excel</title>
       <link>https://itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/</link>

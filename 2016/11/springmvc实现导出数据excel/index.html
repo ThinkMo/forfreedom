@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.62.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.79.0 with theme Tranquilpeak 0.4.8-BETA">
 <meta name="author" content="游">
 <meta name="keywords" content="springmvc">
 <meta name="description" content="springmvc实现导出数据excel
@@ -476,7 +476,7 @@ public class ExportExcel {
       
       
         <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#livere_thread">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
             <i class="fa fa-comment-o"></i>
           </a>
         </li>
@@ -494,12 +494,25 @@ public class ExportExcel {
 
             
               
-              <div id="lv-container" data-id="city" data-uid="MTAyMC80ODIxMS8yNDcwNw==">
-                <div id="livere_thread">
-    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODIxMS8yNDcwNw==">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
 </div>
 
-              </div>
+
               
             
           </div>
@@ -511,11 +524,11 @@ public class ExportExcel {
   <div class="busuanzi-count">
     <span class="site-uv">
       <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv">25475</span>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
     </span>
     <span class="site-pv">
       <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv">40083</span>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
     </span>
   </div>
 </footer>
@@ -550,7 +563,7 @@ public class ExportExcel {
       
       
         <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#livere_thread">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
             <i class="fa fa-comment-o"></i>
           </a>
         </li>
@@ -592,7 +605,7 @@ public class ExportExcel {
       <div id="about-card-job">
         <i class="fa fa-briefcase"></i>
         <br/>
-        系统工程师
+        SRE
       </div>
     
     
@@ -644,19 +657,27 @@ function updateMinWidth() {
 
   
     
-    <script type="text/javascript">
-   (function(d, s) {
-       var j, e = d.getElementsByTagName(s)[0];
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/itech.red\/2016\/11\/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel\/';
+          
+            this.page.identifier = '2dsada123spring_excel';
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'MTAyMC80ODIxMS8yNDcwNw==';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
 
-       if (typeof LivereTower === 'function') { return; }
-
-       j = d.createElement(s);
-       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-       j.async = true;
-
-       e.parentNode.insertBefore(j, e);
-   })(document, 'script');
-	</script>
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
     
   
 

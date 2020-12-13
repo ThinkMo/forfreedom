@@ -4,7 +4,27 @@
   
   <url>
     <loc>https://itech.red/categories/</loc>
-    <lastmod>2020-07-23T17:03:30+08:00</lastmod>
+    <lastmod>2020-12-13T21:40:30+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://itech.red/categories/others/</loc>
+    <lastmod>2020-12-13T21:40:30+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://itech.red/post/</loc>
+    <lastmod>2020-12-13T21:40:30+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://itech.red/2020/12/%E5%8D%9A%E5%AE%A2theme%E4%BF%AE%E6%94%B9%E8%AE%B0%E5%BD%95/</loc>
+    <lastmod>2020-12-13T21:40:30+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://itech.red/</loc>
+    <lastmod>2020-12-13T21:40:30+08:00</lastmod>
   </url>
   
   <url>
@@ -14,16 +34,6 @@
   
   <url>
     <loc>https://itech.red/2020/07/k8s-1.17.5%E9%AB%98%E5%8F%AF%E7%94%A8%E9%83%A8%E7%BD%B2/</loc>
-    <lastmod>2020-07-23T17:03:30+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://itech.red/post/</loc>
-    <lastmod>2020-07-23T17:03:30+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://itech.red/</loc>
     <lastmod>2020-07-23T17:03:30+08:00</lastmod>
   </url>
   

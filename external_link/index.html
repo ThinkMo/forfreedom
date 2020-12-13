@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.62.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.79.0 with theme Tranquilpeak 0.4.8-BETA">
 <meta name="author" content="游">
 <meta name="keywords" content="">
 <meta name="description" content="michael Java中间件、分布式、微服务 ">
@@ -267,7 +267,7 @@ if (!doNotTrack) {
       
       
         <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#livere_thread">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
             <i class="fa fa-comment-o"></i>
           </a>
         </li>
@@ -285,12 +285,25 @@ if (!doNotTrack) {
 
             
               
-              <div id="lv-container" data-id="city" data-uid="MTAyMC80ODIxMS8yNDcwNw==">
-                <div id="livere_thread">
-    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODIxMS8yNDcwNw==">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
 </div>
 
-              </div>
+
               
             
           </div>
@@ -302,11 +315,11 @@ if (!doNotTrack) {
   <div class="busuanzi-count">
     <span class="site-uv">
       <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv">25475</span>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
     </span>
     <span class="site-pv">
       <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv">40083</span>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
     </span>
   </div>
 </footer>
@@ -348,7 +361,7 @@ if (!doNotTrack) {
       
       
         <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#livere_thread">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
             <i class="fa fa-comment-o"></i>
           </a>
         </li>
@@ -390,7 +403,7 @@ if (!doNotTrack) {
       <div id="about-card-job">
         <i class="fa fa-briefcase"></i>
         <br/>
-        系统工程师
+        SRE
       </div>
     
     
@@ -442,19 +455,27 @@ function updateMinWidth() {
 
   
     
-    <script type="text/javascript">
-   (function(d, s) {
-       var j, e = d.getElementsByTagName(s)[0];
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/itech.red\/external_link\/';
+          
+            this.page.identifier = '\/external_link\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'MTAyMC80ODIxMS8yNDcwNw==';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
 
-       if (typeof LivereTower === 'function') { return; }
-
-       j = d.createElement(s);
-       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-       j.async = true;
-
-       e.parentNode.insertBefore(j, e);
-   })(document, 'script');
-	</script>
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
     
   
 

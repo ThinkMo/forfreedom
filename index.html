@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.62.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.79.0 with theme Tranquilpeak 0.4.8-BETA">
 <meta name="author" content="游">
 <meta name="keywords" content="">
 <meta name="description" content="游记">
@@ -187,6 +187,75 @@ if (!doNotTrack) {
                ">
         <section class="postShorten-group main-content-wrap">
           
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://itech.red/2020/12/%E5%8D%9A%E5%AE%A2theme%E4%BF%AE%E6%94%B9%E8%AE%B0%E5%BD%95/">
+          博客theme修改记录
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-12-13T21:40:30&#43;08:00">
+        
+  
+  
+  
+  
+    2020-12-13 21:40:30
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://itech.red/categories/others">others</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        blog theme修改记录 之前blog theme相关修改的代码丢失了， 需要重新配置一下，顺手记录一下
+博客由hugo生成，关于hugo看这里
+hugo主题使用hugo-tranquilpeak-theme
+评论设置 hugo-tranquilpeak-theme 仅支持disqus，但对于国内来说无法访问，这里修改了相关代码，使用来必力，注册来必力，选择免费的City版本安装
+删除默认的 layouts/partials/post/disqus.html 的代码，将安装代码注入即可
+layouts/partials/post/disqus.html &lt;!-- 来必力City版安装代码 --&gt; &lt;div id=&quot;lv-container&quot; data-id=&quot;city&quot; data-uid=&quot;你的uid&quot;&gt; &lt;script type=&quot;text/javascript&quot;&gt; (function(d, s) { var j, e = d.getElementsByTagName(s)[0]; if (typeof LivereTower === 'function') { return; } j = d.createElement(s); j.src = 'https://cdn-city.livere.com/js/embed.dist.js'; j.async = true; e.parentNode.insertBefore(j, e); })(document, 'script'); &lt;/script&gt; &lt;noscript&gt;为正常使用来必力评论功能请激活JavaScript&lt;/noscript&gt; &lt;/div&gt; &lt;!-- City版安装代码已完成 --&gt; 浏览统计 浏览统计使用的是不蒜子
+修改hugo配置文件config.toml在[params]下添加相关js
+ [[params.customJS]] src = &quot;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&quot; 修改layouts/partials/footer.html在copyright下添加
+ &lt;div class=&quot;busuanzi-count&quot;&gt; &lt;span class=&quot;site-uv&quot;&gt; &lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt; &lt;span class=&quot;busuanzi-value&quot; id=&quot;busuanzi_value_site_uv&quot;&gt;&lt;/span&gt; &lt;/span&gt; &lt;span class=&quot;site-pv&quot;&gt; &lt;i class=&quot;fa fa-eye&quot;&gt;&lt;/i&gt; &lt;span class=&quot;busuanzi-value&quot; id=&quot;busuanzi_value_site_pv&quot;&gt;&lt;/span&gt; &lt;/span&gt; &lt;/div&gt; 
+      
+      <p>
+        <a href="https://itech.red/2020/12/%E5%8D%9A%E5%AE%A2theme%E4%BF%AE%E6%94%B9%E8%AE%B0%E5%BD%95/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
           
             
   
@@ -582,79 +651,6 @@ filter { mutate { convert =&gt; { &quot;num&quot; =&gt; &quot;integer&quot; } } 
 </article>
 
           
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/">
-          Logstash过滤插件grok正则解析
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2017-10-10T21:31:09&#43;08:00">
-        
-  
-  
-  
-  
-    2017-10-10 21:31:09
-  
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://itech.red/categories/elk">ELK</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        Logstash过滤插件grok正则解析 一、grok介绍 grok是Logstash中用来解析非结构化日志数据，将日志转化为可查询的结构化数据的最佳方法，可以用来处理syslog日志、apache等webserver日志、mysql日志以及用户自定义日志。
-Logstash自带有120多种预定义好的正则表达式方便用户使用，你可以在这里查看这些正则表达式，你也可以添加自己的匹配规则。
-有两个网站可以帮助我们来构建正则表达式去匹配我们的日志：
- http://grokdebug.herokuapp.com http://grokconstructor.appspot.com (推荐)  二、grok基础 grok匹配模式语法为：%{SYNTAX:SEMANTIC:TYPE}
-SYNTAX: 正则表达式、预定义的正则表达式名称
-SEMANTIC: 标识符，标识匹配后的数据
-TYPE: 可选的类型，目前支持int、float
-例如：NUMBER可以匹配3.44，IP可以匹配：192.168.21.2
-一个复杂的日志格式如下：
-192.168.21.2 GET /index.html 15823 0.023 grok匹配模式可以为：
-${IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration} 更加实际的，该条日志可能来自一个文件：
-input { file { path =&gt; &quot;/var/log/http.log&quot; } } filter { grok { match =&gt; { &quot;message&quot; =&gt; &quot;%{IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}&quot; } } } 在grok过滤后，可以得到额外一下字段：
-client: 192.168.21.2 method: GET request: /index.html bytes: 15823 duration: 0.023 grok中的正则表达式 Grok采用了Oniguruma正则表达式库，在on the Oniguruma site看到支持的正则语法。
-      
-      <p>
-        <a href="https://itech.red/2017/10/logstash%E8%BF%87%E6%BB%A4%E6%8F%92%E4%BB%B6grok%E6%AD%A3%E5%88%99%E8%A7%A3%E6%9E%90/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
           
   <div class="pagination-bar">
     <ul class="pagination">
@@ -682,11 +678,11 @@ client: 192.168.21.2 method: GET request: /index.html bytes: 15823 duration: 0.0
   <div class="busuanzi-count">
     <span class="site-uv">
       <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv">25475</span>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
     </span>
     <span class="site-pv">
       <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv">40083</span>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
     </span>
   </div>
 </footer>
@@ -710,7 +706,7 @@ client: 192.168.21.2 method: GET request: /index.html bytes: 15823 duration: 0.0
       <div id="about-card-job">
         <i class="fa fa-briefcase"></i>
         <br/>
-        系统工程师
+        SRE
       </div>
     
     
