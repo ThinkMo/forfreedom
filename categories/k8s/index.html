@@ -208,6 +208,69 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://itech.red/2020/12/k8s-conformance-test%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
+          k8s conformance test问题记录
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-12-25T17:03:30&#43;08:00">
+        
+  
+  
+  
+  
+    2020-12-25 17:03:30
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://itech.red/categories/k8s">k8s</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        K8S conformance test问题记录 K8S conformance test步骤与提交可以参考这里, 本文主要记录相关问题
+私有云环境测试镜像准备 在隔离的私有云环境跑测试，需要将K8S conformance test需要的镜像提前准备好并存储到私有镜像仓库中
+1. 获取所有测试镜像 sonobuoy images --kubernetes-version v1.19.3 &gt; images #我这里是v1.19.3版本k8s，可以替换 2. 在非离线环境中下载镜像包 for i in `cat images`; do docker pull $i ;done docker save `cat image | tr &quot;\n&quot; &quot; &quot;` -o images.tar 3. 在离线环境加载镜像包 docker load -i images.tar 4. 生成e2e repo配置，并将所有配置都替换为私有镜像仓库地址 sonobuoy gen default-image-config &gt; repo.yaml 5. push镜像 sonobuoy images push --e2e-repo-config repo.yaml 使用私有镜像仓库测试 开始测试 registry_url=xx sonobuoy run --mode=certified-conformance --sonobuoy-image $registry_url/sonobuoy:v0.
+      
+      <p>
+        <a href="https://itech.red/2020/12/k8s-conformance-test%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+            
+              
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://itech.red/2020/07/k8s-1.17.5%E9%AB%98%E5%8F%AF%E7%94%A8%E9%83%A8%E7%BD%B2/">
           k8s 1.17.5高可用部署
         </a>

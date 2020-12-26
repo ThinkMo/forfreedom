@@ -205,6 +205,69 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://itech.red/2020/12/k8s-conformance-test%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
+          k8s conformance test问题记录
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-12-25T17:03:30&#43;08:00">
+        
+  
+  
+  
+  
+    2020-12-25 17:03:30
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://itech.red/categories/k8s">k8s</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        K8S conformance test问题记录 K8S conformance test步骤与提交可以参考这里, 本文主要记录相关问题
+私有云环境测试镜像准备 在隔离的私有云环境跑测试，需要将K8S conformance test需要的镜像提前准备好并存储到私有镜像仓库中
+1. 获取所有测试镜像 sonobuoy images --kubernetes-version v1.19.3 &gt; images #我这里是v1.19.3版本k8s，可以替换 2. 在非离线环境中下载镜像包 for i in `cat images`; do docker pull $i ;done docker save `cat image | tr &quot;\n&quot; &quot; &quot;` -o images.tar 3. 在离线环境加载镜像包 docker load -i images.tar 4. 生成e2e repo配置，并将所有配置都替换为私有镜像仓库地址 sonobuoy gen default-image-config &gt; repo.yaml 5. push镜像 sonobuoy images push --e2e-repo-config repo.yaml 使用私有镜像仓库测试 开始测试 registry_url=xx sonobuoy run --mode=certified-conformance --sonobuoy-image $registry_url/sonobuoy:v0.
+      
+      <p>
+        <a href="https://itech.red/2020/12/k8s-conformance-test%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://itech.red/2020/12/%E5%8D%9A%E5%AE%A2theme%E4%BF%AE%E6%94%B9%E8%AE%B0%E5%BD%95/">
           博客theme修改记录
         </a>
@@ -570,79 +633,6 @@ curl -XPOST 'localhost:9200/_flush/synced?pretty'  停止并升级各个节点�
       
       <p>
         <a href="https://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/">
-          ElasticSearch索引类型映射
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2018-01-19T18:10:59&#43;08:00">
-        
-  
-  
-  
-  
-    2018-01-19 18:10:59
-  
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://itech.red/categories/elk">ELK</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        最近接手维护了几个ELK集群，对接的是IaaS、PaaS服务日志，简单的ELK架构，通过filebeat采集日志，发送到logstash结构化日志然后发送到ElasticSearch，用户可以通过Kibana查看服务日志定位问题、做一些性能分析图表等，同时利用elastalert做日志报警。
-在ElasticSearch须要对用户的索引建立合适的类型映射(尤其是int类型)，才可以在kibana中对数据进行分析，关于ES的映射类型可以看这里，需指出的是一旦某个field字段类型确定就很难更改该字段的类型(需reindex)。
-Logstash将非结构化数据转化为结构化数据，通过JSON将数据发送给ElasticSearch，所有字段都会被当作string来处理，而ElasticSearch在自动判断字段类型建立映射这方面做的不足，与我们需求不符，那么如何正确建立索引类型映射呢？
-一、通过Logstash的grok、mutate确定字段类型
-  grok
-根据grok官方文档，在grok正则表达式后可以添加一个数据类型，默认是string类型，如果你想使字段类型为int，你可以在表达式后加int，例如%{NUMBER:num:int}，那么num字段会从string类型变为int类型，目前只支持int和float。
-  mutate
-通过mutate可以将field转化为integer、float、string，例如：
-filter { mutate { convert =&gt; { &quot;num&quot; =&gt; &quot;integer&quot; } } }   二、ElasticSearch mapping template
-映射(mappings)决定了一个字段(field)如何被ElasticSearch解释、存储，例如数据{&ldquo;ip&rdquo;:&ldquo;223.5.5.5&rdquo;}发送给ES，ES会将ip字段存储为string类型，而不是ip类型，不能做IP范围查询同时造成存储空间浪费、查询效率低等。**不管在Logstash如何转换类型，ElasticSearch不会知道你的用意除非你正确映射。**所有整型会存为long，小数会存为float或double，关于最小类型可以看这里，使用integer而不是long会有效的减少ELasticSearch负担。
-  映射模版
-编写模版文件my_template.json
-{ &quot;index_patterns&quot; : &quot;index*&quot;, &quot;version&quot; : 1, &quot;settings&quot; : { &quot;index.refresh_interval&quot; : &quot;5s&quot; }, &quot;mappings&quot; : { &quot;_default_&quot; : { &quot;properties&quot;:{ &quot;host&quot;: { &quot;type&quot; : &quot;string&quot;}, &quot;ip&quot;: {&quot;type&quot; : &quot;ip&quot;}, .... } } } }   上传template.
-      
-      <p>
-        <a href="https://itech.red/2018/01/elasticsearch%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>
