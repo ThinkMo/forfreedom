@@ -205,6 +205,71 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://itech.red/2020/12/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+          kubelet源码解析
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-12-31T17:13:30&#43;08:00">
+        
+  
+  
+  
+  
+    2020-12-31 17:13:30
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://itech.red/categories/k8s">k8s</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        Kubelet kubelet介绍 在k8s集群中的每个节点上都运行着一个kubelet服务进程，其主要负责向apiserver注册节点、管理pod及pod中的容器，并通过 cAdvisor 监控节点和容器的资源。
+ 节点管理：节点注册、节点状态更新(定期心跳) pod管理：接受来自apiserver、file、http等PodSpec，并确保这些 PodSpec 中描述的容器处于运行状态且运行状况良好 容器健康检查：通过ReadinessProbe、LivenessProbe两种探针检查容器健康状态 资源监控：通过 cAdvisor 获取其所在节点及容器的监控数据  深入kubelet工作原理 从上图可以看出kubelet的主要工作逻辑在SyncLoop控制循环中，处理pod更新事件、pod生命周期变化、周期sync事件、定时清理事件；SyncLoop旁还有处理其他逻辑的控制循环，例如处理pod状态同步的statusManager，处理健康检查的probeManager等。
+下面将从kubelet源码来分析各个环节的处理逻辑。
+kubelet代码(版本1.19)主要位于cmd/kubelet与pkg/kubelet下，首先看下kubelet启动流程与初始化
+// kubelet依赖cobra命令行库，创建kubelet command并执行 cmd/kubelet/kubelet.go:34 func main() // 处理flags、configfile验证、初始化kubletServer/kubeletDeps(依赖注入)、信号处理ctx，调用run cmd/kubelet/app/server.go:113 func NewKubeletCommand() *cobra.Command // client(kube\event\heartbeat)、auth、cgroup、cadvisor、containerManager、runtime初始化(dockershim...)、healthz监听，调用RunKubelet cmd/kubelet/app/server.go:472 func run // 创建Kubelet关键结构体，执行Kubelet Run进入主循环，运行kubelet server、只读端口等 cmd/kubelet/app/server.go:1071 func RunKubelet // 先看下NewMainKubelet创建初始化Kubelet关键结构体函数 cmd/kubelet/kubelet.go:333 func NewMainKubelet(...){ // 创建PodConfig，watch apiserver、file、http等 if kubeDeps.PodConfig == nil { var err error kubeDeps.PodConfig, err = makePodSourceConfig(kubeCfg, kubeDeps, nodeName) if err != nil { return nil, err } } // 创建service informer、node、oom watcher // 创建Kubelet // 创建各种manager例如secret、configMap // 创建podManager，管理pod信息 klet.
+      
+      <p>
+        <a href="https://itech.red/2020/12/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://itech.red/2020/12/k8s-conformance-test%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
           k8s conformance test问题记录
         </a>
@@ -567,72 +632,6 @@ threads = [] for i in range(100): t = threading.
       
       <p>
         <a href="https://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/">
-          ELK集群2.x到5.6升级记录
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2018-04-02T20:10:59&#43;08:00">
-        
-  
-  
-  
-  
-    2018-04-02 20:10:59
-  
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://itech.red/categories/elk">ELK</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        考虑到目前使用的ELK集群版本与开源版本的版本差距有点大，而ELK5.6相较2.3版本性能有较大提升，尤其是Logstash grok插件，最近对测试环境的两个ELK集群进行了升级，对升级过程进行一个记录；升级主要参考了官方文档
-当前系统运行版本  filebeat：1.2.3 kibana：4.5.1 logstash：2.3.2 elasticsearch：2.3.3 JVM: 1.7  升级顺序  jvm(略) elasticsearch kibana logstash beats  升级Elasticsearch 升级之前  升级前使用Elasticsearch Migration Plugin查看潜在问题 最好先在测试环境升级ELK 在升级之前先备份数据  升级（跨大版本整个集群需重启）   禁止自动分配分片，在停止elasticsearch时减少不必要的I/O
-curl -XPUT 'localhost:9200/_cluster/settings?pretty' -H 'Content-Type: application/json' -d'{ &quot;persistent&quot;: {&quot;cluster.routing.allocation.enable&quot;: &quot;none&quot;} }'   同步刷新以加快分片恢复
-curl -XPOST 'localhost:9200/_flush/synced?pretty'  停止并升级各个节点（安装新的rpm或deb，更新配置文件，配置文件有较大改动）
-/etc/init.d/elasticsearch stop apt-get pruge elasticsearch(所有deb包已在本地apt源中,删除原配置文件) apt-get install elasticsearch=5.6.5   升级插件（需删除旧的插件）
-/usr/share/elasticsearch/bin/elasticsearch-plubin remove license /usr/share/elasticsearch/bin/elasticsearch-plubin remove marvel /usr/share/elasticsearch/bin/elasticsearch-plubin install x-pack   启动集群各个节点，保证所有节点均加入集群(优先启动master node)
-      
-      <p>
-        <a href="https://itech.red/2018/04/elk%E9%9B%86%E7%BE%A42.x%E5%88%B05.6%E5%8D%87%E7%BA%A7%E8%AE%B0%E5%BD%95/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>

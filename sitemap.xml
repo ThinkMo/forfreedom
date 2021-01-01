@@ -4,26 +4,31 @@
   
   <url>
     <loc>https://itech.red/categories/</loc>
-    <lastmod>2020-12-25T17:03:30+08:00</lastmod>
+    <lastmod>2020-12-31T17:13:30+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://itech.red/categories/k8s/</loc>
-    <lastmod>2020-12-25T17:03:30+08:00</lastmod>
+    <lastmod>2020-12-31T17:13:30+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://itech.red/2020/12/k8s-conformance-test%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</loc>
-    <lastmod>2020-12-25T17:03:30+08:00</lastmod>
+    <loc>https://itech.red/2020/12/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2020-12-31T17:13:30+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://itech.red/post/</loc>
-    <lastmod>2020-12-25T17:03:30+08:00</lastmod>
+    <lastmod>2020-12-31T17:13:30+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://itech.red/</loc>
+    <lastmod>2020-12-31T17:13:30+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://itech.red/2020/12/k8s-conformance-test%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</loc>
     <lastmod>2020-12-25T17:03:30+08:00</lastmod>
   </url>
   
