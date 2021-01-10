@@ -395,7 +395,7 @@ if (!doNotTrack) {
 		kubeDeps.EventClient = nil
 		kubeDeps.HeartbeatClient = nil
 		klog.Warningf(&quot;standalone mode, no API client&quot;)
-    // 根据配置创建各个clientset
+	// 根据配置创建各个clientset
 	case kubeDeps.KubeClient == nil, kubeDeps.EventClient == nil, kubeDeps.HeartbeatClient == nil:
 		clientConfig, closeAllConns, err := buildKubeletClientConfig(ctx, s, nodeName)
 		if err != nil {
@@ -435,7 +435,7 @@ if (!doNotTrack) {
 			return fmt.Errorf(&quot;failed to initialize kubelet heartbeat client: %v&quot;, err)
 		}
 	}
-    // 初始化auth
+	// 初始化auth
 	if kubeDeps.Auth == nil {
 		auth, runAuthenticatorCAReload, err := BuildAuth(nodeName, kubeDeps.KubeClient, s.KubeletConfiguration)
 		if err != nil {
@@ -444,7 +444,7 @@ if (!doNotTrack) {
 		kubeDeps.Auth = auth
 		runAuthenticatorCAReload(ctx.Done())
 	}
-    // 设置cgroupRoot
+	// 设置cgroupRoot
 	var cgroupRoots []string
 	nodeAllocatableRoot := cm.NodeAllocatableRoot(s.CgroupRoot, s.CgroupsPerQOS, s.CgroupDriver)
 	cgroupRoots = append(cgroupRoots, nodeAllocatableRoot)
@@ -467,7 +467,7 @@ if (!doNotTrack) {
 		// SystemCgroups is optional, so ignore if it isn't specified
 		cgroupRoots = append(cgroupRoots, s.SystemCgroups)
 	}
-    // 初始化cAdvisor
+	// 初始化cAdvisor
 	if kubeDeps.CAdvisorInterface == nil {
 		imageFsInfoProvider := cadvisor.NewImageFsInfoProvider(s.ContainerRuntime, s.RemoteRuntimeEndpoint)
 		kubeDeps.CAdvisorInterface, err = cadvisor.New(imageFsInfoProvider, s.RootDirectory, cgroupRoots, cadvisor.UsingLegacyCadvisorStats(s.ContainerRuntime, s.RemoteRuntimeEndpoint))
@@ -478,13 +478,13 @@ if (!doNotTrack) {
 
 	// Setup event recorder if required.
 	makeEventRecorder(kubeDeps, nodeName)
-    // 初始化containerManager
+	// 初始化containerManager
 	if kubeDeps.ContainerManager == nil {
 		if s.CgroupsPerQOS &amp;&amp; s.CgroupRoot == &quot;&quot; {
 			klog.Info(&quot;--cgroups-per-qos enabled, but --cgroup-root was not specified.  defaulting to /&quot;)
 			s.CgroupRoot = &quot;/&quot;
 		}
-       // 计算节点capacity
+		// 计算节点capacity
 		var reservedSystemCPUs cpuset.CPUSet
 		var errParse error
 		if s.ReservedSystemCPUs != &quot;&quot; {
@@ -548,7 +548,7 @@ if (!doNotTrack) {
 		}
 
 		devicePluginEnabled := utilfeature.DefaultFeatureGate.Enabled(features.DevicePlugins)
-       // 创建ContainerManager，其中包含cgroupManager、QosContainerManager、cpuManager等
+		// 创建ContainerManager，其中包含cgroupManager、QosContainerManager、cpuManager等
 		kubeDeps.ContainerManager, err = cm.NewContainerManager(
 			kubeDeps.Mounter,
 			kubeDeps.CAdvisorInterface,
@@ -587,7 +587,7 @@ if (!doNotTrack) {
 			return err
 		}
 	}
-    // 检查是否root启动
+	// 检查是否root启动
 	if err := checkPermissions(); err != nil {
 		klog.Error(err)
 	}
@@ -599,7 +599,7 @@ if (!doNotTrack) {
 	if err := oomAdjuster.ApplyOOMScoreAdj(0, int(s.OOMScoreAdj)); err != nil {
 		klog.Warning(err)
 	}
-    // 初始化kubeDeps中runtimeService、runtimeImageService，如果是docker启动dockershim
+	// 初始化kubeDeps中runtimeService、runtimeImageService，如果是docker启动dockershim
 	err = kubelet.PreInitRuntimeService(&amp;s.KubeletConfiguration,
 		kubeDeps, &amp;s.ContainerRuntimeOptions,
 		s.ContainerRuntime,
@@ -610,11 +610,11 @@ if (!doNotTrack) {
 	if err != nil {
 		return err
 	}
-    // 执行下一步RunKubelet
+	// 执行下一步RunKubelet
 	if err := RunKubelet(s, kubeDeps, s.RunOnce); err != nil {
 		return err
 	}
-    // 启动healthz http server
+	// 启动healthz http server
 	if s.HealthzPort &gt; 0 {
 		mux := http.NewServeMux()
 		healthz.InstallHandler(mux)
@@ -663,7 +663,7 @@ if (!doNotTrack) {
 	hostnameOverridden := len(kubeServer.HostnameOverride) &gt; 0
 	// Setup event recorder if required.
 	makeEventRecorder(kubeDeps, nodeName)
-    // 特权模式启动
+	// 特权模式启动
 	capabilities.Initialize(capabilities.Capabilities{
 		AllowPrivileged: true,
 	})
@@ -700,7 +700,7 @@ if (!doNotTrack) {
 		}
 		klog.Info(&quot;Started kubelet as runonce&quot;)
 	} else {
-	    // 调用startKubelet
+        // 调用startKubelet
 		startKubelet(k, podCfg, &amp;kubeServer.KubeletConfiguration, kubeDeps, kubeServer.EnableCAdvisorJSONEndpoints, kubeServer.EnableServer)
 		klog.Info(&quot;Started kubelet&quot;)
 	}
@@ -727,8 +727,8 @@ if (!doNotTrack) {
 }
 
 func NewMainKubelet(...){
-    ......
-    // 创建PodConfig，watch apiserver、file、http等
+	......
+	// 创建PodConfig，watch apiserver、file、http等
 	if kubeDeps.PodConfig == nil {
 		var err error
 		kubeDeps.PodConfig, err = makePodSourceConfig(kubeCfg, kubeDeps, nodeName)
@@ -738,7 +738,7 @@ func NewMainKubelet(...){
 	}
 	......
 	// 创建service informer、node、oom watcher
-    var serviceLister corelisters.ServiceLister
+	var serviceLister corelisters.ServiceLister
 	var serviceHasSynced cache.InformerSynced
 	if kubeDeps.KubeClient != nil {
 		kubeInformers := informers.NewSharedInformerFactory(kubeDeps.KubeClient, 0)
@@ -791,7 +791,7 @@ func NewMainKubelet(...){
 </code></pre><p><strong>NewMainKubelet</strong> 创建并初始化Kubelet结构体，其依赖各种Manager、podConfig、pleg、podWorkers的初始化</p>
 <p>6 pkg/kubelet/kubelet.go:1314   Kubelet.Run方法</p>
 <pre><code>func (kl *Kubelet) Run(updates &lt;-chan kubetypes.PodUpdate) {
-    // 初始化与runtime无关的逻辑，metrics、imageManager等
+	// 初始化与runtime无关的逻辑，metrics、imageManager等
 	if err := kl.initializeModules(); err != nil {
 		kl.recorder.Eventf(kl.nodeRef, v1.EventTypeWarning, events.KubeletSetupFailed, err.Error())
 		klog.Fatal(err)
@@ -872,7 +872,7 @@ func (kl *Kubelet) syncLoopIteration(configCh &lt;-chan kubetypes.PodUpdate, han
 			klog.Errorf(&quot;Invalid event type received: %d.&quot;, u.Op)
 		}
 		kl.sourcesReady.AddSource(u.Source)
-    // 处理来自runtime的容器变化
+	// 处理来自runtime的容器变化
 	case e := &lt;-plegCh:
 		if e.Type == pleg.ContainerStarted {
 			kl.lastContainerStartedTime.Add(e.ID, time.Now())
@@ -1013,8 +1013,8 @@ func (p *podWorkers) managePodLoop(podUpdates &lt;-chan UpdatePodOptions) {
 		}
 		return nil
 	}
-    ....
-    // 是否能运行pod
+	....
+	// 是否能运行pod
 	runnable := kl.canRunPod(pod)
 	if !runnable.Admit {
 		//不能回写container等待原因
@@ -1189,7 +1189,7 @@ func (p *podWorkers) managePodLoop(podUpdates &lt;-chan UpdatePodOptions) {
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2021/01/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%88%A0%E9%99%A4pod%E4%B8%8B/" data-tooltip="kubelet源码解析-创建与删除POD(下)">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -1276,7 +1276,7 @@ func (p *podWorkers) managePodLoop(podUpdates &lt;-chan UpdatePodOptions) {
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://itech.red/2021/01/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%88%A0%E9%99%A4pod%E4%B8%8B/" data-tooltip="kubelet源码解析-创建与删除POD(下)">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>

@@ -205,6 +205,70 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://itech.red/2021/01/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%88%A0%E9%99%A4pod%E4%B8%8B/">
+          kubelet源码解析-创建与删除POD(下)
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2021-01-08T15:59:30&#43;08:00">
+        
+  
+  
+  
+  
+    2021-01-08 15:59:30
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://itech.red/categories/k8s">k8s</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        kubeGenericRuntimeManager kubeGenericRuntimeManager为kubelet提供Runtime接口, 管理pods与containers生命周期, 调用remote runtime api完成操作；Kubelet与CRI交互如下图
+SyncPod 接上文Pod处理走到调用kubeGenericRuntimeManager.SyncPod
+pkg/kubelet/kuberuntime/kuberuntime_manager.go:661
+func (m *kubeGenericRuntimeManager) SyncPod(pod *v1.Pod, podStatus *kubecontainer.PodStatus, pullSecrets []v1.Secret, backOff *flowcontrol.Backoff) (result kubecontainer.PodSyncResult) { // 获得sandbox、container changes podContainerChanges := m.computePodActions(pod, podStatus) ...... // kill pod if podContainerChanges.KillPod { ....... // 先停止pod中所有conatiners，执行preStop，再停止sandbox killResult := m.killPodWithSyncResult(pod, kubecontainer.ConvertPodStatusToRunningPod(m.runtimeName, podStatus), nil) result.AddPodSyncResult(killResult) if killResult.Error() != nil { klog.Errorf(&quot;killPodWithSyncResult failed: %v&quot;, killResult.Error()) return } // 如果新建sandbox则清楚init containers if podContainerChanges.CreateSandbox { m.purgeInitContainers(pod, podStatus) } } else { // kill掉列表中所有containers，主要是处于未知状态的containers for containerID, containerInfo := range podContainerChanges.
+      
+      <p>
+        <a href="https://itech.red/2021/01/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%88%A0%E9%99%A4pod%E4%B8%8B/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://itech.red/2020/12/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%E4%B8%8Epod%E5%A4%84%E7%90%86%E4%B8%8A/">
           kubelet源码解析-启动流程与POD处理(上)
         </a>
@@ -579,69 +643,6 @@ threads = [] for i in range(100): t = threading.
 </article>
 
           
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/">
-          ElasticSearch配置滚动更新
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2018-08-06T19:47:59&#43;08:00">
-        
-  
-  
-  
-  
-    2018-08-06 19:47:59
-  
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://itech.red/categories/elk">ELK</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        起因 最近Logstash经常打印如下日志内容，虽然只是INFO级别的错误但还是引起了我的注意，大概意思是ES的bulk thread pool大小为32已经满负荷，队列也满了，所以拒绝了Logstash的bulk请求
-[2018-06-23T08:00:47,281][INFO ][logstash.outputs.elasticsearch] retrying failed action with response code: 429 ({&quot;type&quot;=&gt;&quot;es_rejected_execution_exception&quot;, &quot;reason&quot;=&gt;&quot;rejected execution of org.elasticsearch.transport.TransportService$7@177d229b on EsThreadPoolExecutor[bulk, queue capacity = 1000, org.elasticsearch.common.util.concurrent.EsThreadPoolExecutor@66a1a8c3[Running, pool size = 32, active threads = 32, queued tasks = 1019, completed tasks = 832616617]]&quot;}) 解决思路  扩大处理bulk的thread pool线程数量  当前使用的服务器CPU核数为176(cat /proc/cpuinfo)，而在ES源码中为了避免引起Java oom线程数会取min(32, 核数)，所以造成默认的thread_pool.bulk.size为32，为了扩大线程容量需在ES中添加以下配置 processors: 96 thread_pool.bulk.size: 96  增加等待队列长度  thread_pool.bulk.queue_size: 3000 更新配置 这些配置不能通过ES Setting API来更改，只能通过滚动重启的方式，下面简单记录下过程
- 禁止分配分片  curl -X PUT &quot;ES_HOST:9200/_cluster/settings&quot; -H 'Content-Type: application/json' -d' { &quot;transient&quot;: { &quot;cluster.
-      
-      <p>
-        <a href="https://itech.red/2018/08/elasticsearch%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
           
   <div class="pagination-bar">
     <ul class="pagination">
@@ -656,7 +657,7 @@ threads = [] for i in range(100): t = threading.
           </li>
         
       
-      <li class="pagination-number">第 1 页 共 2 页</li>
+      <li class="pagination-number">第 1 页 共 3 页</li>
     </ul>
   </div>
 

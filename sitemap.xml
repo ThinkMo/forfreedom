@@ -4,26 +4,31 @@
   
   <url>
     <loc>https://itech.red/categories/</loc>
-    <lastmod>2020-12-31T17:13:30+08:00</lastmod>
+    <lastmod>2021-01-08T15:59:30+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://itech.red/categories/k8s/</loc>
-    <lastmod>2020-12-31T17:13:30+08:00</lastmod>
+    <lastmod>2021-01-08T15:59:30+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://itech.red/2020/12/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%E4%B8%8Epod%E5%A4%84%E7%90%86%E4%B8%8A/</loc>
-    <lastmod>2020-12-31T17:13:30+08:00</lastmod>
+    <loc>https://itech.red/2021/01/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%88%A0%E9%99%A4pod%E4%B8%8B/</loc>
+    <lastmod>2021-01-08T15:59:30+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://itech.red/post/</loc>
-    <lastmod>2020-12-31T17:13:30+08:00</lastmod>
+    <lastmod>2021-01-08T15:59:30+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://itech.red/</loc>
+    <lastmod>2021-01-08T15:59:30+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://itech.red/2020/12/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%E4%B8%8Epod%E5%A4%84%E7%90%86%E4%B8%8A/</loc>
     <lastmod>2020-12-31T17:13:30+08:00</lastmod>
   </url>
   
