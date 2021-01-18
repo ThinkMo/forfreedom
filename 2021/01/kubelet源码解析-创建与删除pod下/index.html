@@ -759,7 +759,7 @@ if (!doNotTrack) {
 	return err
 }
 </code></pre><p><strong>killContainer</strong>  先执行preStop hook再通过runtimeService停止容器</p>
-<p>以上是Kubelet创建删除POD的流程，之后是通过CRI  RuntimeService完成容器的创建与删除，具体说明可以参考<a href="https://kubernetes.io/blog/2016/12/container-runtime-interface-cri-in-kubernetes/">Introducing Container Runtime Interface (CRI) in Kubernetes</a>，<a href="https://github.com/opencontainers/runtime-spec">SPEC</a>；其中比较特殊的是dockershim其相当于实现了一个cantainer runtime server，有机会可以深入看下dockershim的实现。</p>
+<p>以上是Kubelet创建删除POD的主流程，之后是通过CRI  RuntimeService完成容器的创建与删除，具体说明可以参考<a href="https://kubernetes.io/blog/2016/12/container-runtime-interface-cri-in-kubernetes/">Introducing Container Runtime Interface (CRI) in Kubernetes</a>，<a href="https://github.com/opencontainers/runtime-spec">SPEC</a>；其中比较特殊的是dockershim其相当于实现了一个cantainer runtime server，有机会可以深入看下dockershim的实现。</p>
 
               
             </div>

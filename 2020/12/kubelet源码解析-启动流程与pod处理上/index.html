@@ -921,7 +921,7 @@ func (kl *Kubelet) syncLoopIteration(configCh &lt;-chan kubetypes.PodUpdate, han
 	}
 	return true
 }
-</code></pre><p>** syncLoopIteration** 根据事件类型调用对应的handler进行处理</p>
+</code></pre><p><strong>syncLoopIteration</strong> 根据事件类型调用对应的handler进行处理</p>
 <p>8 pkg/kubelet/pod_workers.go:200</p>
 <p>对不同事件有不同的处理handler，大部分handler都会通过dispatchWork进入podWorkers.UpdatePod</p>
 <pre><code>// podWorkers存储每个pod的goroutine并处理pod的update到对应goroutine
