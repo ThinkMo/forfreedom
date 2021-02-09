@@ -6,7 +6,20 @@
     <description>Recent content in k8s on 平凡世界</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 08 Jan 2021 15:59:30 +0800</lastBuildDate><atom:link href="https://itech.red/categories/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Feb 2021 16:01:30 +0800</lastBuildDate><atom:link href="https://itech.red/categories/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>kubelet源码解析之PLEG</title>
+      <link>https://itech.red/2021/02/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8Bpleg/</link>
+      <pubDate>Tue, 09 Feb 2021 16:01:30 +0800</pubDate>
+      
+      <guid>https://itech.red/2021/02/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8Bpleg/</guid>
+      <description>kubelet源码分析之PLEG PLEG介绍 Pleg(Pod Lifecycle Event Generator) 是kubelet 的核心模块，PLEG周期性调用container runtime获取本节点containers/sandboxes的信息(像docker ps)，并与自身维护的podRecords信息进行对比，生成对应的 PodLifecycleEvent并发送到plegCh中，在kubelet syncLoop中对plegCh进行消费处理，最终达到用户的期望状态
+在之前的kubelet版本中由每个pod的podWorker的goroutine来查询runtime进行对比，当pod数量逐渐增大时，大量周期性的查询导致高cpu使用率、低性能、难以扩展等问题，为了改进以上问题，引入了PLEG
+创建 在/pkg/kubelet/kubelet.go:660 在函数KubeletNewMainKubelet中伴随Kubelet结构体创建
+ // 传入runtime、chan缓冲大小、定时周期、podCache创建pleg klet.pleg = pleg.NewGenericPLEG(klet.containerRuntime, plegChannelCapacity, plegRelistPeriod, klet.podCache, clock.RealClock{}) pkg/kubelet/pleg/generic.go:109 工厂函数NewGenericPLEG创建返回接口类型PodLifecycleEventGenerator
+// NewGenericPLEG instantiates a new GenericPLEG object and return it. func NewGenericPLEG(runtime kubecontainer.Runtime, channelCapacity int, relistPeriod time.Duration, cache kubecontainer.Cache, clock clock.Clock) PodLifecycleEventGenerator { return &amp;amp;GenericPLEG{ // 定时relist周期 relistPeriod: relistPeriod, // KubeGenericRuntimeManager runtime: runtime, // 与kubelet通信带缓冲chan eventChannel: make(chan *PodLifecycleEvent, channelCapacity), podRecords: make(podRecords), // podCache cache: cache, clock: clock, } } // podRecords定义 type podRecord struct { // 历史pod old *kubecontainer.</description>
+    </item>
+    
     <item>
       <title>kubelet源码解析-创建与删除POD(下)</title>
       <link>https://itech.red/2021/01/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%88%A0%E9%99%A4pod%E4%B8%8B/</link>

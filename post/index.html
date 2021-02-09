@@ -206,6 +206,71 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://itech.red/2021/02/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8Bpleg/">
+          kubelet源码解析之PLEG
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2021-02-09T16:01:30&#43;08:00">
+        
+  
+  
+  
+  
+    2021-02-09 16:01:30
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://itech.red/categories/k8s">k8s</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        kubelet源码分析之PLEG PLEG介绍 Pleg(Pod Lifecycle Event Generator) 是kubelet 的核心模块，PLEG周期性调用container runtime获取本节点containers/sandboxes的信息(像docker ps)，并与自身维护的podRecords信息进行对比，生成对应的 PodLifecycleEvent并发送到plegCh中，在kubelet syncLoop中对plegCh进行消费处理，最终达到用户的期望状态
+在之前的kubelet版本中由每个pod的podWorker的goroutine来查询runtime进行对比，当pod数量逐渐增大时，大量周期性的查询导致高cpu使用率、低性能、难以扩展等问题，为了改进以上问题，引入了PLEG
+创建 在/pkg/kubelet/kubelet.go:660 在函数KubeletNewMainKubelet中伴随Kubelet结构体创建
+ // 传入runtime、chan缓冲大小、定时周期、podCache创建pleg klet.pleg = pleg.NewGenericPLEG(klet.containerRuntime, plegChannelCapacity, plegRelistPeriod, klet.podCache, clock.RealClock{}) pkg/kubelet/pleg/generic.go:109 工厂函数NewGenericPLEG创建返回接口类型PodLifecycleEventGenerator
+// NewGenericPLEG instantiates a new GenericPLEG object and return it. func NewGenericPLEG(runtime kubecontainer.Runtime, channelCapacity int, relistPeriod time.Duration, cache kubecontainer.Cache, clock clock.Clock) PodLifecycleEventGenerator { return &amp;GenericPLEG{ // 定时relist周期 relistPeriod: relistPeriod, // KubeGenericRuntimeManager runtime: runtime, // 与kubelet通信带缓冲chan eventChannel: make(chan *PodLifecycleEvent, channelCapacity), podRecords: make(podRecords), // podCache cache: cache, clock: clock, } } // podRecords定义 type podRecord struct { // 历史pod old *kubecontainer.
+      
+      <p>
+        <a href="https://itech.red/2021/02/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8Bpleg/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://itech.red/2021/01/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%88%A0%E9%99%A4pod%E4%B8%8B/">
           kubelet源码解析-创建与删除POD(下)
         </a>
@@ -572,70 +637,6 @@ layouts/partials/post/disqus.html &lt;!-- 来必力City版安装代码 --&gt; &l
       
       <p>
         <a href="https://itech.red/2018/12/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://itech.red/2018/08/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">
-          Python GIL与线程安全
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2018-08-10T15:17:59&#43;08:00">
-        
-  
-  
-  
-  
-    2018-08-10 15:17:59
-  
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://itech.red/categories/python">python</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        python GIL与多线程  GIL: Global Interpreter Lock(全局解释器锁)，python虚拟机一级的互斥机制，用来保护资源的互斥访问，尤其是python对象的引用计数。 python代码执行  获得GIL 执行代码直到被阻塞或N条指令执行之后(py3:超时时间)被python 虚拟机调度 释放GIL 何时挂起当前线程：被阻塞或N条指令执行之后(py3:超时时间15ms) 如何选择等待的线程进行调度：由底层操作系统决定  python多线程机制是在GIL基础上实现的 python的多线程机制建立在操作系统的原生线程的基础之上  Thread safe in python Python线程安全与传统的java、c有很大不同，python的很多操作都是原子的，例如sort函数本身是原子操作，不会被其他线程看到排序一半的list；而有一些操作不是原子的，例如+=
-n=0 def add(): global n n += 1 import dis #将python byte code转为助记符号 dis.dis(add) 3 0 LOAD_GLOBAL 0 (n) 3 LOAD_CONST 1 (1) 6 INPLACE_ADD 7 STORE_GLOBAL 0 (n) 10 LOAD_CONST 0 (None) 13 RETURN_VALUE 操作步骤为：
- 加载n到栈 加载常量n到栈 将两者相加 将结果付给n  由于操作不是原子的，python解释器可能在某一步被抢占，造成不一致的情况，执行以下代码，将不一定会得到100
-threads = [] for i in range(100): t = threading.
-      
-      <p>
-        <a href="https://itech.red/2018/08/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>
