@@ -6,7 +6,17 @@
     <description>Recent content in Posts on 平凡世界</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 09 Feb 2021 16:01:30 +0800</lastBuildDate><atom:link href="https://itech.red/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Feb 2021 10:13:30 +0800</lastBuildDate><atom:link href="https://itech.red/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>kube-scheduler源码解析</title>
+      <link>https://itech.red/2021/02/kube-scheduler%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Tue, 23 Feb 2021 10:13:30 +0800</pubDate>
+      
+      <guid>https://itech.red/2021/02/kube-scheduler%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</guid>
+      <description>kube-scheduler设计 scheduler作为k8s的核心组件之一，其功能为每个Pod选择一个合适的node，其流程分为3步，首先获得未调度podList，然后通过一系列调度算法为Pod选择合适的node，将数据发送到apiserver。调度算法主要包含两部分predicates(预选) 和 priorities(优选)，最后将评分最高的node更新到Pod
+For given pod: +---------------------------------------------+ | Schedulable nodes: | | | | +--------+ +--------+ +--------+ | | | node 1 | | node 2 | | node 3 | | | +--------+ +--------+ +--------+ | | | +-------------------+-------------------------+ | | v +-------------------+-------------------------+ Pred. filters: node 3 doesn&#39;t have enough resource +-------------------+-------------------------+ | | v +-------------------+-------------------------+ | remaining nodes: | | +--------+ +--------+ | | | node 1 | | node 2 | | | +--------+ +--------+ | | | +-------------------+-------------------------+ | | v +-------------------+-------------------------+ Priority function: node 1: p=2 node 2: p=5 +-------------------+-------------------------+ | | v select max{node priority} = node 2 scheduler支持的两种扩展方式</description>
+    </item>
+    
     <item>
       <title>kubelet源码解析之PLEG</title>
       <link>https://itech.red/2021/02/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8Bpleg/</link>

@@ -4,26 +4,31 @@
   
   <url>
     <loc>https://itech.red/categories/</loc>
-    <lastmod>2021-02-09T16:01:30+08:00</lastmod>
+    <lastmod>2021-02-23T10:13:30+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://itech.red/categories/k8s/</loc>
-    <lastmod>2021-02-09T16:01:30+08:00</lastmod>
+    <lastmod>2021-02-23T10:13:30+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://itech.red/2021/02/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8Bpleg/</loc>
-    <lastmod>2021-02-09T16:01:30+08:00</lastmod>
+    <loc>https://itech.red/2021/02/kube-scheduler%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2021-02-23T10:13:30+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://itech.red/post/</loc>
-    <lastmod>2021-02-09T16:01:30+08:00</lastmod>
+    <lastmod>2021-02-23T10:13:30+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://itech.red/</loc>
+    <lastmod>2021-02-23T10:13:30+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://itech.red/2021/02/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8Bpleg/</loc>
     <lastmod>2021-02-09T16:01:30+08:00</lastmod>
   </url>
   

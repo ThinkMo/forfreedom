@@ -205,6 +205,72 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://itech.red/2018/12/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D/">
+          构建ElasticSearch集群之前
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-12-12T17:03:30&#43;08:00">
+        
+  
+  
+  
+  
+    2018-12-12 17:03:30
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://itech.red/categories/elk">ELK</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        摘自designing the perfect elasticsearch cluster 
+ 本文包含了设计elasticsearch cluster需要了解的方方面面，本文不会告诉你如何设计一个完美的es集群。
+  elasticsearch是一个搜索引擎，不是数据库，不会替代mysql
+  elasticsearch是一个弹性搜索引擎，弹性体现在水平扩展、索引分片；elastic将索引拆分成多个分片存储在不同的host上，分片数量默认为5，需要根据实际workload调整以达到最优性能
+  高可用设计
+  elasticsearch集群包含一下4种节点类型： master nodes: 主节点 data node: 数据节点 http node: 查询节点 coordinating node: 协作节点 最小高可用集群设计： 1. 3数据中心 2. 3主节点，奇数个主节点防止脑裂，将3个主机点分散在各个数据中心 3. 2查询节点，在主节点数据中心各一个 4. 任意数量的数据节点 ES的分片分配算法允许分片分配在不同区域内，根据rack配置将主分片、备份分片分配在不同的区域中 cluster.routing.allocation.awareness.attributes: &quot;rack_id&quot; node.attr.rack_id: &quot;dontsmokecrack&quot;  理解luence: elasticsearch使用了luence库  1. 每个elasticsearch分片是一个luence索引，一个luence索引最大可包含2,147,483,519条记录。 2. luence将索引划分为多个段，luence顺序搜索这些段；当新写请求来时会创建段，写提交或关闭时， 段即不可变，有新记录添加到elasticsearch index时，luence会创建新的段，luence会不断的将小的段 合并成大的段。luence搜索段是串行的，所以段越多延迟越大。当luence合并时会占用CPU与I/O进而降 低index速度。 3. 当更新或删除文档时luence执行copy on write操作，删除只将文档标记为已删除，索引磁盘占用会 一直增长，除非整个索引删除。 4. luence执行merge时，会将两个段合并成一个新的段后再删除旧的段，merge要确保磁盘空间足够  硬件  CPU: 复杂查询 ElasticSearch主要通过thread_pools使用CPU资源，主要的thread_pool有generic、index、get、bulk、 search等，可用通过GET _nodes/thread_pool?
+      
+      <p>
+        <a href="https://itech.red/2018/12/%E6%9E%84%E5%BB%BAelasticsearch%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%8D/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://itech.red/2018/08/python-gil%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">
           Python GIL与线程安全
         </a>
@@ -599,69 +665,6 @@ client: 192.168.21.2 method: GET request: /index.html bytes: 15823 duration: 0.0
       
       <p>
         <a href="https://itech.red/2017/04/ext2%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%91/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/">
-          springmvc实现导出数据excel
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2016-11-23T18:47:34&#43;08:00">
-        
-  
-  
-  
-  
-    2016-11-23 18:47:34
-  
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://itech.red/categories/java">java</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        springmvc实现导出数据excel
-最近在项目中要实现将数据导出为excel的功能，研究了下目前springmvc框架下excel导出的方式，在spring 4.3中使用AbstractXlsView来实现，AbstractExcelView已被弃用；但这里介绍的是直接用apache poi实现的一种方式。
- model如下  package red.itech.blog.dao.model; import java.util.Date; /** * Created by you on 16/10/28. */ public class Blog { private String author; private Date createdAt; private String title; private long count; public Blog(){} public Blog(String author, Date createdAt, String title, long count){ this.author = author; this.count = count; this.createdAt = createdAt; this.title =title; } public void setAuthor(String author) { this.author = author; } public void setCreatedAt(Date createdAt) { this.
-      
-      <p>
-        <a href="https://itech.red/2016/11/springmvc%E5%AE%9E%E7%8E%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AEexcel/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>

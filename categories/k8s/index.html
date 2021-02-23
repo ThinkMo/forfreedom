@@ -208,6 +208,68 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://itech.red/2021/02/kube-scheduler%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+          kube-scheduler源码解析
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2021-02-23T10:13:30&#43;08:00">
+        
+  
+  
+  
+  
+    2021-02-23 10:13:30
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://itech.red/categories/k8s">k8s</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        kube-scheduler设计 scheduler作为k8s的核心组件之一，其功能为每个Pod选择一个合适的node，其流程分为3步，首先获得未调度podList，然后通过一系列调度算法为Pod选择合适的node，将数据发送到apiserver。调度算法主要包含两部分predicates(预选) 和 priorities(优选)，最后将评分最高的node更新到Pod
+For given pod: +---------------------------------------------+ | Schedulable nodes: | | | | +--------+ +--------+ +--------+ | | | node 1 | | node 2 | | node 3 | | | +--------+ +--------+ +--------+ | | | +-------------------+-------------------------+ | | v +-------------------+-------------------------+ Pred. filters: node 3 doesn't have enough resource +-------------------+-------------------------+ | | v +-------------------+-------------------------+ | remaining nodes: | | +--------+ +--------+ | | | node 1 | | node 2 | | | +--------+ +--------+ | | | +-------------------+-------------------------+ | | v +-------------------+-------------------------+ Priority function: node 1: p=2 node 2: p=5 +-------------------+-------------------------+ | | v select max{node priority} = node 2 scheduler支持的两种扩展方式
+      
+      <p>
+        <a href="https://itech.red/2021/02/kube-scheduler%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+            
+              
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://itech.red/2021/02/kubelet%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8Bpleg/">
           kubelet源码解析之PLEG
         </a>
