@@ -206,6 +206,143 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://itech.red/2022/02/%E6%B7%B1%E5%85%A5informer/">
+           深入informer
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2022-02-16T19:58:44&#43;08:00">
+        
+  
+  
+  
+  
+    2022-02-16 19:58:44
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://itech.red/categories/k8s">k8s</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        Informer介绍 client-go中提供的informer主要用来监听k8s资源的创建、删除、更新操作，通过事件回调交给controller进一步处理。
+informer整体机制如下图:
+(from client-go under the hood)
+上半部分是由client-go实现的，而下半部分黄色图标需要开发者自行实现逻辑，在使用kubebuilder进行controller开发时，框架会自动实现这部分，开发者只需专注Reconcile逻辑。
+  Reflector：用于Watch指定的kubernetes资源，当资源发生变化时，比如Added、Modified、Deleted调用DeltaFIFO将资源对象与DeltaType存储起来。
+  DeltaFIFO： 先进先出队列，用于存储资源变化类型及对应资源对象，DeltaType有Added、Updated、Deleted、Sync等；其Pop方法会将队列中的资源对象取出并调用informer注册的函数进行处理。
+  Indexer：kubernetes资源对象缓存，可以直接从本地缓存读取对象，减少对apiserver的访问；在DeltaFIFO Pop的处理中，将对象资源进行存储、更新、删除。
+  深入Informer 让我们从NewSharedIndexInformer一起看一下informer的具体实现，Shared Infomer对同一种资源共用一个Reflector，从而减少apiserver负载。
+1 新建Informer
+NewSharedIndexInformer初始化sharedIndexInformer，主要包括注册、处理分发回调事件的processor、新建Indexer、listerWatcher接口实现。
+func NewSharedIndexInformer(lw ListerWatcher, exampleObject runtime.Object, defaultEventHandlerResyncPeriod time.Duration, indexers Indexers) SharedIndexInformer { realClock := &amp;clock.RealClock{} sharedIndexInformer := &amp;sharedIndexInformer{ // 注册、处理回调函数 processor: &amp;sharedProcessor{clock: realClock}, // 创建indexer indexer: NewIndexer(DeletionHandlingMetaNamespaceKeyFunc, indexers), // 实现具体的listwatch接口 listerWatcher: lw, // 资源对象 objectType: exampleObject, resyncCheckPeriod: defaultEventHandlerResyncPeriod, defaultEventHandlerResyncPeriod: defaultEventHandlerResyncPeriod, cacheMutationDetector: NewCacheMutationDetector(fmt.Sprintf(&quot;%T&quot;, exampleObject)), clock: realClock, } return sharedIndexInformer } 看一下Indexer的具体实现，简单来说是使用 map + sync.
+      
+      <p>
+        <a href="https://itech.red/2022/02/%E6%B7%B1%E5%85%A5informer/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://itech.red/2021/03/%E4%BD%BF%E7%94%A8swag%E7%94%9F%E6%88%90api%E6%96%87%E6%A1%A3/">
+          使用swag生成API文档
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2021-03-17T16:33:00&#43;08:00">
+        
+  
+  
+  
+  
+    2021-03-17 16:33:00
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://itech.red/categories/golang">golang</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        使用swag生成API文档 swagger介绍 Swagger是用来描述RESTful API的接口语言，可以帮助开发者自动生成在线API接口文档以及功能测试代码。
+swag可以将golang的注释转化为Swagger 2.0文档，支持多种golang Web框架，可以快速集成到我们的项目中。
+使用gin-swagger 对接口代码添加注释 为应用添加注释(这里是通用的API信息)
+代码示例如下
+// @title Swagger Example API // @version 1.0 // @description 这个一个demo // @contact.name thinkmo // @contact.email tryit0714@gmail.com func main(){ } 主要注释如下
+   注释 说明 示例     title 必填 应用程序的名称。 // @title Swagger Example API   version 必填 提供应用程序API的版本。 // @version 1.0   description 应用程序的简短描述。 // @description This is a sample server celler server.
+      
+      <p>
+        <a href="https://itech.red/2021/03/%E4%BD%BF%E7%94%A8swag%E7%94%9F%E6%88%90api%E6%96%87%E6%A1%A3/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://itech.red/2021/02/kube-scheduler%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
           kube-scheduler源码解析
         </a>
@@ -510,137 +647,6 @@ func main() { rand.Seed(time.Now().UnixNano()) command := app.NewKubeletCommand(
 </article>
 
           
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://itech.red/2020/12/%E5%8D%9A%E5%AE%A2theme%E4%BF%AE%E6%94%B9%E8%AE%B0%E5%BD%95/">
-          博客theme修改记录
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2020-12-13T21:40:30&#43;08:00">
-        
-  
-  
-  
-  
-    2020-12-13 21:40:30
-  
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://itech.red/categories/others">others</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        blog theme修改记录 之前blog theme相关修改的代码丢失了， 需要重新配置一下，顺手记录一下
-博客由hugo生成，关于hugo看这里
-hugo主题使用hugo-tranquilpeak-theme
-评论设置 hugo-tranquilpeak-theme 仅支持disqus，但对于国内来说无法访问，这里修改了相关代码，使用来必力，注册来必力，选择免费的City版本安装
-删除默认的 layouts/partials/post/disqus.html 的代码，将安装代码注入即可
-layouts/partials/post/disqus.html &lt;!-- 来必力City版安装代码 --&gt; &lt;div id=&quot;lv-container&quot; data-id=&quot;city&quot; data-uid=&quot;你的uid&quot;&gt; &lt;script type=&quot;text/javascript&quot;&gt; (function(d, s) { var j, e = d.getElementsByTagName(s)[0]; if (typeof LivereTower === 'function') { return; } j = d.createElement(s); j.src = 'https://cdn-city.livere.com/js/embed.dist.js'; j.async = true; e.parentNode.insertBefore(j, e); })(document, 'script'); &lt;/script&gt; &lt;noscript&gt;为正常使用来必力评论功能请激活JavaScript&lt;/noscript&gt; &lt;/div&gt; &lt;!-- City版安装代码已完成 --&gt; 浏览统计 浏览统计使用的是不蒜子
-修改hugo配置文件config.toml在[params]下添加相关js
- [[params.customJS]] src = &quot;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&quot; 修改layouts/partials/footer.html在copyright下添加
- &lt;div class=&quot;busuanzi-count&quot;&gt; &lt;span class=&quot;site-uv&quot;&gt; &lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt; &lt;span class=&quot;busuanzi-value&quot; id=&quot;busuanzi_value_site_uv&quot;&gt;&lt;/span&gt; &lt;/span&gt; &lt;span class=&quot;site-pv&quot;&gt; &lt;i class=&quot;fa fa-eye&quot;&gt;&lt;/i&gt; &lt;span class=&quot;busuanzi-value&quot; id=&quot;busuanzi_value_site_pv&quot;&gt;&lt;/span&gt; &lt;/span&gt; &lt;/div&gt; 
-      
-      <p>
-        <a href="https://itech.red/2020/12/%E5%8D%9A%E5%AE%A2theme%E4%BF%AE%E6%94%B9%E8%AE%B0%E5%BD%95/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://itech.red/2020/07/k8s-1.17.5%E9%AB%98%E5%8F%AF%E7%94%A8%E9%83%A8%E7%BD%B2/">
-          k8s 1.17.5高可用部署
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2020-07-23T17:03:30&#43;08:00">
-        
-  
-  
-  
-  
-    2020-07-23 17:03:30
-  
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://itech.red/categories/k8s">k8s</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        k8s 1.17.5高可用部署 环境准备 K8S版本: 1.17.5
-   IP 操作系统 主机配置 备注     192.168.0.2 debian9.5 4核8G control plane(apiserver/scheduler/controller/etcd)   192.168.0.3 debian9.5 4核8G control plane(apiserver/scheduler/controller/etcd)   192.168.0.4 debian9.5 4核8G control plane(apiserver/scheduler/controller/etcd)   192.168.0.5 debian9.5 4核8G node   192.168.0.6 debian9.5 4核8G node   192.168.0.7 debian9.5 4核8G node   59.111.230.7 LB X 负载均衡, 后端为控制节点(可换为keepalived VIP)    机器初始化(所有节点操作)  使用aliyun debian源 部署docker 18.09.9 (https://docs.
-      
-      <p>
-        <a href="https://itech.red/2020/07/k8s-1.17.5%E9%AB%98%E5%8F%AF%E7%94%A8%E9%83%A8%E7%BD%B2/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
           
   <div class="pagination-bar">
     <ul class="pagination">
@@ -663,7 +669,7 @@ layouts/partials/post/disqus.html &lt;!-- 来必力City版安装代码 --&gt; &l
         </section>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
-    &copy; 2021 <a href="https://github.com/ThinkMo">ThinkMo</a>. All Rights Reserved
+    &copy; 2022 <a href="https://github.com/ThinkMo">ThinkMo</a>. All Rights Reserved
   </span>
   <div class="busuanzi-count">
     <span class="site-uv">

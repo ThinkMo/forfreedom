@@ -6,7 +6,26 @@
     <description>Recent content in k8s on 平凡世界</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Feb 2021 10:13:30 +0800</lastBuildDate><atom:link href="https://itech.red/categories/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Feb 2022 19:58:44 +0800</lastBuildDate><atom:link href="https://itech.red/categories/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title> 深入informer</title>
+      <link>https://itech.red/2022/02/%E6%B7%B1%E5%85%A5informer/</link>
+      <pubDate>Wed, 16 Feb 2022 19:58:44 +0800</pubDate>
+      
+      <guid>https://itech.red/2022/02/%E6%B7%B1%E5%85%A5informer/</guid>
+      <description>Informer介绍 client-go中提供的informer主要用来监听k8s资源的创建、删除、更新操作，通过事件回调交给controller进一步处理。
+informer整体机制如下图:
+(from client-go under the hood)
+上半部分是由client-go实现的，而下半部分黄色图标需要开发者自行实现逻辑，在使用kubebuilder进行controller开发时，框架会自动实现这部分，开发者只需专注Reconcile逻辑。
+  Reflector：用于Watch指定的kubernetes资源，当资源发生变化时，比如Added、Modified、Deleted调用DeltaFIFO将资源对象与DeltaType存储起来。
+  DeltaFIFO： 先进先出队列，用于存储资源变化类型及对应资源对象，DeltaType有Added、Updated、Deleted、Sync等；其Pop方法会将队列中的资源对象取出并调用informer注册的函数进行处理。
+  Indexer：kubernetes资源对象缓存，可以直接从本地缓存读取对象，减少对apiserver的访问；在DeltaFIFO Pop的处理中，将对象资源进行存储、更新、删除。
+  深入Informer 让我们从NewSharedIndexInformer一起看一下informer的具体实现，Shared Infomer对同一种资源共用一个Reflector，从而减少apiserver负载。
+1 新建Informer
+NewSharedIndexInformer初始化sharedIndexInformer，主要包括注册、处理分发回调事件的processor、新建Indexer、listerWatcher接口实现。
+func NewSharedIndexInformer(lw ListerWatcher, exampleObject runtime.Object, defaultEventHandlerResyncPeriod time.Duration, indexers Indexers) SharedIndexInformer { realClock := &amp;amp;clock.RealClock{} sharedIndexInformer := &amp;amp;sharedIndexInformer{ // 注册、处理回调函数 processor: &amp;amp;sharedProcessor{clock: realClock}, // 创建indexer indexer: NewIndexer(DeletionHandlingMetaNamespaceKeyFunc, indexers), // 实现具体的listwatch接口 listerWatcher: lw, // 资源对象 objectType: exampleObject, resyncCheckPeriod: defaultEventHandlerResyncPeriod, defaultEventHandlerResyncPeriod: defaultEventHandlerResyncPeriod, cacheMutationDetector: NewCacheMutationDetector(fmt.Sprintf(&amp;quot;%T&amp;quot;, exampleObject)), clock: realClock, } return sharedIndexInformer } 看一下Indexer的具体实现，简单来说是使用 map + sync.</description>
+    </item>
+    
     <item>
       <title>kube-scheduler源码解析</title>
       <link>https://itech.red/2021/02/kube-scheduler%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</link>

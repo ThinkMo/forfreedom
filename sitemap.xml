@@ -3,27 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://itech.red/2022/02/%E6%B7%B1%E5%85%A5informer/</loc>
+    <lastmod>2022-02-16T19:58:44+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://itech.red/categories/</loc>
-    <lastmod>2021-02-23T10:13:30+08:00</lastmod>
+    <lastmod>2022-02-16T19:58:44+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://itech.red/categories/k8s/</loc>
-    <lastmod>2021-02-23T10:13:30+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://itech.red/2021/02/kube-scheduler%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
-    <lastmod>2021-02-23T10:13:30+08:00</lastmod>
+    <lastmod>2022-02-16T19:58:44+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://itech.red/post/</loc>
-    <lastmod>2021-02-23T10:13:30+08:00</lastmod>
+    <lastmod>2022-02-16T19:58:44+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://itech.red/</loc>
+    <lastmod>2022-02-16T19:58:44+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://itech.red/categories/golang/</loc>
+    <lastmod>2021-03-17T16:33:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://itech.red/2021/03/%E4%BD%BF%E7%94%A8swag%E7%94%9F%E6%88%90api%E6%96%87%E6%A1%A3/</loc>
+    <lastmod>2021-03-17T16:33:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://itech.red/2021/02/kube-scheduler%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
     <lastmod>2021-02-23T10:13:30+08:00</lastmod>
   </url>
   
